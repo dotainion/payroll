@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { routes } from "../../router/routes";
 import { PayslipBuilder } from "../components/PayslipBuilder";
 import { InvoiceLayout } from "../../layout/InvoiceLayout";
+import { PayslipSwitcher } from "../components/PayslipSwitcher";
 
 export const EeachEmployeePayslip = () =>{
     const [reports, setReports] = useState([]);
@@ -20,7 +21,9 @@ export const EeachEmployeePayslip = () =>{
 
     return(
         <InvoiceLayout>
-            <PayslipBuilder reports={reports}/>
+            <PayslipSwitcher reports={reports}>
+                <PayslipBuilder reports={reports}/>
+            </PayslipSwitcher>
         </InvoiceLayout>
     )
 }

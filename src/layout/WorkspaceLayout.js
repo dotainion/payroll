@@ -9,12 +9,19 @@ const Context = createContext();
 export const useWorkspace = () => useContext(Context);
 
 export const WorkspaceLayout = ({children}) =>{
+    const [payslipPages, setPayslipPages] = useState();
+    const [payslipSelectOptions, setPayslipSelectOptions] = useState([]);
+
     const sidebarRef = useRef();
     const bodyRef = useRef();
     const navRef = useRef();
     const containerRef = useRef();
 
     const value = {
+        payslipPages,
+        setPayslipPages,
+        payslipSelectOptions,
+        setPayslipSelectOptions
     }
 
     useEffect(()=>{

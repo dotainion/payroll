@@ -7,7 +7,7 @@ import { IoClose } from "react-icons/io5";
 import $ from 'jquery';
 import { api } from "../request/Api";
 
-export const SickLeaveReport = ({onRemove, user}) =>{
+export const SickLeaveReport = ({onRemove, data, user}) =>{
     const [setting, setSetting] = useState();
     const [reduceTo, setReduceTo] = useState();
 
@@ -17,33 +17,54 @@ export const SickLeaveReport = ({onRemove, user}) =>{
     const fromRef = useRef();
     const toRef = useRef();
     const amountRef = useRef();
-    const timeoutRef = useRef();
+    const settingRef = useRef();
+    const nameRef = useRef();
+
+    const excludedDaysHandler = (sett) =>{
+        const days = parseInt(sett?.attributes?.days || 0);
+        const excludedDays = sett?.attributes?.excludedDays;
+        const week = new DateHelper().weekDays();
+        const date = new Date(fromRef.current.valueAsDate);
+        [...Array(days || 0).keys()].forEach(()=>{
+            for(let i=0; i<7; i++){
+                if(excludedDays.includes(week[date.getDay()])) date.setDate(date.getDate() +1);
+                else break;
+            }
+            date.setDate(date.getDate() +1);
+        });
+        return date;
+    }
 
     useEffect(()=>{
-        //if(!user || ! setting) return;
+        if(!data) return;
         const date = new DateHelper();
-        //fromRef.current.value = date.sqlStringToInput(data?.attributes?.from);
-        //toRef.current.value = date.sqlStringToInput(data?.attributes?.to);
+        idRef.current.value = data?.id;
+        nameRef.current.value = data?.attributes?.name;
+        amountRef.current.value = data?.attributes?.amount;
+        fromRef.current.value = date.sqlStringToInput(data?.attributes?.from);
+        toRef.current.value = date.sqlStringToInput(data?.attributes?.to);
+    }, [data]);
+
+    useEffect(()=>{
         const salary = user?.attributes?.salary;
         const percentage = parseFloat(setting?.attributes?.percentageOfSalary);
         const reportSalary = ((parseFloat(salary) / 100) * percentage);
-        amountRef.current.value = reportSalary;
-        setReduceTo(parseFloat(salary) - reportSalary);
+        amountRef.current.value = reportSalary || 0;
+        setReduceTo((parseFloat(salary) - reportSalary) || 0);
     }, [user, setting]);
 
     useEffect(()=>{
         api.settings.fetchSickLeaveSettings().then((response)=>{
+            settingRef.current = response.data.data[0];
             setSetting(response.data.data[0]);
         }).catch((error)=>{
             console.log(error);
         });
 
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(() => {
-            $(fromRef.current).on('change', (e)=>{
-                console.log(e.currentTarget.valueAsDate);
-            });
-        }, 100);
+        $(fromRef.current).on('change', (e)=>{
+            const date = new DateHelper(excludedDaysHandler(settingRef.current));
+            toRef.current.value = date.sqlStringToInput(date.toSqlString());
+        });
     }, []);
 
     return(
@@ -70,7 +91,7 @@ export const SickLeaveReport = ({onRemove, user}) =>{
                 </div>
             </div>
             <div className="allowance-row border m-3">
-                <input className="form-control shadow-none" name="name" placeholder="Sick leave" />
+                <input ref={nameRef} className="form-control shadow-none" name="name" placeholder="Sick leave" defaultValue={'Sick Leave'} />
                 <div className="d-flex align-items-center">
                     <div className="me-2 w-100">
                         <div className="small">From</div>
@@ -82,15 +103,15 @@ export const SickLeaveReport = ({onRemove, user}) =>{
                     <div className="w-100">
                         <div className="small">to</div>
                         <div className="input-group position-relative">
-                            <span className="input-group-text border-light"><BsCalendar2DateFill/></span>
-                            <input ref={toRef} className="form-control shadow-none user-select-none bg-inherit border-light" type="date" name="to" readOnly />
-                            <div className="position-absolute start-0 top-0 w-100 h-100 bg-transparent"></div>
+                            <span className={`input-group-text ${setting?.attributes?.editable?'':'border-light'}`}><BsCalendar2DateFill/></span>
+                            <input ref={toRef} className={`form-control shadow-none ${setting?.attributes?.editable?'':'user-select-none bg-inherit border-light'}`} type="date" name="to" readOnly={!setting?.attributes?.editable} />
+                            {!setting?.attributes?.editable && <div className="position-absolute start-0 top-0 w-100 h-100 bg-transparent"></div>}
                         </div>
                     </div>
                 </div>
                 <div className="input-group mt-3">
                     <span className="input-group-text"><FaDollarSign/></span>
-                    <input ref={amountRef} className="form-control shadow-none" name="amount" placeholder="0.00"/>
+                    <input ref={amountRef} className="form-control shadow-none" name="amount" placeholder="0.00" readOnly={!setting?.attributes?.editable} type="number"/>
                 </div>
                 <div 
                     ref={dropRef} 

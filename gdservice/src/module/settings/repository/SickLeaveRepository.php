@@ -18,6 +18,8 @@ class SickLeaveRepository extends Repository{
     public function create(SickLeave $sickLeave):void{
         $this->insert('sickLeaveSettings')        
             ->add('id', $this->uuid($sickLeave->id()))
+            ->add('days', $sickLeave->days())
+            ->add('editable', $sickLeave->editable())
             ->add('includeSalary', $sickLeave->includeSalary())
             ->add('percentageOfSalary', $sickLeave->percentageOfSalary())
             ->add('excludedDays', implode(', ', $sickLeave->excludedDays()))
@@ -28,6 +30,8 @@ class SickLeaveRepository extends Repository{
     
     public function edit(SickLeave $sickLeave, Id $id):void{
         $this->update('sickLeaveSettings')        
+            ->set('days', $sickLeave->days())
+            ->set('editable', $sickLeave->editable())
             ->set('includeSalary', $sickLeave->includeSalary())
             ->set('percentageOfSalary', $sickLeave->percentageOfSalary())
             ->set('excludedDays', implode(', ', $sickLeave->excludedDays()))

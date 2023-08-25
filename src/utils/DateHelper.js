@@ -13,7 +13,16 @@ export class DateHelper{
         return data.split(' ')[0];
     }
 
+    addDays(days){
+        const currentDate = this.date.getDate();
+        this.date.setDate(currentDate + parseInt(days || 0));
+    }
+
     isValid(){
         return !!this.date;
+    }
+
+    weekDays(){
+        return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     }
 }

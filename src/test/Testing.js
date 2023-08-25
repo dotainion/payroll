@@ -20,6 +20,8 @@ import { AssignPassword } from "../accounts/AssignPassword";
 import { ElementHandler } from "../utils/ElementHandler";
 import { CreateEmployee } from "../pages/CreateEmployee";
 import { EditEmployee } from "../pages/EditEmployee";
+import { RiNotificationBadgeFill } from 'react-icons/ri';
+import { Employee } from "../components/Employee";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
@@ -61,7 +63,7 @@ export const Testing = () =>{
     }, []);
 
     return (
-        <EditEmployee/>
+        <Employee/>
     )
 
     return(

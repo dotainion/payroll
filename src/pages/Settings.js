@@ -7,6 +7,7 @@ import { GrDocumentStore } from "react-icons/gr";
 import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
 import { FaCalendarDays } from 'react-icons/fa6';
+import { DateHelper } from "../utils/DateHelper";
 
 export const Settings = () =>{
     const [days, setDays] = useState([]);
@@ -22,12 +23,19 @@ export const Settings = () =>{
     const idRef = useRef();
     const includeSalaryRef = useRef();
     const percentageOfSalaryRef = useRef();
+    const editableRef = useRef();
+    const daysRef = useRef();
 
     const onSaveSickLeave = () =>{
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
+            if(days.length >= 7){
+                return toast.error('Week days', 'Must include at lease one week day.');
+            }
             const data = {
                 id: idRef.current,
+                days: daysRef.current.value,
+                editable: editableRef.current.checked,
                 excludedDays: days,
                 includeSalary: includeSalaryRef.current.checked, 
                 percentageOfSalary: percentageOfSalaryRef.current.value, 
@@ -45,11 +53,17 @@ export const Settings = () =>{
 
     const setSettings = (setting) =>{
         if(!setting) return;
-        console.log(setting.attributes);
-        includeSalaryRef.current.checked = setting.attributes.includeSalary;
-        percentageOfSalaryRef.current.value = setting.attributes.percentageOfSalary || '';
-        setAvailableAllowances(setting.attributes.includeAllowances);
-        setAvailableDeductions(setting.attributes.includeDeductions);
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            console.log(setting?.attributes);
+            daysRef.current.value = setting?.attributes?.days;
+            editableRef.current.checked = setting?.attributes?.editable;
+            includeSalaryRef.current.checked = setting?.attributes?.includeSalary;
+            percentageOfSalaryRef.current.value = setting?.attributes?.percentageOfSalary || '';
+            setAvailableAllowances(setting?.attributes?.includeAllowances);
+            setAvailableDeductions(setting?.attributes?.includeDeductions);
+            setDays(setting?.attributes?.excludedDays);
+        }, 100);
     }
 
     useEffect(()=>{
@@ -95,7 +109,15 @@ export const Settings = () =>{
                         </label>
                     </li>
                     <li className="small list-group-item">
-                        <div className="bg-light p-2 mb-2">percentage of salary</div>
+                        <label className="d-flex align-items-center pointer">
+                            <input onChange={onSaveSickLeave} ref={editableRef} className="form-check-input bg-info bg-lightgray p-2 me-2" type="checkbox"/>
+                            <div className="p-2">Editable</div>
+                        </label>
+                        <div className="small text-muted">Making sick lave editable will allow a user to select a time rage and cost.</div>
+                        <div className="small text-muted">If editable is off then sick leave will be locked into the settings provided.</div>
+                    </li>
+                    <li className="small list-group-item">
+                        <div className="bg-light p-2 mb-2">Percentage of salary</div>
                         <div className="input-group" style={{width: '200px'}}>
                             <input onChange={onSaveSickLeave} ref={percentageOfSalaryRef} className="form-control shadow-none" placeholder="0.00" type="number"/>
                             <span className="input-group-text"><TbPercentage/></span>
@@ -105,7 +127,7 @@ export const Settings = () =>{
                         <div className="bg-light p-2 mb-2">Sick leave days amount</div>
                         <div className="input-group" style={{width: '200px'}}>
                             <span className="input-group-text"><FaCalendarDays/></span>
-                            <input onChange={onSaveSickLeave} className="form-control shadow-none" placeholder="0.00" type="number"/>
+                            <input onChange={onSaveSickLeave} ref={daysRef} className="form-control shadow-none" placeholder="0.00" type="number"/>
                             <span className="input-group-text">days</span>
                         </div>
                     </li>
@@ -114,7 +136,7 @@ export const Settings = () =>{
                             <div>Exclude days</div>
                             <div className="text-muted">Days like week end or day can be skipped.</div>
                         </div>
-                        <DaysPicker onSelected={setDays} />
+                        <DaysPicker onSelected={setDays} preSelected={days} />
                     </li>
                     <li className="small list-group-item">
                         <div className="bg-light p-2 mb-2">Add allowances that will automatically be added under sick leave</div>
@@ -210,29 +232,41 @@ const Overlay = ({isOpen, onClose, title, list, selected, onSelection}) =>{
     )
 }
 
-const DaysPicker = ({onSelected}) =>{
+const DaysPicker = ({onSelected, preSelected}) =>{
+    const weekRef = useRef();
+
     const onSelect = (e) =>{
         if($(e.currentTarget).attr('data-state') === 'active'){
             $(e.currentTarget).removeAttr('data-state').removeClass('bg-primary text-white');
         }else{
             $(e.currentTarget).attr('data-state', 'active').addClass('bg-primary text-white');
         }
-        const days = [];
+        let days = [];
         $(e.currentTarget).parent().find('[data-state=active]').map((i, child)=>{
             days.push($(child).text());
         });
+        if(days.length >= 7){
+            toast.error('Week days', 'Must include at lease one week day.');
+            $(weekRef.current).children().addClass('border border-danger');
+        }else{
+            $(weekRef.current).children().removeClass('border border-danger');
+        }
         onSelected?.(days);
     }
 
+    useEffect(()=>{
+        if(!preSelected?.length) return;
+        preSelected.forEach((day) => {
+            const weekDay = $(weekRef.current).find(`[data-day=${day}]`);
+            weekDay.attr('data-state', 'active').addClass('bg-primary text-white');
+        });
+    }, [preSelected]);
+
     return(
-        <div className="input-group user-select-none">
-            <span onClick={onSelect} className="input-group-text pointer">Sun</span>
-            <span onClick={onSelect} className="input-group-text pointer">Mon</span>
-            <span onClick={onSelect} className="input-group-text pointer">Tue</span>
-            <span onClick={onSelect} className="input-group-text pointer">Wed</span>
-            <span onClick={onSelect} className="input-group-text pointer">Thu</span>
-            <span onClick={onSelect} className="input-group-text pointer">Fri</span>
-            <span onClick={onSelect} className="input-group-text pointer">Sat</span>
+        <div ref={weekRef} className="input-group user-select-none">
+            {new DateHelper().weekDays().map((day, key)=>(
+                <span onClick={onSelect} className="input-group-text pointer" data-day={day} key={key}>{day}</span>
+            ))}
         </div>
     )
 }

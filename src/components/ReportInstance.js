@@ -7,6 +7,7 @@ import { NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAddOn";
 
 const typeHandler = new CostTypeAndRateHandler();
 export const ReportInstance = ({title, report,  onUser, onAllowanceRemove, onDeductionRemove, children}) =>{
+    const [sickLeave, setSickLeave] = useState();
     const [existingAllowances, setExistingAllowances] = useState([]);
     const [existingDeductions, setExistingDeductions] = useState([]);
 
@@ -22,6 +23,8 @@ export const ReportInstance = ({title, report,  onUser, onAllowanceRemove, onDed
                 existAllows.push({component: LoanAddOnExisting, data: item});
             }else if (item.type === 'noPayLeaveAllowance'){
                 existAllows.push({component: NoPayLeaveAddOnExisting, data: item});
+            }else if (item.type === 'sickLeave'){
+                setSickLeave(item);
             }
         });
         setExistingAllowances(existAllows);
@@ -47,6 +50,7 @@ export const ReportInstance = ({title, report,  onUser, onAllowanceRemove, onDed
             userId={report?.attributes?.userId} 
             propUser={report?.attributes?.user} 
             onUser={onUser} 
+            sickLeave={sickLeave}
             existingAllowances={existingAllowances} 
             existingDeductions={existingDeductions}
             onAllowanceRemove={onAllowanceRemove}

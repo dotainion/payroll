@@ -3,9 +3,10 @@ import { api } from "../../request/Api";
 import { useParams } from "react-router-dom";
 import { PayslipBuilder } from "../components/PayslipBuilder";
 import { InvoiceLayout } from "../../layout/InvoiceLayout";
+import { PayslipSwitcher } from "../components/PayslipSwitcher";
 
 export const BulkPayslip = () =>{
-    const [reports, setReports] = useState([1,1]);
+    const [reports, setReports] = useState([]);
 
     const params = useParams();
 
@@ -19,7 +20,9 @@ export const BulkPayslip = () =>{
 
     return(
         <InvoiceLayout>
-            <PayslipBuilder reports={reports}/>
+            <PayslipSwitcher reports={reports}>
+                <PayslipBuilder reports={reports}/>
+            </PayslipSwitcher>
         </InvoiceLayout>
     )
 }

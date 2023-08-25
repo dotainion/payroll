@@ -16,11 +16,13 @@ class SetSickLeaveSettingsService extends Service{
         $this->create = new SetSickLeave();
     }
     
-    public function process($id, $excludedDays, $includeSalary, $percentageOfSalary, $includeAllowances, $includeDeductions){
+    public function process($id, $days, $editable, $excludedDays, $includeSalary, $percentageOfSalary, $includeAllowances, $includeDeductions){
         $idObj = new Id();
         $idObj->isValid($id??'') ? $idObj->set($id) : $idObj->new();
         $sickLeave = $this->factory->mapResult([
             'id' => $idObj->toString(),
+            'days' => $days,
+            'editable' => $editable,
             'includeSalary' => $includeSalary,
             'percentageOfSalary' => $percentageOfSalary,
             'excludedDays' => implode(', ',$excludedDays ?? []),

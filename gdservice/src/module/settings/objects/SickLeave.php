@@ -8,6 +8,8 @@ use src\infrastructure\IObjects;
 
 class SickLeave implements IObjects{
     protected Id $id;
+    protected string $days;
+    protected bool $editable;
     protected bool $includeSalary;
     protected ?string $percentageOfSalary;
     protected array $excludedDays = [];
@@ -20,6 +22,14 @@ class SickLeave implements IObjects{
 
     public function id():IId{
         return $this->id;
+    }
+
+    public function days():string{
+        return $this->days;
+    }
+
+    public function editable():bool{
+        return $this->editable;
     }
 
     public function includeSalary():bool{
@@ -45,6 +55,14 @@ class SickLeave implements IObjects{
     public function setId(string $id):void{
         $this->id->set($id);
     }
+
+    public function setDays(string $days):void{
+        $this->days = $days;
+    }
+
+    public function setEditable(bool $editable):void{
+        $this->editable = $editable;
+    }
     
     public function setIncludeSalary(bool $includeSalary):void{
         $this->includeSalary = $includeSalary;
@@ -56,7 +74,7 @@ class SickLeave implements IObjects{
 
     public function setExcludedDays(string $excludedDays):void{
         Assert::stringNotEmpty($excludedDays);
-        $this->excludedDays = $excludedDays;
+        $this->excludedDays[] = $excludedDays;
     }
 
     public function setIncludeAllowances(string $allowancesId):void{

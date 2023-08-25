@@ -60,7 +60,7 @@ class ReportDependenciesService{
 
             $sickLeaveCollector = $this->sickLeave->sickLeaves($report->id());
             $this->ytd->calculateSickLeaveYTD($sickLeaveCollector, $report->userId());
-            $report->setToAllDeductionsCollection($sickLeaveCollector);
+            $report->setToAllAllowancesCollection($sickLeaveCollector);
 
             $payLeaveCollector = $this->payLeave->payLeaves($report->id());
             $this->ytd->calculatePayLeaveYTD($payLeaveCollector, $report->userId());

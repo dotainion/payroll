@@ -19,6 +19,10 @@ class CalculateReportSickLeave{
         return $this;
     }
 
+    public function hasSickLeave():bool{
+        return $this->collector->hasItem();
+    }
+
     public function totalSickLeave():float{
         return $this->totalSickLeave;
     }

@@ -105,7 +105,7 @@ class ReportPayload{
 
     sickLeave(instance){
         let data = [];
-        $(instance).find('[data-report-sickleaves]').find('[data-sick-leave]').each((i, addon)=>{
+        $(instance).find('[data-report-sickleaves]').each((i, addon)=>{
             let json = {};
             if(!$(addon).find('[name=from]')[0].valueAsDate) json['from'] = '';
             else json['from'] = new DateHelper($(addon).find('[name=from]')[0].valueAsDate).toSqlString();

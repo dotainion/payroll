@@ -16,6 +16,8 @@ class SetSickLeaveSettingsAction extends Request implements IAction{
     public function execute(){
         return $this->service->process(
             $this->get('id'),
+            $this->get('days'),
+            $this->get('editable'),
             $this->get('excludedDays'),
             $this->get('includeSalary'),
             $this->get('percentageOfSalary'),

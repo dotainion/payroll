@@ -45,27 +45,29 @@ export const BusinessLayout = ({children}) =>{
 
     return(
         <Context.Provider value={value}>
-            <div className="col-md-7 col-lg-7 col-xl-5 m-auto">
-                <div className="d-flex align-items-center border-bottom w-100 p-4 text-nowrap">
-                    <div className="me-3">
-                        <MdOutlineAccountTree style={{fontSize: '40px'}}/>
+            <div className="bg-light w-100 vh-100 overflow-auto">
+                <div className="col-md-7 col-lg-7 col-xl-5 m-auto">
+                    <div className="d-flex align-items-center border-bottom w-100 p-4 text-nowrap">
+                        <div className="me-3">
+                            <MdOutlineAccountTree style={{fontSize: '40px'}}/>
+                        </div>
+                        <div data-first="" className="p-1 bg-primary rounded-circle"></div>
+                        <div className="w-100">
+                            <div data-first="" className="w-100 border border-primary"></div>
+                        </div>
+                        <div data-second="" className="p-1 bg-primary rounded-circle"></div>
+                        <div className="w-100">
+                            <div data-second=""  className="w-100 border border-primary"></div>
+                        </div>
+                        <div data-third="" className="p-1 bg-primary rounded-circle"></div>
+                        <div className="w-100">
+                            <div data-third="" className="w-100 border border-primary"></div>
+                        </div>
+                        <div className="p-1 bg-primary rounded-circle"></div>
                     </div>
-                    <div data-first="" className="p-1 bg-primary rounded-circle"></div>
-                    <div className="w-100">
-                        <div data-first="" className="w-100 border border-primary"></div>
+                    <div className="bg-light p-4">
+                        {children}
                     </div>
-                    <div data-second="" className="p-1 bg-primary rounded-circle"></div>
-                    <div className="w-100">
-                        <div data-second=""  className="w-100 border border-primary"></div>
-                    </div>
-                    <div data-third="" className="p-1 bg-primary rounded-circle"></div>
-                    <div className="w-100">
-                        <div data-third="" className="w-100 border border-primary"></div>
-                    </div>
-                    <div className="p-1 bg-primary rounded-circle"></div>
-                </div>
-                <div className="p-4">
-                    {children}
                 </div>
             </div>
         </Context.Provider>

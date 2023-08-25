@@ -18,6 +18,7 @@ import { DateHelper } from "../utils/DateHelper";
 import { useDocument } from "../contents/DocumentProvider";
 
 export const CreateBulkReport = () =>{
+    const { addPreviousHistory } = useDocument();
     const [reports, setReports] = useState([]);
 
     const navigate = useNavigate();
@@ -26,12 +27,20 @@ export const CreateBulkReport = () =>{
         const data = {
             reports: reportPayload.payload().list(),
         }
+        if(!data.reports.length) return toast.warning('Generating Blulk Report', 'No report selected.');
         console.log(data);
         api.report.bulkCreate(data).then((response)=>{
             console.log(response);
             const reportIdArray = response.data.data.map((r)=>r.id);
             toast.success('Generating Blulk Report', 'Successful.');
-            navigate(routes.workspace().nested().eachEmployeePayslip(routes.utils.stringify(reportIdArray)));
+
+            addPreviousHistory({
+                title: 'Blulk Invoice', 
+                id: reportIdArray.join(''),
+                action: ()=> {
+                    navigate(routes.workspace().nested().eachEmployeePayslip(routes.utils.stringify(reportIdArray)));
+                }
+            })?.();
         }).catch((error)=>{
             console.log(error);
             toast.error('Generating Blulk Report', error);
@@ -100,11 +109,9 @@ const Generate = ({onGenerate}) =>{
             title: 'Invoice', 
             id: reportIdArray.join(''),
             action: ()=> {
-                console.log('hello world... thi sis a test...')
                 navigate(routes.workspace().nested().eachEmployeePayslip(routes.utils.stringify(reportIdArray)));
             }
         })?.();
-        //navigate(routes.workspace().nested().eachEmployeePayslip(routes.utils.stringify(reportIdArray)));
     }
 
     const toggleCollapsAll = (state) =>{

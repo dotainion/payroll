@@ -32,7 +32,7 @@ export const ProfileMenu = () =>{
             <Tooltip title={'Options'}>
                 <div ref={profileRef} className="d-flex align-items-center me-3">
                     <div className="rounded-circle bg-lightgray me-0 border-0">
-                        <BsPersonFill className="fs-1 text-secondary"/>
+                        <BsPersonFill className="fs-1 text-secondary pointer"/>
                     </div>
                     <IoMdArrowDropdown className="pointer text-secondary"/>
                 </div>

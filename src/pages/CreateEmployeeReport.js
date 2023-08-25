@@ -13,12 +13,6 @@ export const CreateEmployeeReport = () =>{
     const navigate = useNavigate();
 
     const onSubmit = () =>{
-        console.log({
-            percentageOfSalary: '',
-            includeSalary: false,
-            inludeAllowances: [],
-            inludeDeductions: []
-        });
         const data = reportPayload.payload().first();
         api.report.create(data).then((response)=>{
             toast.success(user?.attributes?.name + ' Report', 'Created');

@@ -4,10 +4,9 @@ import { api } from "../../request/Api";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
 import { InvoiceLayout } from "../../layout/InvoiceLayout";
+import { PayslipSwitcher } from "../components/PayslipSwitcher";
 
 export const EmployeePayslip = () =>{
-    const { business } = useAuth();
-
     const [report, setReport] = useState();
 
     const params = useParams();
@@ -22,7 +21,9 @@ export const EmployeePayslip = () =>{
 
     return(
         <InvoiceLayout>
-            <Payslip report={report} business={business}/>
+            <PayslipSwitcher reports={[report]}>
+                <Payslip report={report} />
+            </PayslipSwitcher>
         </InvoiceLayout>
     )
 }

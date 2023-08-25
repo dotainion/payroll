@@ -6,6 +6,7 @@ use src\infrastructure\Id;
 use src\module\report\factory\ReportFactory;
 use src\module\report\objects\Report;
 use src\module\report\repository\ReportRepository;
+use src\module\settings\logic\FetchSickLeave;
 use src\module\user\objects\User;
 
 class SetReport{
@@ -19,6 +20,7 @@ class SetReport{
     protected SetReportSickLeave $setSickLeave;
     protected SetReportNoPayLeaveAllowance $setNoPayLeaveAllowance;
     protected SetReportNoPayLeaveDeduction $setNoPayLeaveDeduction;
+    protected FetchSickLeave $settings;
 
     public function __construct(){
         $this->repo = new ReportRepository();
@@ -30,6 +32,7 @@ class SetReport{
         $this->setSickLeave = new SetReportSickLeave();
         $this->setNoPayLeaveAllowance = new SetReportNoPayLeaveAllowance();
         $this->setNoPayLeaveDeduction = new SetReportNoPayLeaveDeduction();
+        $this->settings = new FetchSickLeave();
     }
 
     public function stopExecution(bool $stopExecution):void{
@@ -54,10 +57,19 @@ class SetReport{
         $totalAllowance = $totalAllowance + $reportLoanAllowance->totalLoanAllowance();
         $totalDeduction = $totalDeduction + $reportLoanDeduction->totalLoanDeduction();
 
-        //$salary = $salary - $reportSickLeaves->totalSickLeave();
-
         $totalAllowance = $totalAllowance + $reportNoPayLeaveAllowances->totalNoPayLeaveAllowance();
         $totalDeduction = $totalDeduction + $reportNoPayLeaveDeductions->totalNoPayLeaveDeduction();
+
+        $salary = 0;
+        if($reportSickLeaves->hasSickLeave()){
+            $salary = $reportSickLeaves->totalSickLeave();
+            $settings = $this->settings->settings();
+            if($settings->includeSalary()){
+                $salary = $salary + ((float)$user->salary());
+            }
+        }else{
+            $salary = (float)$user->salary();
+        }
 
         $report = $this->factory->mapResult([
             'id' => $reportId->toString(),
@@ -65,9 +77,9 @@ class SetReport{
             'date' => (new DateHelper())->new()->toString(),
             'allowance' => $totalAllowance,
             'deduction' => $totalDeduction,
-            'salary' => $user->salary(),
+            'salary' => $salary,
             'hide' => $user->hide(),
-            'net' => ((((float)$user->salary()) + $totalAllowance) - $totalDeduction)
+            'net' => (($salary  + $totalAllowance) - $totalDeduction)
         ]);
 
         if(!$this->stopExecution){
@@ -79,7 +91,7 @@ class SetReport{
                 $this->setLoanAllowance->massEdit($reportLoanAllowance->reportLoanAllowances());
                 $this->setLoanDeduction->massEdit($reportLoanDeduction->reporLoanDeductions());
 
-                //$this->setSickLeave->massEdit($reportSickLeaves->sickLeaves());
+                $this->setSickLeave->massEdit($reportSickLeaves->sickLeaves());
 
                 $this->setNoPayLeaveAllowance->massEdit($reportNoPayLeaveAllowances->noPayLeaveAllowances());
                 $this->setNoPayLeaveDeduction->massEdit($reportNoPayLeaveDeductions->noPayLeaveDeductions());
@@ -92,7 +104,7 @@ class SetReport{
                 $this->setLoanAllowance->massCreate($reportLoanAllowance->reportLoanAllowances());
                 $this->setLoanDeduction->massCreate($reportLoanDeduction->reporLoanDeductions());
 
-                //$this->setSickLeave->massCreate($reportSickLeaves->sickLeaves());
+                $this->setSickLeave->massCreate($reportSickLeaves->sickLeaves());
 
                 $this->setNoPayLeaveAllowance->massCreate($reportNoPayLeaveAllowances->noPayLeaveAllowances());
                 $this->setNoPayLeaveDeduction->massCreate($reportNoPayLeaveDeductions->noPayLeaveDeductions());

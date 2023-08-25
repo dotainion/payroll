@@ -18,14 +18,14 @@ export const Profile = () =>{
     const addressRef = useRef();
 
     const onNext = () =>{
-        $(nameRef.current).removeClass('border-danger');
-        $(countryRef.current).removeClass('border-danger');
-        $(cityRef.current).removeClass('border-danger');
-        $(addressRef.current).removeClass('border-danger');
-        if(!nameRef.current.value) return $(nameRef.current).addClass('border-danger');
-        if(!countryRef.current.value) return $(countryRef.current).addClass('border-danger');
-        if(!cityRef.current.value) return $(cityRef.current).addClass('border-danger');
-        if(!addressRef.current.value) return $(addressRef.current).addClass('border-danger');
+        $(nameRef.current).parent().removeClass('border-danger');
+        $(countryRef.current).parent().removeClass('border-danger');
+        $(cityRef.current).parent().removeClass('border-danger');
+        $(addressRef.current).parent().removeClass('border-danger');
+        if(!nameRef.current.value) return $(nameRef.current).parent().addClass('border-danger');
+        if(!countryRef.current.value) return $(countryRef.current).parent().addClass('border-danger');
+        if(!cityRef.current.value) return $(cityRef.current).parent().addClass('border-danger');
+        if(!addressRef.current.value) return $(addressRef.current).parent().addClass('border-danger');
         addData({
             name: nameRef.current.value,
             country: countryRef.current.value, 
@@ -40,8 +40,8 @@ export const Profile = () =>{
     }, [location]);
 
     return(
-        <div>
-            <div className="text-center p-2 fw-bold fs-3">admin</div>
+        <div className="mobile-inputes shadow-sm border rounded bg-white p-4">
+            <div className="text-center p-2 fw-bold fs-3" data-title="">admin</div>
             <label className="mt-3">Business Name:</label>
             <div className="input-group">
                 <span className="input-group-text"><FaBusinessTime/></span>
@@ -74,7 +74,7 @@ export const Profile = () =>{
                 <span className="input-group-text"><FaAddressCard/></span>
                 <input ref={addressRef} className="form-control shadow-none" placeholder="Address" defaultValue={data?.address}/>
             </div>
-            <div className="d-flex align-items-center justify-content-center mt-4">
+            <div className="d-flex align-items-center justify-content-center mt-4" data-btn-container="">
                 <button onClick={()=>navigate(routes.business().aboutYou())} className="btn btn-sm btn-primary me-2">Previous</button>
                 <button onClick={onNext} className="btn btn-sm btn-primary px-3">Next</button>
             </div>

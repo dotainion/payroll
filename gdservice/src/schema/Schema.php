@@ -14,6 +14,8 @@ class Schema{
     public function sickLeaveSettings(){
         $this->sql->create('sickLeaveSettings')
             ->column('id')->bindary()
+            ->column('days')->string()
+            ->column('editable')->bool()
             ->column('includeSalary')->bool()
             ->column('excludedDays')->string()
             ->column('percentageOfSalary')->string()

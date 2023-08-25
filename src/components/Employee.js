@@ -105,30 +105,30 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
     }, []);
 
     return(
-        <div className="employee-set">
-            <div className="bg-white p-2 m-3 mb-0 border-bottom">
-                <div className="fw-bold fs-2 p-3">{title}</div>
-            </div>
-            <div className="bg-light  m-3 mt-0 p-2">
-                <div className="border border-5 m-3 p-2">
-                    <div className="d-flex w-100 mb-2">
-                        <div className="w-100 px-3 py-2">
+        <div className="mobile-inputes">
+            <div className="employee-set">
+                <div className="bg-white p-2 m-3 mb-0 border-bottom">
+                    <div className="fw-bold fs-3 p-1">{title}</div>
+                </div>
+                <div className="bg-white border border-5 m-3 p-3 mt-0">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Employee Name <span className="text-danger">*</span></label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaUser/></span>
-                                <input ref={nameRef} className="form-control shadow-none"/>
+                                <input ref={nameRef} className="form-control shadow-none" placeholder="Name"/>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-4">
+                        <div className="w-100 px-3">
                             <label>ID <span className="text-danger">*</span></label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaUser/></span>
-                                <input ref={userIdRef} className="form-control shadow-none"/>
+                                <input ref={userIdRef} className="form-control shadow-none" placeholder="ID"/>
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex w-100 mb-2 pb-2 border-bottom">
-                        <div className="w-100 px-3 py-2 pb-3">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Gender</label>
                             <div className="input-group">
                                 <span className="input-group-text">
@@ -143,7 +143,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                                 </select>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-3">
+                        <div className="w-100 px-3">
                             <label>DOB</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaBirthdayCake/></span>
@@ -151,58 +151,58 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex w-100 mb-2">
-                        <div className="w-100 px-3 py-2 pb-4">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Email</label>
                             <div className="input-group">
                                 <span className="input-group-text"><MdEmail/></span>
-                                <input ref={emailRef} className="form-control shadow-none" type="email"/>
+                                <input ref={emailRef} className="form-control shadow-none" type="email" placeholder="example@example.com"/>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-4">
+                        <div className="w-100 px-3">
                             <label>Phone Number</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaPhone/></span>
-                                <input ref={numberRef} className="form-control shadow-none" type="tel"/>
+                                <input ref={numberRef} className="form-control shadow-none" type="tel" placeholder="123 456 7890"/>
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex w-100 mb-2 pb-2 border-bottom">
-                        <div className="w-100 px-3 py-2 pb-4">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Emergency Number</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaAmbulance/></span>
-                                <input ref={emergencyNumberRef} className="form-control shadow-none" type="tel"/>
+                                <input ref={emergencyNumberRef} className="form-control shadow-none" type="tel" placeholder="123 456 7890"/>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-4">
+                        <div className="w-100 px-3">
                         </div>
                     </div>
-                    <div className="d-flex w-100 mb-2 pb-2 border-bottom">
-                        <div className="w-100 px-3 py-2 pb-3">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Base Salary</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaDollarSign/></span>
-                                <input ref={salaryRef} className="form-control shadow-none" type="number"/>
+                                <input ref={salaryRef} className="form-control shadow-none" type="number" placeholder="0.00"/>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-3">
+                        <div className="w-100 px-3">
                             <label>OT Hourly Rate</label>
                             <div className="input-group">
                                 <span className="input-group-text"><GiReceiveMoney/></span>
-                                <input ref={otRateRef} className="form-control shadow-none"/>
+                                <input ref={otRateRef} className="form-control shadow-none" placeholder="0.00"/>
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex w-100 mb-2">
-                        <div className="w-100 px-3 py-2 pb-3">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Registration Date</label>
                             <div className="input-group">
                                 <span className="input-group-text"><MdUpdate/></span>
                                 <input ref={registrationDateRef} className="form-control shadow-none" type={'date'}/>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-3">
+                        <div className="w-100 px-3">
                             <label>Tax ID</label>
                             <div className="input-group">
                                 <span className="input-group-text"><MdUpdate/></span>
@@ -210,8 +210,8 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                             </div>
                         </div>
                     </div>                    
-                    <div className="d-flex w-100 mb-2 pb-2 border-bottom">
-                        <div className="w-100 px-3 py-2 pb-3">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Country</label>
                             <div className="input-group">
                                 <span className="input-group-text"><GiIsland/></span>
@@ -220,7 +220,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                                 </select>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-3">
+                        <div className="w-100 px-3">
                             <label>City</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaCity/></span>
@@ -237,19 +237,19 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex w-100 mb-2 pb-2 border-bottom">
-                        <div className="w-100 px-3 py-2 pb-3">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Address</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaAddressCard/></span>
                                 <input ref={addressRef} className="form-control shadow-none" placeholder="Address"/>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-3">
+                        <div className="w-100 px-3">
                         </div>
                     </div>
-                    <div className="d-flex w-100 mb-2 pb-2 border-bottom">
-                        <div className="w-100 px-3 py-2 pb-3">
+                    <div className="d-flex w-100 bg-white py-3">
+                        <div className="w-100 px-3">
                             <label>Department</label>
                             <div className="input-group">
                                 <span className="input-group-text"><HiMiniBuildingOffice2/></span>
@@ -260,7 +260,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                                 </select>
                             </div>
                         </div>
-                        <div className="w-100 px-3 py-2 pb-3">
+                        <div className="w-100 px-3">
                             <label>Status</label>
                             <div className="input-group">
                                 <span className="input-group-text"><VscLayersActive/></span>
@@ -271,7 +271,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                             </div>
                         </div>
                     </div>
-                    <div className="w-100 px-3 py-2 pt-3 pb-3">
+                    <div className="w-100 px-3 py-3">
                         {children}
                     </div>
                     <div className="d-flex justify-content-center align-items-center text-nowrap p-3">

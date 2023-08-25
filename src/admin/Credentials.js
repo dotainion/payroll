@@ -17,12 +17,12 @@ export const Credentials = () =>{
     const confirmPasswordRef = useRef();
 
     const onNext = () =>{
-        $(emailRef.current).removeClass('border-danger');
-        $(passwordRef.current).removeClass('border-danger');
-        $(confirmPasswordRef.current).removeClass('border-danger');
-        if(!emailRef.current.value) return $(emailRef.current).addClass('border-danger');
-        if(!passwordRef.current.value) return $(passwordRef.current).addClass('border-danger');
-        if(passwordRef.current.value !== confirmPasswordRef.current.value) return $(confirmPasswordRef.current).addClass('border-danger');
+        $(emailRef.current).parent().removeClass('border-danger');
+        $(passwordRef.current).parent().removeClass('border-danger');
+        $(confirmPasswordRef.current).parent().removeClass('border-danger');
+        if(!emailRef.current.value) return $(emailRef.current).parent().addClass('border-danger');
+        if(!passwordRef.current.value) return $(passwordRef.current).parent().addClass('border-danger');
+        if(passwordRef.current.value !== confirmPasswordRef.current.value) return $(confirmPasswordRef.current).parent().addClass('border-danger');
         addData({
             email: emailRef.current.value, 
             password: passwordRef.current.value,
@@ -36,24 +36,26 @@ export const Credentials = () =>{
     }, [location]);
 
     return(
-        <div>
-            <div className="text-center p-2 fw-bold fs-3">Credentials</div>
+        <div className="mobile-inputes shadow-sm border rounded bg-white p-4">
+            <div className="text-center p-2 fw-bold fs-3" data-title="">Credentials</div>
             <label className="mt-3">Email:</label>
-            <div className="input-group">
+            <div className="input-group" data-credential-email="">
                 <span className="input-group-text"><MdOutlineMailLock/></span>
                 <input ref={emailRef} className="form-control shadow-none" placeholder="example@example.com" defaultValue={data?.email} type="email"/>
             </div>
-            <label className="mt-3">Password:</label>
-            <div className="input-group">
-                <span className="input-group-text"><RiLockPasswordFill/></span>
-                <input ref={passwordRef} className="form-control shadow-none" placeholder="Password1234#" defaultValue={data?.password} type="password"/>
+            <div data-input-container="">
+                <label className="mt-3">Password:</label>
+                <div className="input-group">
+                    <span className="input-group-text"><RiLockPasswordFill/></span>
+                    <input ref={passwordRef} className="form-control shadow-none" placeholder="Password1234#" defaultValue={data?.password} type="password"/>
+                </div>
+                <label className="mt-3">Confirm Password:</label>
+                <div className="input-group">
+                    <span className="input-group-text"><RiLockPasswordFill/></span>
+                    <input ref={confirmPasswordRef} className="form-control shadow-none" placeholder="Password1234#" defaultValue={data?.confirmPassword} type="password"/>
+                </div>
             </div>
-            <label className="mt-3">Confirm Password:</label>
-            <div className="input-group">
-                <span className="input-group-text"><RiLockPasswordFill/></span>
-                <input ref={confirmPasswordRef} className="form-control shadow-none" placeholder="Password1234#" defaultValue={data?.confirmPassword} type="password"/>
-            </div>
-            <div className="d-flex align-items-center justify-content-center mt-4">
+            <div className="d-flex align-items-center justify-content-center mt-4" data-btn-container="">
                 <button onClick={()=>navigate(routes.business().profile())} className="btn btn-sm btn-primary me-2">Previous</button>
                 <button onClick={onNext} className="btn btn-sm btn-primary px-3">Next</button>
             </div>

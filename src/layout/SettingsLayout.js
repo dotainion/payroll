@@ -29,7 +29,7 @@ export const SettingsLayout = ({children}) =>{
             </div>
             <div className="d-flex w-100">
                 <SettingsSidebar/>
-                <div className="w-100 pt-2 overflow-auto bg-lightgray">
+                <div className="w-100 pt-2 overflow-auto bg-white">
                     {children}
                 </div>
             </div>

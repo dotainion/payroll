@@ -64,7 +64,7 @@ export const EmployeeSettings = () =>{
                     </div>  
                 }  
             </div>
-            <div className="bg-light p-3 rounded-3 my-2">
+            <div className="mobile-inputes bg-light p-3 rounded-3 my-2">
                 <BankGenerator existingBanks={existingBanks}/>
             </div>
         </div>

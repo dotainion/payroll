@@ -470,6 +470,77 @@ input[type=date]::-webkit-calendar-picker-indicator {
   display: none !important;
 }
 
+.payslip-layout-dropdown{
+  background-color: white !important;
+}
+
+.payslip-layout-dropdown button{
+  background-color: white !important;
+}
+
+.payslip-layout-dropdown button::after{
+  display: none !important;
+}
+
+.dropdown-overlay{
+  background-color: white !important;
+}
+
+.dropdown-overlay button{
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background-color: white !important;
+}
+
+.dropdown-overlay button::after{
+  display: none !important;
+}
+
+.mobile-inputes .input-group{
+  border-bottom: 1px solid #e9ecef;
+}
+
+.mobile-inputes .input-group input, 
+.mobile-inputes .input-group select, 
+.mobile-inputes .input-group .input-group-text{
+  border: none;
+  background-color: white !important;
+}
+
+.mobile-inputes [data-banks] .bank-container-row{
+  border: 1px solid #e9ecef !important;
+  padding: 10px;
+}
+
+.mobile-inputes [data-banks] .input-group{
+  border: none !important;
+}
+
+.mobile-inputes [data-banks] .group-1{
+  border-bottom: 1px solid lightgray !important;
+}
+
+.mobile-inputes .rounded-circle{
+  display: none;
+  background-color: white !important;
+}
+
+.mobile-inputes [data-banks]:hover .rounded-circle{
+  display: block;
+}
+
+.finalize-admin [data-btn-container], 
+.finalize-admin [ data-title],
+.finalize-admin [data-input-container]{
+  display: none !important;
+}
+
+.finalize-admin .mobile-inputes{
+  border: none !important;
+  box-shadow: none !important;
+}
+
 @media screen and (max-width:1100px){
   .employee-set{
     width: 100% !important;

@@ -5,8 +5,6 @@ import { api } from "../../request/Api";
 import { useAuth } from "../../auth/AuthProvider";
 
 export const PayslipBuilder = ({reports}) =>{
-    const { business } = useAuth();
-
     const onShow = (e) =>{
         $(e.currentTarget).parent().find('[data-payslip]').toggle('fast');
         console.log($(e.target).parent().find('[data-payslip]'));
@@ -23,7 +21,7 @@ export const PayslipBuilder = ({reports}) =>{
                     <div onClick={onShow} className="payslip-bulk-header">
                         <div className="text-truncate">{report?.attributes?.user?.name}hshsfrhs</div>
                     </div>
-                    <Payslip report={report} business={business}/>
+                    <Payslip report={report}/>
                 </div>
             ))}
         </div>

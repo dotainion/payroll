@@ -15,6 +15,8 @@ class SickLeaveFactory extends Collector{
     public function mapResult($record):SickLeave{
         $sickLeave = new SickLeave();
         $sickLeave->setId($this->uuid($record['id']));
+        $sickLeave->setDays((string)$record['days']);
+        $sickLeave->setEditable((bool)$record['editable']);
         $sickLeave->setIncludeSalary((bool)$record['includeSalary']);
         $sickLeave->setPercentageOfSalary($record['percentageOfSalary']);
         

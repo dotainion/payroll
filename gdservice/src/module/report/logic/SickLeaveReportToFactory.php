@@ -23,7 +23,7 @@ class SickLeaveReportToFactory{
 
             $id = new Id();
             $sickLeave = $this->factory->mapResult([
-                'id' => $id->isValid($sick['id']) ? $sick['id'] : $id->new()->toString(),
+                'id' => $id->isValid($sick['id']??'') ? $sick['id'] : $id->new()->toString(),
                 'userId' => $userId->toString(),
                 'reportId' => $reportId->toString(),
                 'fileId' => (new Id())->new()->toString(),
