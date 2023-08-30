@@ -48,7 +48,7 @@ class SickLeaveRepository extends Repository{
     public function deleteSickLeave(Id $id):void{
         $this->update('reportSickLeave')
             ->set('sLHide', 1)
-            ->where('rAId', $this->uuid($id));
+            ->where('sLId', $this->uuid($id));
         $this->execute();
     }
     

@@ -19,7 +19,7 @@ export const PayslipBuilder = ({reports}) =>{
             {reports.map((report, key)=>(
                 <div className="mb-2" key={key}>
                     <div onClick={onShow} className="payslip-bulk-header">
-                        <div className="text-truncate">{report?.attributes?.user?.name}hshsfrhs</div>
+                        <div className="text-truncate">{report?.attributes?.user?.attributes?.name}</div>
                     </div>
                     <Payslip report={report}/>
                 </div>

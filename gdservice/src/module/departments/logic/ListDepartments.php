@@ -12,6 +12,8 @@ class ListDepartments{
     }
 
     public function departments():Collector{
-        return $this->repo->departments();
+        return $this->repo->departments([
+            'hide' => false
+        ]);
     }
 }

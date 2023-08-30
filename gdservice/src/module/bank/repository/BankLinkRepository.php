@@ -3,6 +3,7 @@ namespace src\module\bank\repository;
 
 use src\database\Repository;
 use src\infrastructure\Collector;
+use src\infrastructure\Id;
 use src\module\bank\factory\BankLinkFactory;
 use src\module\bank\objects\BankLink;
 
@@ -31,6 +32,13 @@ class BankLinkRepository extends Repository{
             ->set('bankNumber', $bank->number())
             ->set('bankHide', (int)$bank->hide())
             ->where('bankLinkId', $this->uuid($bank->id()));
+        $this->execute();
+    }
+    
+    public function deleteBank(Id $id):void{
+        $this->update('bankLink') 
+            ->set('bankHide', 1)
+            ->where('bankLinkId', $this->uuid($id));
         $this->execute();
     }
     

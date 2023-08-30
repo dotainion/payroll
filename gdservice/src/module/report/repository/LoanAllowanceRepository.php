@@ -3,6 +3,7 @@ namespace src\module\report\repository;
 
 use src\database\Repository;
 use src\infrastructure\Collector;
+use src\infrastructure\Id;
 use src\module\report\factory\LoanAllowanceFactory;
 use src\module\report\objects\LoanAllowance;
 
@@ -40,10 +41,20 @@ class LoanAllowanceRepository extends Repository{
         $this->execute();
     }
     
+    public function deleteLoanAllowance(Id $id):void{
+        $this->update('reportLoanAllowance')
+            ->set('rLAHide', 1)
+            ->where('rLAId', $this->uuid($id));
+        $this->execute();
+    }
+    
     public function listLoanAllowances(array $where=[]):Collector{
         $this->select('reportLoanAllowance');
         if(isset($where['from']) && isset($where['to'])){
             $this->between('rLADate', $where['from'], $where['to']);
+        }
+        if(isset($where['id'])){
+            $this->where('rLAId', $this->uuid($where['id']));
         }
         if(isset($where['userId'])){
             $this->where('userId', $this->uuid($where['userId']));

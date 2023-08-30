@@ -5,6 +5,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { BiSolidBank } from 'react-icons/bi';
 import { MdOutlineSecurity, MdNotifications, MdMoneyOff, MdOutlineAttachMoney } from 'react-icons/md';
 import { IoIosSettings } from "react-icons/io";
+import { HiBuildingOffice2 } from 'react-icons/hi2'
 
 export const SettingsSidebar = () =>{
     const navigate = useNavigate();
@@ -37,7 +38,12 @@ export const SettingsSidebar = () =>{
             active: location.pathname.includes(routes.settings().allowances()),
             onClick: ()=>navigate(routes.settings().allowances())
         },{
-            title: 'Banks',
+            title: 'Departments',
+            icon: HiBuildingOffice2,
+            active: location.pathname.includes(routes.settings().departments()),
+            onClick: ()=>navigate(routes.settings().departments())
+        },{
+            title: 'Accounts',
             icon: BiSolidBank,
             active: location.pathname.includes(routes.settings().banks()),
             onClick: ()=>navigate(routes.settings().banks())

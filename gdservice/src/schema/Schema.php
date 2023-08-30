@@ -60,6 +60,14 @@ class Schema{
         return $this->sql->execute();
     }
 
+    public function departments(){
+        $this->sql->create('departments')
+            ->column('deptId')->bindary()
+            ->column('deptHide')->bool()
+            ->column('deptName')->string();
+        return $this->sql->execute();
+    }
+
     public function bank(){
         $this->sql->create('bank')
             ->column('bankId')->bindary()

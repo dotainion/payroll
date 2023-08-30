@@ -18,19 +18,6 @@ class Workspace{
     }
 }
 
-class Calendar{
-    _nested = '';
-    default = () => '/calendar/*';
-    month = () => this._nested + 'month';
-    week = () => this._nested + 'week';
-    day = () => this._nested + 'day';
-    schedule = () => this._nested + 'schedule';
-    nested = () => {
-        this._nested = this.default().replace('*', '');
-        return this;
-    }
-}
-
 class Settings{
     _nested = '';
     default = () => '/settings/*';
@@ -39,6 +26,7 @@ class Settings{
     notifications = () => this._nested + 'notifications';
     allowances = () => this._nested + 'allowances';
     deductions = () => this._nested + 'deductions';
+    departments = () => this._nested + 'departments';
     banks = () => this._nested + 'banks';
     settings = () => this._nested + 'system/settings';
     nested = () => {
@@ -66,11 +54,6 @@ class Routes {
     updateCredentialByToken = (refreshToken=':refreshToken') => '/update/credential/by/token/' + refreshToken;
     workspace(){
         const route = new Workspace();
-        route._nested = '';
-        return route;
-    }
-    calendar(){
-        const route = new Calendar();
         route._nested = '';
         return route;
     }

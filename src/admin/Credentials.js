@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineMailLock } from "react-icons/md";
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { routes } from "../router/routes";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAdmin } from "../layout/BusinessLayout";
+import { PasswordValidation } from "../utils/PasswordValidation";
 import $ from 'jquery';
 
 export const Credentials = () =>{
     const { data, addData } = useAdmin();
+    const [error, setError] = useState();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -16,13 +18,22 @@ export const Credentials = () =>{
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
 
+    const errorRef = useRef();
+
     const onNext = () =>{
+        const pass = new PasswordValidation();
         $(emailRef.current).parent().removeClass('border-danger');
         $(passwordRef.current).parent().removeClass('border-danger');
         $(confirmPasswordRef.current).parent().removeClass('border-danger');
         if(!emailRef.current.value) return $(emailRef.current).parent().addClass('border-danger');
-        if(!passwordRef.current.value) return $(passwordRef.current).parent().addClass('border-danger');
-        if(passwordRef.current.value !== confirmPasswordRef.current.value) return $(confirmPasswordRef.current).parent().addClass('border-danger');
+        if(!pass.isValid(passwordRef.current.value)){
+            $(errorRef.current).show('fast').text(pass.message());
+            return $(passwordRef.current).parent().addClass('border-danger');
+        }
+        if(passwordRef.current.value !== confirmPasswordRef.current.value){
+            $(errorRef.current).show('fast').text('Password mismatch.');
+            return $(confirmPasswordRef.current).parent().addClass('border-danger');
+        }
         addData({
             email: emailRef.current.value, 
             password: passwordRef.current.value,
@@ -36,8 +47,9 @@ export const Credentials = () =>{
     }, [location]);
 
     return(
-        <div className="mobile-inputes shadow-sm border rounded bg-white p-4">
+        <div onKeyUp={()=>$(errorRef.current).hide('fast')} className="mobile-inputes shadow-sm border rounded bg-white p-4">
             <div className="text-center p-2 fw-bold fs-3" data-title="">Credentials</div>
+            <div ref={errorRef} className="alert alert-danger" style={{display: 'none'}}>{error}</div>
             <label className="mt-3">Email:</label>
             <div className="input-group" data-credential-email="">
                 <span className="input-group-text"><MdOutlineMailLock/></span>

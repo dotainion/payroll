@@ -23,6 +23,10 @@ export class Bank{
         return await this.api.post('/delete/bank', {id});
     }
 
+    async deleteUserBank(id){
+        return await this.api.post('/delete/user/bank', {id});
+    }
+
     async linkUserToBank(name){
         return await this.api.post('/link/user/to/bank', {name});
     }

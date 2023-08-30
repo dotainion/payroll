@@ -16,7 +16,7 @@ export const CreateEmployee = () =>{
 
     return(
         <Employee onSubmit={onCreate} title="Create Employee" buttonTitle={'Create'}>
-            <BankGenerator/>
+            <BankGenerator disableApiRequest />
         </Employee>
     )
 }

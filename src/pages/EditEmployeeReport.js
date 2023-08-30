@@ -28,24 +28,6 @@ export const EditEmployeeReport = () =>{
         });
     }
 
-    const onAllowanceDelete = (callback, id) =>{
-        api.allowance.deleteReport(id).then(()=>{
-            callback();
-            onSubmit();
-        }).catch((error)=>{
-            toast.error('Allowance', error);
-        });
-    }
-
-    const onDeductionDelete = (callback, id) =>{
-        api.deduction.deleteReport(id).then(()=>{
-            callback();
-            onSubmit();
-        }).catch((error)=>{
-            toast.error('Deduction', error);
-        });
-    }
-
     useEffect(()=>{
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
@@ -68,8 +50,6 @@ export const EditEmployeeReport = () =>{
                         title={'Customerized Salary Report'} 
                         onUser={setUser} 
                         report={retport}
-                        onAllowanceRemove={onAllowanceDelete}
-                        onDeductionRemove={onDeductionDelete}
                     >
                         <button onClick={onSubmit} className="btn btn-primary btn-success">Submit</button>
                     </ReportInstance>

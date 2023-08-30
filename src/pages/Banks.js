@@ -46,7 +46,7 @@ export const Banks = () =>{
             parent.find('[data-read-only]').each((i, child)=>{
                 $(child).find('[data-name]').text(name);
             });
-            toast.success('Bank', 'Created');
+            toast.success('Bank', 'Edited');
             nameRef.current.value = '';
         }).catch((error)=>{
             console.log(error);
@@ -92,9 +92,9 @@ export const Banks = () =>{
 
     return(
         <div className="page profile text-nowrap">
-            <div className="border-bottom p-2 fw-bold bg-secondary text-white mt-2">Banks</div>
+            <div className="border-bottom p-2 fw-bold bg-secondary text-white mt-2">Accounts</div>
             <div className="my-3">
-                <button ref={buttonRef} className="btn btn-info btn-sm">New Bank +</button>
+                <button ref={buttonRef} className="btn btn-info btn-sm">New Account +</button>
             </div>
             <BankCard ref={inputContainerRef} nameRef={nameRef} closeRef={closeRef} onSave={onSave}/>
             <hr></hr>
@@ -131,7 +131,7 @@ const BankCard = forwardRef(({nameRef, closeRef, onSave, onClose, data, show}, r
             <div className="allowance-row border m-3">
                 <div className="input-group">
                     <span className="input-group-text"><CiBank/></span>
-                    <input ref={nameRef} className="form-control shadow-none" name="name" placeholder="Bank Name" defaultValue={data?.attributes?.name}/>
+                    <input ref={nameRef} className="form-control shadow-none" name="name" placeholder="Accounts Name" defaultValue={data?.attributes?.name}/>
                 </div>
             </div>
             <div className="my-3">

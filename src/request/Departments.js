@@ -3,8 +3,16 @@ export class Departments{
         this.api = API;
     }
 
-    async create(data){
-        
+    async create(name){
+        return await this.api.get('/create/department', {name});
+    }
+
+    async edit(id, name){
+        return await this.api.get('/edit/department', {id, name});
+    }
+
+    async delete(id){
+        return await this.api.get('/delete/department', {id});
     }
 
     async list(){

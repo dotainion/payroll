@@ -57,6 +57,9 @@ class DeductionRepository extends Repository{
         if(isset($where['from']) && isset($where['to'])){
             $this->between('rDDate', $where['from'], $where['to']);
         }
+        if(isset($where['id'])){
+            $this->where('rDId', $this->uuid($where['id']));
+        }
         if(isset($where['reportId'])){
             $this->where('rDReportId', $this->uuid($where['reportId']));
         }

@@ -9,6 +9,7 @@ use src\module\allowance\action\ListAllowanceAction;
 use src\module\bank\action\CreateBankAction;
 use src\module\bank\action\CreateBankLinkAction;
 use src\module\bank\action\DeleteBankAction;
+use src\module\bank\action\DeleteBankLinkAction;
 use src\module\bank\action\EditBankAction;
 use src\module\bank\action\EditBankLinkAction;
 use src\module\bank\action\ListBankByUserAction;
@@ -19,6 +20,9 @@ use src\module\deduction\action\CreateDeductionAction;
 use src\module\deduction\action\DeleteDeductionAction;
 use src\module\deduction\action\EditDeductionAction;
 use src\module\deduction\action\ListDeductionAction;
+use src\module\departments\action\CreateDepartmentAction;
+use src\module\departments\action\DeleteDepartmentAction;
+use src\module\departments\action\EditDepartmentAction;
 use src\module\departments\action\ListDepartmentsAction;
 use src\module\documents\action\FetchCostTypesAction;
 use src\module\documents\action\FetchRateTypesAction;
@@ -151,6 +155,18 @@ class Router{
             return new FetchRateTypesAction();
         });
 
+        $this->request->route('/create/department', function ($req){
+            return new CreateDepartmentAction();
+        });
+
+        $this->request->route('/edit/department', function ($req){
+            return new EditDepartmentAction();
+        });
+
+        $this->request->route('/delete/department', function ($req){
+            return new DeleteDepartmentAction();
+        });
+
         $this->request->route('/list/departments', function ($req){
             return new ListDepartmentsAction();
         });
@@ -185,6 +201,10 @@ class Router{
 
         $this->request->route('/edit/bank/link', function ($req){
             return new EditBankLinkAction();
+        });
+
+        $this->request->route('/delete/user/bank', function ($req){
+            return new DeleteBankLinkAction();
         });
 
         $this->request->route('/list/user/banks', function ($req){

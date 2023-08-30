@@ -43,7 +43,7 @@ export const Allowances = () =>{
                 $(child).find('[data-rateAmount]').text(data.rateAmount);
             });
             onCloseAllEdit();
-            toast.success('Allowance', 'Created');
+            toast.success('Allowance', 'Edited');
         }).catch((error)=>{
             console.log(error);
             toast.error('Allowance', error);

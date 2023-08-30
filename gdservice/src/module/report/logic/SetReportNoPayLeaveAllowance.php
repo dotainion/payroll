@@ -37,9 +37,22 @@ class SetReportNoPayLeaveAllowance{
         $this->repo->edit($noPayLeave);
     }
 
-    public function massEdit(Collector $collector):void{
+    public function editOrCreateIfNotExist(NoPayLeaveAllowance $noPayLeave):void{
+        $collector = $this->repo->listNopayLeave(['id' => $noPayLeave->id(), 'hide' => false]);
+        if(!$collector->hasItem()){
+            $this->create($noPayLeave);
+            return;
+        }
+        $this->repo->edit($noPayLeave);
+    }
+
+    public function massEdit(Collector $collector, bool $createIfNotExisting=false):void{
         foreach($collector->list() as $noPayLeave){
-            $this->edit($noPayLeave);
+            if($createIfNotExisting){
+                $this->editOrCreateIfNotExist($noPayLeave);
+            }else{
+                $this->edit($noPayLeave);
+            }
         }
     }
 }

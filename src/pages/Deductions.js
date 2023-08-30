@@ -54,7 +54,7 @@ export const Deductions = () =>{
                 $(child).find('[data-rateAmount]').text(data.rateAmount);
             });
             onCloseAllEdit();
-            toast.success('Deduction', 'Created');
+            toast.success('Deduction', 'Edited');
         }).catch((error)=>{
             console.log(error);
             toast.error('Deduction', error);

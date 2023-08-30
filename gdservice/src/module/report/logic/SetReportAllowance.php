@@ -37,9 +37,22 @@ class SetReportAllowance{
         $this->repo->edit($allowance);
     }
 
-    public function massEdit(Collector $collector):void{
+    public function editOrCreateIfNotExist(Allowance $allowance):void{
+        $collector = $this->repo->listAllowances(['id' => $allowance->id(), 'hide' => false]);
+        if(!$collector->hasItem()){
+            $this->create($allowance);
+            return;
+        }
+        $this->repo->edit($allowance);
+    }
+
+    public function massEdit(Collector $collector, bool $createIfNotExisting=false):void{
         foreach($collector->list() as $allowance){
-            $this->edit($allowance);
+            if($createIfNotExisting){
+                $this->editOrCreateIfNotExist($allowance);
+            }else{
+                $this->edit($allowance);
+            }
         }
     }
 }

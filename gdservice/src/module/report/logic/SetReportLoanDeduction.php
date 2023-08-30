@@ -26,9 +26,22 @@ class SetReportLoanDeduction{
         $this->repo->edit($loanDeduction);
     }
 
-    public function massEdit(Collector $collector):void{
+    public function editOrCreateIfNotExist(LoanDeduction $loanDeduction):void{
+        $collector = $this->repo->listLoanDeductions(['id' => $loanDeduction->id(), 'hide' => false]);
+        if(!$collector->hasItem()){
+            $this->create($loanDeduction);
+            return;
+        }
+        $this->repo->edit($loanDeduction);
+    }
+
+    public function massEdit(Collector $collector, bool $createIfNotExisting=false):void{
         foreach($collector->list() as $deduction){
-            $this->edit($deduction);
+            if($createIfNotExisting){
+                $this->editOrCreateIfNotExist($deduction);
+            }else{
+                $this->edit($deduction);
+            }
         }
     }
 }

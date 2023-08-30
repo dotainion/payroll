@@ -7,7 +7,7 @@ import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
 import { useParams } from "react-router-dom";
 
-export const BankGenerator = ({existingBanks}) =>{
+export const BankGenerator = ({existingBanks, disableApiRequest}) =>{
     const [banks, setBanks] = useState([]);
     const [selected, setSelected] = useState([]);
 
@@ -34,14 +34,16 @@ export const BankGenerator = ({existingBanks}) =>{
         <div>
             <div className="border-bottom mb-3">Banks</div>
             {selected.map((bank, key)=>(
-                <bank.component banks={banks} data={bank?.data} key={key}/>
+                <bank.component banks={banks} data={bank?.data} disableApiRequest={disableApiRequest} key={key}/>
             ))}
             <button onClick={onCreate} className="btn btn-sm btn-primary">Add Bank acount +</button>
         </div>
     )
 }
 
-const Bank = ({banks, data}) =>{
+const Bank = ({banks, data, disableApiRequest}) =>{
+    const [bankData, setBankData] = useState();
+
     const params = useParams();
 
     const timeoutRef = useRef();
@@ -49,16 +51,17 @@ const Bank = ({banks, data}) =>{
     const accountNumberRef = useRef();
 
     const onSet = () =>{
+        if(disableApiRequest) return;
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
             if(!bankRef.current.value || !accountNumberRef.current.value) return;
             const record = {
-                id: data?.id,
+                id: bankData?.id,
                 userId: params?.userId,
                 bankId: bankRef.current.value,
                 number: accountNumberRef.current.value
             }
-            if(data?.id){
+            if(bankData?.id){
                 api.bank.editBankLink(record).then((response)=>{
                     toast.success('Bank', 'Edited.');
                 }).catch((error)=>{
@@ -66,6 +69,7 @@ const Bank = ({banks, data}) =>{
                 });
             }else{
                 api.bank.createBankLink(record).then((response)=>{
+                    setBankData(response?.data?.data?.[0]);
                     toast.success('Bank', 'Created');
                 }).catch((error)=>{
                     toast.error('Bank', error);
@@ -75,15 +79,31 @@ const Bank = ({banks, data}) =>{
     }
 
     const remove = (e) =>{
-        $(e.currentTarget).parent().parent().remove();
+        const target = e.currentTarget;
+        if(bankData?.id){
+            api.bank.deleteUserBank(bankData?.id).then((response)=>{
+                setBankData(response?.data?.data?.[0]);
+                toast.success('Bank', 'Deleted');
+                $(target).parent().parent().remove();
+            }).catch((error)=>{
+                toast.error('Bank', error);
+            });
+        }else{
+            $(e.currentTarget).parent().parent().remove();
+        }
     }
+
+    useEffect(()=>{
+        if(!data) return;
+        setBankData(data);
+    }, [data]);
 
     return(
         <div className="d-flex w-100 mb-3" data-banks="">
             <div className="bank-container-row w-100 pe-3 rounded-3 bg-white">
                 <div className="input-group group-1">
                     <span className="input-group-text"><PiBankFill/></span>
-                    <select ref={bankRef} onChange={onSet} className="form-control form-select shadow-none" name="bankId" defaultValue={data?.attributes?.name || 'Select a bank'}>
+                    <select ref={bankRef} onChange={onSet} className="form-control form-select shadow-none" name="bankId" defaultValue={bankData?.attributes?.name || 'Select a bank'}>
                         {banks.map((bank, key)=>(
                             <option value={bank?.id} key={key}>{bank?.attributes?.name}</option>
                         ))}
@@ -92,13 +112,13 @@ const Bank = ({banks, data}) =>{
                 </div>
                 <div className="input-group">
                     <span className="input-group-text"><AiOutlineFieldNumber/></span>
-                    <input ref={accountNumberRef} onKeyUp={onSet} className="form-control shadow-none" name="number" placeholder="bank number" defaultValue={data?.attributes?.number}/>
+                    <input ref={accountNumberRef} onKeyUp={onSet} className="form-control shadow-none" name="number" placeholder="bank number" defaultValue={bankData?.attributes?.number}/>
                 </div>
             </div>
             <div className="w-100 ps-3 position-relative">
                 <span onClick={remove} className="text-danger position-absolute top-0 start-0 pointer border rounded-circle bg-white" style={{marginLeft: '-20px', marginTop: '-10px'}} title="Remove"><IoClose className="fs-4"/></span>
             </div>
-            <input hidden value={data?.id} name="id" onChange={()=>{}} />
+            <input hidden value={bankData?.id} name="id" onChange={()=>{}} />
         </div>
     )
 }

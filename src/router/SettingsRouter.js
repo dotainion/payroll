@@ -9,6 +9,7 @@ import { Allowances } from "../pages/Allowances";
 import { Deductions } from "../pages/Deductions";
 import { Banks } from "../pages/Banks";
 import { Settings } from "../pages/Settings";
+import { Departments } from "../pages/Departments";
 
 export const SettingsRouter = () =>{
     return(
@@ -19,6 +20,7 @@ export const SettingsRouter = () =>{
                 <Route path={routes.settings().notifications()} element={<Notifications/>}/>
                 <Route path={routes.settings().allowances()} element={<Allowances/>}/>
                 <Route path={routes.settings().deductions()} element={<Deductions/>}/>
+                <Route path={routes.settings().departments()} element={<Departments/>}/>
                 <Route path={routes.settings().banks()} element={<Banks/>}/>
                 <Route path={routes.settings().settings()} element={<Settings/>}/>
                 <Route path={'*'} element={<Navigate to={routes.settings().security()}/>}/>

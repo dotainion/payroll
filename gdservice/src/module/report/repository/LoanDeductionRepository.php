@@ -3,6 +3,7 @@ namespace src\module\report\repository;
 
 use src\database\Repository;
 use src\infrastructure\Collector;
+use src\infrastructure\Id;
 use src\module\report\factory\LoanDeductionFactory;
 use src\module\report\objects\LoanDeduction;
 
@@ -40,10 +41,20 @@ class LoanDeductionRepository extends Repository{
         $this->execute();
     }
     
+    public function deleteLoanDeduction(Id $id):void{
+        $this->update('reportLoanDeduction')
+            ->set('rLDHide', 1)
+            ->where('rLDId', $this->uuid($id));
+        $this->execute();
+    }
+    
     public function listLoanDeductions(array $where=[]):Collector{
         $this->select('reportLoanDeduction');
         if(isset($where['from']) && isset($where['to'])){
             $this->between('rLDDate', $where['from'], $where['to']);
+        }
+        if(isset($where['id'])){
+            $this->where('rLDId', $this->uuid($where['id']));
         }
         if(isset($where['userId'])){
             $this->where('userId', $this->uuid($where['userId']));

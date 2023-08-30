@@ -18,10 +18,10 @@ class ValidatePassword{
             $this->chain->appendMessage('must contain a capital letter');
         }
         if (!preg_match('~[0-9]+~', $password)) {
-            $this->chain->appendMessage('must contain a number');
+            $this->chain->appendMessage('must contain a number (0-9)');
         }
         if (strlen($password) < 7) {
-            $this->chain->appendMessage('must contain a number (0-9)');
+            $this->chain->appendMessage('must be at least 7 digits long');
         }
         if (!preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password)){
             $this->chain->appendMessage('must contain a special character '.implode(', ', $this->specialChars()));

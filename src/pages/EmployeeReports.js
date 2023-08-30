@@ -12,6 +12,7 @@ import { Tooltip } from "../container/Tooltip";
 import { ReportExpandableColumn } from "../components/ReportExpandableColumn";
 import { FiEdit } from 'react-icons/fi';
 import { EllipsisOption } from "../widgets/EllipsisOption";
+import { BiSolidReport } from "react-icons/bi";
 
 export const EmployeeReports = () =>{
     const [user, setUser] = useState();
@@ -58,6 +59,9 @@ export const EmployeeReports = () =>{
                                             <Dropdown.Item 
                                                 onClick={()=>navigate(routes.workspace().nested().editReport(rept?.id))} 
                                                 className="d-flex align-items-center"><FiEdit className="me-2"/>Edit</Dropdown.Item>
+                                            <Dropdown.Item
+                                                onClick={()=>navigate(routes.workspace().nested().employeePayslip(rept?.id))}
+                                                className="d-flex align-items-center"><BiSolidReport className="me-2"/>Invoice</Dropdown.Item>
                                         </EllipsisOption>
                                     </td>
                                     <td>{new Date(rept?.attributes?.date).toDateString()}</td>

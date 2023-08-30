@@ -37,9 +37,22 @@ class SetReportSickLeave{
         $this->repo->edit($sickLeave);
     }
 
-    public function massEdit(Collector $collector):void{
+    public function editOrCreateIfNotExist(SickLeave $sickLeave):void{
+        $collector = $this->repo->listSickLeave(['id' => $sickLeave->id(), 'hide' => false]);
+        if(!$collector->hasItem()){
+            $this->create($sickLeave);
+            return;
+        }
+        $this->repo->edit($sickLeave);
+    }
+
+    public function massEdit(Collector $collector, bool $createIfNotExisting=false):void{
         foreach($collector->list() as $sickLeave){
-            $this->edit($sickLeave);
+            if($createIfNotExisting){
+                $this->editOrCreateIfNotExist($sickLeave);
+            }else{
+                $this->edit($sickLeave);
+            }
         }
     }
 }

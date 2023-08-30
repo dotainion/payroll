@@ -23,6 +23,7 @@ export const LoanAddOn = ({onRemove, data, banks}) =>{
         timeoutRef.current = setTimeout(() => {
             $('select[name=bank]').find(`option:contains("${data?.attributes?.name}")`).attr('selected', 'selected');
         }, 100);
+        console.log(banks);
     }, [data, banks]);
 
     return(

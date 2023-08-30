@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Dropdown } from "react-bootstrap";
 import { RiNotificationBadgeFill } from 'react-icons/ri';
 import { Overlay } from "../container/Overlay";
-import notificImg from '../images/no-notific.png';
 import { FaAccessibleIcon } from "react-icons/fa";
+import logo from '../images/logo-icon.png';
 
 export const QuickAccessOverlay = ({children}) =>{
     const [quickAccess, setQuickAccess] = useState([]);
@@ -28,6 +27,15 @@ export const QuickAccessOverlay = ({children}) =>{
                             <div>No Saved</div>
                         </div>
                     }
+                </div>
+                <div className="alert alert-info m-2 mb-0 p-2 small">
+                    <b>Shortcut</b>
+                    <div className="small">You can make a shortcut to this application by dragging this icon to your desktop or bookmark bar:</div>
+                    <div className="shortcut-draggable-parent">
+                        <div className="p-1 pb-0">
+                            <a className="shortcut-draggable" href={window.location.origin + window.location.pathname}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Overlay>

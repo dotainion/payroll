@@ -7,7 +7,7 @@ import { toast } from "../utils/Toast";
 import { NotAuthenticated } from "../other/NotAuthenticated";
 import ReactToPrint from "react-to-print";
 import { Payslip } from "../invoices/components/Payslip";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { BulkPayslip } from "../invoices/pages/BulkPayslip";
 import { InvoiceLayout } from "../layout/InvoiceLayout";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -22,12 +22,16 @@ import { CreateEmployee } from "../pages/CreateEmployee";
 import { EditEmployee } from "../pages/EditEmployee";
 import { RiNotificationBadgeFill } from 'react-icons/ri';
 import { Employee } from "../components/Employee";
+import { QuickAccessOverlay } from "../components/QuickAccessOverlay";
+import { PasswordValidation } from "../utils/PasswordValidation";
+import { Departments } from "../pages/Departments";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
     const [defaultValue, setDefaultValue] = useState('');
 
     const params = useParams();
+    const location = useLocation();
 
     const pageRef = useRef();
     const rouetRef = useRef();
@@ -59,11 +63,13 @@ export const Testing = () =>{
     }
 
     useEffect(()=>{
-        
+
     }, []);
 
     return (
-        <Employee/>
+        <div>
+            <Departments/>
+        </div>
     )
 
     return(

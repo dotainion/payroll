@@ -40,11 +40,11 @@ export const PayslipHead = ({report}) =>{
             <div className="d-flex w-100">
                 <div className="w-100">
                     <div className="me-3">ID:</div>
-                    <div className="fw-bold">{report?.id}</div>
+                    <div className="fw-bold">{report?.id?.split?.('-')?.[report?.id?.split?.('-')?.length -1]}</div>
                 </div>
                 <div className="w-100">
                     <div className="me-3">Cagegory:</div>
-                    <div className="fw-bold">MONTHLY PERMANENT EMPLOYEES</div>
+                    <div className="fw-bold">EMPLOYEE REPORT</div>
                 </div>
             </div>
 

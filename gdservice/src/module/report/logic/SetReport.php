@@ -1,6 +1,7 @@
 <?php
 namespace src\module\report\logic;
 
+use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\module\report\factory\ReportFactory;
@@ -21,6 +22,7 @@ class SetReport{
     protected SetReportNoPayLeaveAllowance $setNoPayLeaveAllowance;
     protected SetReportNoPayLeaveDeduction $setNoPayLeaveDeduction;
     protected FetchSickLeave $settings;
+    protected MassDeleteReport $massDelete;
 
     public function __construct(){
         $this->repo = new ReportRepository();
@@ -33,6 +35,7 @@ class SetReport{
         $this->setNoPayLeaveAllowance = new SetReportNoPayLeaveAllowance();
         $this->setNoPayLeaveDeduction = new SetReportNoPayLeaveDeduction();
         $this->settings = new FetchSickLeave();
+        $this->massDelete = new MassDeleteReport();
     }
 
     public function stopExecution(bool $stopExecution):void{
@@ -85,18 +88,29 @@ class SetReport{
         if(!$this->stopExecution){
             $reportCollector = (new FetchReport())->report($report->id());
             if($reportCollector->hasItem()){
-                $this->setAllowance->massEdit($rAllowance->reportAllowances());
-                $this->setDeduction->massEdit($rDeduction->reportDeductions());
+                $this->setAllowance->massEdit($rAllowance->reportAllowances(), true);
+                $this->setDeduction->massEdit($rDeduction->reportDeductions(), true);
 
-                $this->setLoanAllowance->massEdit($reportLoanAllowance->reportLoanAllowances());
-                $this->setLoanDeduction->massEdit($reportLoanDeduction->reporLoanDeductions());
+                $this->setLoanAllowance->massEdit($reportLoanAllowance->reportLoanAllowances(), true);
+                $this->setLoanDeduction->massEdit($reportLoanDeduction->reporLoanDeductions(), true);
 
-                $this->setSickLeave->massEdit($reportSickLeaves->sickLeaves());
+                $this->setSickLeave->massEdit($reportSickLeaves->sickLeaves(), true);
 
-                $this->setNoPayLeaveAllowance->massEdit($reportNoPayLeaveAllowances->noPayLeaveAllowances());
-                $this->setNoPayLeaveDeduction->massEdit($reportNoPayLeaveDeductions->noPayLeaveDeductions());
+                $this->setNoPayLeaveAllowance->massEdit($reportNoPayLeaveAllowances->noPayLeaveAllowances(), true);
+                $this->setNoPayLeaveDeduction->massEdit($reportNoPayLeaveDeductions->noPayLeaveDeductions(), true);
 
                 $this->repo->edit($report);
+
+                $this->massDelete->massDeleteIfNotIncluded(
+                    $report->id(),
+                    $rAllowance->reportAllowances(),
+                    $rDeduction->reportDeductions(),
+                    $reportLoanAllowance->reportLoanAllowances(),
+                    $reportLoanDeduction->reporLoanDeductions(),
+                    $reportSickLeaves->sickLeaves(),
+                    $reportNoPayLeaveAllowances->noPayLeaveAllowances(),
+                    $reportNoPayLeaveDeductions->noPayLeaveDeductions()
+                );
             }else{
                 $this->setAllowance->massCreate($rAllowance->reportAllowances());
                 $this->setDeduction->massCreate($rDeduction->reportDeductions());

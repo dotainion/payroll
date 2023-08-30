@@ -9,6 +9,7 @@ use src\infrastructure\IObjects;
 class Department implements IObjects{
     protected Id $id; 
     protected string $name;
+    protected bool $hide;
 
     function __construct(){
         $this->id = new Id();
@@ -22,6 +23,10 @@ class Department implements IObjects{
         return $this->name;
     }
 
+    public function hide():bool{
+        return $this->hide;
+    }
+
     public function setId(string $id):void{
         $this->id->set($id);
     }
@@ -29,5 +34,9 @@ class Department implements IObjects{
     public function setName(string $name):void{
         Assert::stringNotEmpty($name, 'Department name required.');
         $this->name = $name;
+    }
+
+    public function setHide(bool $hide):void{
+        $this->hide = $hide;
     }
 }
