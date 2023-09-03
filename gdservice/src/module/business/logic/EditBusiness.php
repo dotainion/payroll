@@ -13,7 +13,7 @@ class EditBusiness{
     }
 
     public function edit(Business $business):void{
-        Assert::emailNotExist($business->email());
+        Assert::emailExist($business->email());
         $this->repo->editBusiness($business);
     }
 }

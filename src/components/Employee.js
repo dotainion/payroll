@@ -187,7 +187,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                             </div>
                         </div>
                         <div className="w-100 px-3">
-                            <label>OT Hourly Rate</label>
+                            <label>Hourly Amount</label>
                             <div className="input-group">
                                 <span className="input-group-text"><GiReceiveMoney/></span>
                                 <input ref={otRateRef} className="form-control shadow-none" placeholder="0.00"/>

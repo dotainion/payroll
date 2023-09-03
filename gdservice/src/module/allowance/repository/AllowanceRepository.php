@@ -51,6 +51,9 @@ class AllowanceRepository extends Repository{
         if(isset($where['hide'])){
             $this->where('aHide', (int)$where['hide']);
         }
+        if(isset($where['id'])){
+            $this->where('aId', $this->uuid($where['id']));
+        }
         $this->execute();
         return $this->factory->map(
             $this->results()

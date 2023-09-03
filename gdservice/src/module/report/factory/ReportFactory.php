@@ -4,7 +4,6 @@ namespace src\module\report\factory;
 use src\infrastructure\Collector;
 use src\infrastructure\Factory;
 use src\module\report\objects\Report;
-use Stringable;
 
 class ReportFactory extends Collector{
     use Factory;
@@ -21,6 +20,8 @@ class ReportFactory extends Collector{
         $report->setTotalAllowance($record['totalAllowance'] ?? $record['allowance']);
         $report->setTotalSalary($record['totalSalary'] ?? $record['salary']);
         $report->setNetSalary((string)($record['netSalary'] ?? $record['net']));
+        $report->setPeriodFrom(($record['periodFrom'] ?? $record['from']));
+        $report->setPeriodTo(($record['periodTo'] ?? $record['to']));
         $report->setHide($record['hide']);
         return $report;
     }

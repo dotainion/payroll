@@ -123,7 +123,7 @@ const Generate = ({onGenerate}) =>{
 
     return(
         <div className="d-flex align-items-center">
-            <button onClick={()=>toggleCollapsAll(!isActive)} className="btn btn-sm btn-outline-primary px-2 py-1 me-2">Collapse All <BsArrowsCollapse/></button>   
+            <button onClick={()=>toggleCollapsAll(!isActive)} className="btn btn-sm btn-outline-primary px-2 py-1 me-2">{isActive? 'Collaps': 'Expand'} All <BsArrowsCollapse/></button>   
             <button onClick={onGenerate} className="btn btn-sm btn-outline-success px-2 py-1 me-2">Clone Reports <BiSolidReport/></button>      
             <button onClick={onSeeInvoices} className="btn btn-sm btn-outline-warning px-2 py-1">Invoices <FaFileInvoiceDollar/></button>          
         </div>

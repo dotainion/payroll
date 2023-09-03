@@ -25,6 +25,8 @@ import { Employee } from "../components/Employee";
 import { QuickAccessOverlay } from "../components/QuickAccessOverlay";
 import { PasswordValidation } from "../utils/PasswordValidation";
 import { Departments } from "../pages/Departments";
+import { BusinessProfile } from "../pages/BusinessProfile";
+import { PasswrodRecovery } from "../accounts/PasswordRecovery";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
@@ -68,7 +70,7 @@ export const Testing = () =>{
 
     return (
         <div>
-            <Departments/>
+            
         </div>
     )
 

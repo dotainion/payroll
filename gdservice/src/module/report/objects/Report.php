@@ -22,6 +22,8 @@ class Report implements IObjects{
     protected DateHelper $date;
     protected ?User $user = null;
     protected bool $hide;
+    protected DateHelper $periodFrom;
+    protected DateHelper $periodTo;
 
     public function __construct(){
         $this->id = new Id();
@@ -29,6 +31,8 @@ class Report implements IObjects{
         $this->allAllowances = new Collector();
         $this->allDeductions = new Collector();
         $this->date = new DateHelper();
+        $this->periodFrom = new DateHelper();
+        $this->periodTo = new DateHelper();
     }
         
     public function id():IId{
@@ -69,6 +73,14 @@ class Report implements IObjects{
         
     public function ytd():?string{
         return $this->ytd;
+    }
+        
+    public function periodFrom():DateHelper{
+        return $this->periodFrom;
+    }
+        
+    public function periodTo():DateHelper{
+        return $this->periodTo;
     }
     
     public function allAllowances():Collector{
@@ -113,6 +125,14 @@ class Report implements IObjects{
         
     public function setYtd(float $ytd):void{
         $this->ytd = $ytd;
+    }
+        
+    public function setPeriodFrom(string $periodFrom):void{
+        $this->periodFrom->set($periodFrom);
+    }
+        
+    public function setPeriodTo(string $periodTo):void{
+        $this->periodTo->set($periodTo);
     }
 
     public function setHide(bool $hide):void{

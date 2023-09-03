@@ -19,7 +19,9 @@ class BusinessFactory extends Collector{
         $business->setEmail($record['email']);
         $business->setCity($record['city']);
         $business->setState($record['state']);
-        $business->setDate($record['date']);
+        if(isset($record['date'])){
+            $business->setDate($record['date']);
+        }
         $business->setHide($record['hide']);
         $business->setAddress($record['address']);
         $business->setIsOrganization((bool)$record['isOrganization']);

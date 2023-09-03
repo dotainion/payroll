@@ -15,6 +15,7 @@ use src\module\bank\action\EditBankLinkAction;
 use src\module\bank\action\ListBankByUserAction;
 use src\module\bank\action\ListBanksAction;
 use src\module\business\action\BusinessRegistrationAction;
+use src\module\business\action\EditBusinessRegistrationAction;
 use src\module\business\action\FetchBusinessAction;
 use src\module\deduction\action\CreateDeductionAction;
 use src\module\deduction\action\DeleteDeductionAction;
@@ -32,6 +33,7 @@ use src\module\login\action\FetchHasCredentialByTokenAction;
 use src\module\login\action\FetchSessionAction;
 use src\module\login\action\LoginAction;
 use src\module\login\action\LogoutAction;
+use src\module\login\action\SendRecoveryEmailAction;
 use src\module\login\action\UpdateCredentialAction;
 use src\module\login\action\UpdateCredentialByTokenAction;
 use src\module\mail\action\SendBulkPayslipMailAction;
@@ -97,6 +99,10 @@ class Router{
 
         $this->request->route('/update/credential', function ($req){
             return new UpdateCredentialAction();
+        });
+
+        $this->request->route('/recover/account', function ($req){
+            return new SendRecoveryEmailAction();
         });
 
         $this->request->route('/list/users', function ($req){
@@ -253,6 +259,10 @@ class Router{
 
         $this->request->route('/register/business', function ($req){
             return new BusinessRegistrationAction();
+        });
+
+        $this->request->route('/edit/business', function ($req){
+            return new EditBusinessRegistrationAction();
         });
 
         $this->request->route('/fetch/business', function ($req){

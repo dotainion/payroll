@@ -52,6 +52,9 @@ class DeductionRepository extends Repository{
         if(isset($where['hide'])){
             $this->where('dHide', (int)$where['hide']);
         }
+        if(isset($where['id'])){
+            $this->where('dId', $this->uuid($where['id']));
+        }
         $this->execute();
         return $this->factory->map(
             $this->results()

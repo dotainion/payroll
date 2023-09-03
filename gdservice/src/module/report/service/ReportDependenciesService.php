@@ -8,6 +8,7 @@ use src\module\report\logic\ListNoPayLeaveAllowance;
 use src\module\report\logic\ListNoPayLeaveDeduction;
 use src\module\report\logic\ListReportAllowances;
 use src\module\report\logic\ListReportDeductions;
+use src\module\report\logic\ListReportOvertime;
 use src\module\report\logic\ListSickLeave;
 use src\module\report\logic\ListUserReport;
 use src\module\report\logic\YTDCalculator;
@@ -22,6 +23,7 @@ class ReportDependenciesService{
     protected ListSickLeave $sickLeave;
     protected ListNoPayLeaveAllowance $payLeave;
     protected ListNoPayLeaveDeduction $noPayLeave;
+    protected ListReportOvertime $overtime;
     protected YTDCalculator $ytd;
     protected FetchUser $user;
 
@@ -34,6 +36,7 @@ class ReportDependenciesService{
         $this->sickLeave = new ListSickLeave();
         $this->payLeave = new ListNoPayLeaveAllowance();
         $this->noPayLeave = new ListNoPayLeaveDeduction();
+        $this->overtime = new ListReportOvertime();
         $this->ytd = new YTDCalculator();
         $this->user = new FetchUser();
     }
@@ -69,6 +72,10 @@ class ReportDependenciesService{
             $noPayLeaveCollector = $this->noPayLeave->noPayLeaves($report->id());
             $this->ytd->calculateNoPayLeaveYTD($noPayLeaveCollector, $report->userId());
             $report->setToAllDeductionsCollection($noPayLeaveCollector);
+
+            $overtimeCollector = $this->overtime->overtimeByReport($report->id());
+            $this->ytd->calculateOvertimeYTD($overtimeCollector, $report->userId());
+            $report->setToAllAllowancesCollection($overtimeCollector);
 
             $user = $this->user->user($report->userId());
             $report->setUser($user->first());

@@ -13,7 +13,7 @@ export const SettingsSidebar = () =>{
 
     const menus = [
         {
-            title: 'Profile',
+            title: 'Business Profile',
             icon: BsFillPersonFill,
             active: location.pathname.includes(routes.settings().profile()),
             onClick: ()=>navigate(routes.settings().profile())

@@ -7,6 +7,10 @@ export class RegisterAdmin{
         return await this.api.get('/register/business', data);
     }
 
+    async editBusiness(data){
+        return await this.api.get('/edit/business', data);
+    }
+
     async fetchBusiness(){
         return await this.api.get('/fetch/business', null);
     }

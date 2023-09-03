@@ -5,28 +5,29 @@ import $ from "jquery";
 import { FaDollarSign } from "react-icons/fa";
 import { api } from "../request/Api";
 import { MdSick } from "react-icons/md";
-import { SickLeaveReport } from "./SickLeaveReport";
+import { SickLeaveGenerator } from "../widgets/SickLeaveGenerator";
+import { DateHelper } from "../utils/DateHelper";
 
-export const Report = ({title, userId, onUser, propUser, onAllowanceRemove, onDeductionRemove, existingAllowances, existingDeductions, sickLeave, children}) =>{
+export const Report = ({period, title, userId, onUser, propUser, onAllowanceRemove, onDeductionRemove, existingAllowances, existingDeductions, sickLeaves, children}) =>{
     const [user, setUser] = useState();
     const [banks, setBanks] = useState([]);
-    const [addSickLeave, setAddSickLeave] = useState(false);
     const [loanAllowances, setLoanAllowances] = useState([]);
     const [loanDeductions, setLoanDeductions] = useState([]);
 
-    const onShowSickLeave = (state) =>{
-        setAddSickLeave(state);
-    }
+    const fromRef = useRef();
+    const toRef = useRef();
+
+    useEffect(()=>{
+        if(!period) return;
+        const date = new DateHelper();
+        fromRef.current.value = date.sqlStringToInput(period?.from);
+        toRef.current.value = date.sqlStringToInput(period?.to);
+    }, [period]);
 
     useEffect(()=>{
         if(!user) return;
         onUser?.(user);
     }, [user]);
-
-    useEffect(()=>{
-        if(!sickLeave) return;
-        onShowSickLeave(true);
-    }, [sickLeave]);
 
     useEffect(()=>{
         if(!propUser) return;
@@ -69,17 +70,6 @@ export const Report = ({title, userId, onUser, propUser, onAllowanceRemove, onDe
                     <div className="fw-bold fs-5 my-3 w-100">{title}</div>
                 </div>}
                 <div className="p-3">
-                    <div className="text-end mb-2">
-                        <div onClick={()=>onShowSickLeave(!addSickLeave)} className="d-inline-block">
-                            {!addSickLeave?<button className="btn btn-sm btn-outline-primary d-flex align-items-center text-nowrap">
-                                <MdSick className="me-1 fs-3"/>
-                                <div>Add sick leave report</div>
-                            </button>:<button className="btn btn-sm btn-outline-dark d-flex align-items-center text-nowrap">
-                                <MdSick className="me-1 fs-3"/>
-                                <div>Remove Sick leave report</div>
-                            </button>}
-                        </div>
-                    </div>
                     <div className="bg-light p-2">
                         <div className="fw-bold">{user?.attributes?.name}</div>
                         <div className="small">ID: <span>{user?.attributes?.userId}</span></div>
@@ -91,18 +81,35 @@ export const Report = ({title, userId, onUser, propUser, onAllowanceRemove, onDe
                             <div className="form-control shadow-none">{user?.attributes?.salary}</div>
                         </div>
                     </div>
+                    <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>
+                        <label>Period <span className="text-danger">*</span></label>
+                        <div className="d-flex align-items-center" data-report-period="">
+                            <div className="input-group w-100">
+                                <span className="input-group-text">From</span>
+                                <input ref={fromRef} className="form-control shadow-none" name="from" type="date" />
+                            </div>
+                            <div className="input-group w-100 ms-3">
+                                <span className="input-group-text">To</span>
+                                <input ref={toRef} className="form-control shadow-none" name="to" type="date" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="px-3 bg-lightergray py-3">
                     <div className="fw-bold">Allowances</div>
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
-                    <AllowanceGenerator onRemove={onAllowanceRemove} loanAllowances={loanAllowances} banks={banks} existingAllowances={existingAllowances} />
+                    <AllowanceGenerator onRemove={onAllowanceRemove} loanAllowances={loanAllowances} banks={banks} existingAllowances={existingAllowances} user={propUser || user} />
                 </div>
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Deductions</div>
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
                     <DeductionGenerator onRemove={onDeductionRemove} loanDeductions={loanDeductions} banks={banks} existingDeductions={existingDeductions} />
                 </div>
-                {addSickLeave && <SickLeaveReport user={propUser || user} data={sickLeave}/>}
+                <div className="px-3 mt-2 bg-lightergray py-3">
+                    <div className="fw-bold">Sick Leave</div>
+                    <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
+                    <SickLeaveGenerator user={propUser || user} data={sickLeaves}/>
+                </div>
                 <div className="p-3 text-center">
                     {children}
                 </div>

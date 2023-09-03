@@ -1,7 +1,6 @@
 <?php
 namespace src\module\report\logic;
 
-use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\module\report\factory\ReportFactory;
@@ -21,6 +20,7 @@ class SetReport{
     protected SetReportSickLeave $setSickLeave;
     protected SetReportNoPayLeaveAllowance $setNoPayLeaveAllowance;
     protected SetReportNoPayLeaveDeduction $setNoPayLeaveDeduction;
+    protected SetReportOvertime $setOvertime;
     protected FetchSickLeave $settings;
     protected MassDeleteReport $massDelete;
 
@@ -34,6 +34,7 @@ class SetReport{
         $this->setSickLeave = new SetReportSickLeave();
         $this->setNoPayLeaveAllowance = new SetReportNoPayLeaveAllowance();
         $this->setNoPayLeaveDeduction = new SetReportNoPayLeaveDeduction();
+        $this->setOvertime = new SetReportOvertime();
         $this->settings = new FetchSickLeave();
         $this->massDelete = new MassDeleteReport();
     }
@@ -44,6 +45,8 @@ class SetReport{
 
     public function create(
         User $user, 
+        DateHelper $periodFrom,
+        DateHelper $periodTo,
         CalculateReportAllowance $rAllowance, 
         CalculateReportDeduction $rDeduction, 
         CalculateReportLoanAllowance $reportLoanAllowance,
@@ -51,9 +54,9 @@ class SetReport{
         CalculateReportSickLeave $reportSickLeaves,
         CalculateReportNoPayLeaveAllowance $reportNoPayLeaveAllowances,
         CalculateReportNoPayLeaveDeduction $reportNoPayLeaveDeductions,
+        CalculateReportOvertime $reportOVertime,
         Id $reportId
     ):Report{
-        //((float)$user->salary()) + 
         $totalAllowance = $rAllowance->totalAllowance();
         $totalDeduction = $rDeduction->totalDeduction();
 
@@ -62,6 +65,8 @@ class SetReport{
 
         $totalAllowance = $totalAllowance + $reportNoPayLeaveAllowances->totalNoPayLeaveAllowance();
         $totalDeduction = $totalDeduction + $reportNoPayLeaveDeductions->totalNoPayLeaveDeduction();
+
+        $totalAllowance = $totalAllowance + $reportOVertime->totalOvertime();
 
         $salary = 0;
         if($reportSickLeaves->hasSickLeave()){
@@ -82,6 +87,8 @@ class SetReport{
             'deduction' => $totalDeduction,
             'salary' => $salary,
             'hide' => $user->hide(),
+            'from' => $periodFrom->toString(),
+            'to' => $periodTo->toString(),
             'net' => (($salary  + $totalAllowance) - $totalDeduction)
         ]);
 
@@ -99,6 +106,8 @@ class SetReport{
                 $this->setNoPayLeaveAllowance->massEdit($reportNoPayLeaveAllowances->noPayLeaveAllowances(), true);
                 $this->setNoPayLeaveDeduction->massEdit($reportNoPayLeaveDeductions->noPayLeaveDeductions(), true);
 
+                $this->setOvertime->massEdit($reportOVertime->reportOvertimes(), true);
+
                 $this->repo->edit($report);
 
                 $this->massDelete->massDeleteIfNotIncluded(
@@ -109,7 +118,8 @@ class SetReport{
                     $reportLoanDeduction->reporLoanDeductions(),
                     $reportSickLeaves->sickLeaves(),
                     $reportNoPayLeaveAllowances->noPayLeaveAllowances(),
-                    $reportNoPayLeaveDeductions->noPayLeaveDeductions()
+                    $reportNoPayLeaveDeductions->noPayLeaveDeductions(),
+                    $reportOVertime->reportOvertimes()
                 );
             }else{
                 $this->setAllowance->massCreate($rAllowance->reportAllowances());
@@ -122,6 +132,8 @@ class SetReport{
 
                 $this->setNoPayLeaveAllowance->massCreate($reportNoPayLeaveAllowances->noPayLeaveAllowances());
                 $this->setNoPayLeaveDeduction->massCreate($reportNoPayLeaveDeductions->noPayLeaveDeductions());
+
+                $this->setOvertime->massCreate($reportOVertime->reportOvertimes());
 
                 $this->repo->create($report);
             }

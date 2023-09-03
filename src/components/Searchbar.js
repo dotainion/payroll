@@ -128,7 +128,7 @@ export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
                             <span>Filter by department</span>
                             <RiArrowDownSLine className="ms-1"/>
                             <div ref={filterOverlayRef} className="top-0 mt-5 pt-4 arrow-up position-absolute bg-white shadow text-nowrap text-start rounded-3" data-overlay="" style={{display: 'none', zIndex: '9999999999999999'}}>
-                                <div className="px-3 pb-1 border-bottom">Departments</div>
+                                <div onClick={(e)=>onTriggerFilter(e, {attributes: {name: ''}})} className="px-3 pb-1 border-bottom">Departments</div>
                                 {departments.map((dept, key)=>(
                                     <div onClick={(e)=>onTriggerFilter(e, dept)} className="list-item" key={key}>{dept?.attributes?.name}</div>
                                 ))}

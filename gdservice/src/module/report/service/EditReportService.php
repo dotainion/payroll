@@ -19,8 +19,10 @@ class EditReportService extends Service{
         $loanAllowances,
         $loanDeductions,
         $sickLeaves,
+        $overtime,
         $noPayLeaveAllowances,
-        $noPayLeaveDeductions
+        $noPayLeaveDeductions,
+        $period
     ){
         $service = $this->report->process(
             $id,
@@ -30,8 +32,10 @@ class EditReportService extends Service{
             $loanAllowances,
             $loanDeductions,
             $sickLeaves,
+            $overtime,
             $noPayLeaveAllowances,
-            $noPayLeaveDeductions
+            $noPayLeaveDeductions,
+            $period
         );
 
         $this->mergeOutput($service);

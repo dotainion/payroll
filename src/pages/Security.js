@@ -5,17 +5,18 @@ import $ from 'jquery';
 import { FcSettings } from "react-icons/fc";
 import { TbLockShare } from 'react-icons/tb';
 import { ChangeCredential } from "../utils/ChangeCredential";
+import { useAuth } from "../auth/AuthProvider";
 
 const creds = new ChangeCredential();
 export const Security = () =>{
-    const [list, setList] = useState([]);
+    const { user } = useAuth([]);
 
     useEffect(()=>{
         
     }, []);
     return(
         <div className="page text-nowrap">
-            <div className="border-bottom p-2 fw-bold">Security settings</div>
+            <div className="border-bottom p-2 fw-bold">Security settings: {user?.attributes?.name}</div>
             <ul className="list-group mt-4">
                 <li className="small list-group-item d-flex align-items-center py-4">
                     <TbLockShare className="display-5"/>

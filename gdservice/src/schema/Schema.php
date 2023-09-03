@@ -222,6 +222,21 @@ class Schema{
         return $this->sql->execute();
     }
 
+    public function overtime(){
+        $this->sql->create('reportOvertime')
+            ->column('otId')->bindary()
+            ->column('userId')->bindary()
+            ->column('otReportId')->bindary()
+            ->column('otName')->string()
+            ->column('otRate')->string()
+            ->column('otHours')->string()
+            ->column('otAmount')->string()
+            ->column('otTotalAmount')->string()
+            ->column('otDate')->timestamp()
+            ->column('otHide')->bool();
+        return $this->sql->execute();
+    }
+
     public function report(){
         $this->sql->create('report')
             ->column('reportId')->bindary()
@@ -231,7 +246,9 @@ class Schema{
             ->column('totalDeduction')->string()
             ->column('totalAllowance')->string()
             ->column('totalSalary')->string()
-            ->column('netSalary')->string();
+            ->column('netSalary')->string()
+            ->column('periodFrom')->timestamp()
+            ->column('periodTo')->timestamp();
         return $this->sql->execute();
     }
 

@@ -9,7 +9,6 @@ import $ from 'jquery';
 
 export const Credentials = () =>{
     const { data, addData } = useAdmin();
-    const [error, setError] = useState();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -49,7 +48,7 @@ export const Credentials = () =>{
     return(
         <div onKeyUp={()=>$(errorRef.current).hide('fast')} className="mobile-inputes shadow-sm border rounded bg-white p-4">
             <div className="text-center p-2 fw-bold fs-3" data-title="">Credentials</div>
-            <div ref={errorRef} className="alert alert-danger" style={{display: 'none'}}>{error}</div>
+            <div ref={errorRef} className="alert alert-danger" style={{display: 'none'}}></div>
             <label className="mt-3">Email:</label>
             <div className="input-group" data-credential-email="">
                 <span className="input-group-text"><MdOutlineMailLock/></span>

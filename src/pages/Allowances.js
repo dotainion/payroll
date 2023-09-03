@@ -7,8 +7,22 @@ import { payload } from "../utils/AddonsPayload";
 import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
 
+const dataG = [
+    {
+        "id":"6c3c4f2f-a31e-42f7-b6f7-9084ebc8816b",
+        "type":"allowance",
+        "attributes":{
+            "hide":false,
+            "name":"frogs",
+            "type":"1",
+            "rate":"h",
+            "rateAmount":"1",
+            "amount":"40"
+        }
+    }
+];
 export const Allowances = () =>{
-    const [allowances, setAllowances] = useState([]);
+    const [allowances, setAllowances] = useState(dataG);
 
     const scrollRef = useRef();
     const closeRef = useRef();
@@ -23,6 +37,7 @@ export const Allowances = () =>{
             addOn.find('input').val('');
             addOn.find('select').each((i, child)=>{
                 $(child).find('option').removeAttr('selected');
+                $(child).find('option[hidden]').attr('selected', 'selected');
             });
             toast.success('Allowance', 'Created');
         }).catch((error)=>{
@@ -32,17 +47,18 @@ export const Allowances = () =>{
     }
 
     const onEdit = (e) =>{
-        const parent = $(e.currentTarget).parent().parent();
+        const parent = $(e.currentTarget).parent().parent().parent();
         const data = payload.addon.build(parent)[0];
         api.allowance.edit(data).then((response)=>{
+            onCloseAllEdit();
             parent.find('[data-read-only]').each((i, child)=>{
+                console.log(child);
                 $(child).find('[data-name]').text(data.name);
                 $(child).find('[data-type]').text(data.type);
                 $(child).find('[data-amount]').text(data.amount);
                 $(child).find('[data-rate]').text(data.rate);
-                $(child).find('[data-rateAmount]').text(data.rateAmount);
+                $(child).find('[data-rate-amount]').text(data.rateAmount);
             });
-            onCloseAllEdit();
             toast.success('Allowance', 'Edited');
         }).catch((error)=>{
             console.log(error);
@@ -104,7 +120,7 @@ export const Allowances = () =>{
             <div className="my-3">
                 <button ref={buttonRef} className="btn btn-info btn-sm">New Allowance +</button>
             </div>
-            <div ref={inputContainerRef} style={{display: 'none'}}>
+            <div className="data-addon-customize" ref={inputContainerRef}>
                 <AddOn/>
                 <div className="my-3">
                     <button onClick={onSave} className="btn btn-sm btn-info px-3">Save</button>
@@ -139,7 +155,7 @@ export const Allowances = () =>{
                             {allow?.attributes?.rate?
                             <div className="d-flex align-items-center w-100 small px-2">
                                 <div className="bg-white text-info border-bottom border-start text-truncate ps-2" style={{width: '150px'}} data-rate="">Rate: {allow?.attributes?.rate}</div>
-                                <div className="bg-white text-info border-bottom border-end text-truncate" style={{width: '150px'}} data-rateAmount="">Amount: {allow?.attributes?.rateAmount}</div>
+                                <div className="bg-white text-info border-bottom border-end text-truncate" style={{width: '150px'}} data-rate-amount="">Amount: {allow?.attributes?.rateAmount}</div>
                             </div>:null}
                         </div>
                         <div className="border border-info p-1 mb-3" data-editable="" style={{display: 'none'}}>

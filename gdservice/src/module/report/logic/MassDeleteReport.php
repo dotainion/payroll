@@ -12,6 +12,7 @@ class MassDeleteReport{
     protected ListSickLeave $listSickLeave;
     protected ListNoPayLeaveAllowance $listNoPayLeaveAllowance;
     protected ListNoPayLeaveDeduction $listNoPayLeaveDeduction;
+    protected ListReportOvertime $listOvertime;
 
     public function __construct(){
         $this->listAllowance = new ListReportAllowances();
@@ -21,25 +22,28 @@ class MassDeleteReport{
         $this->listSickLeave = new ListSickLeave();
         $this->listNoPayLeaveAllowance = new ListNoPayLeaveAllowance();
         $this->listNoPayLeaveDeduction = new ListNoPayLeaveDeduction();
+        $this->listOvertime = new ListReportOvertime();
     }
 
     public function massDeleteIfNotIncluded(
-        Id $id,
+        Id $reportId,
         Collector $rAllowance,
         Collector $rDeduction,
         Collector $reportLoanAllowance,
         Collector $reportLoanDeduction,
         Collector $reportSickLeaves,
         Collector $reportNoPayLeaveAllowances,
-        Collector $reportNoPayLeaveDeductions
+        Collector $reportNoPayLeaveDeductions,
+        Collector $reportOvertime
     ):void{
-        $allowanceCollector = $this->listAllowance->allowancesByReport($id);
-        $deductionCollector = $this->listDeduction->deductionsByReport($id);
-        $loanAllowanceCollector = $this->listLoanAllowance->allowancesByReport($id);
-        $loanDeductionCollector = $this->listLoanDeduction->deductionsByReport($id);
-        $sickCollector = $this->listSickLeave->sickLeaves($id);
-        $noPayLeaveAllowanceCollector = $this->listNoPayLeaveAllowance->payLeaves($id);
-        $noPayLeaveDeductionCollector = $this->listNoPayLeaveDeduction->noPayLeaves($id);
+        $allowanceCollector = $this->listAllowance->allowancesByReport($reportId);
+        $deductionCollector = $this->listDeduction->deductionsByReport($reportId);
+        $loanAllowanceCollector = $this->listLoanAllowance->allowancesByReport($reportId);
+        $loanDeductionCollector = $this->listLoanDeduction->deductionsByReport($reportId);
+        $sickCollector = $this->listSickLeave->sickLeaves($reportId);
+        $noPayLeaveAllowanceCollector = $this->listNoPayLeaveAllowance->payLeaves($reportId);
+        $noPayLeaveDeductionCollector = $this->listNoPayLeaveDeduction->noPayLeaves($reportId);
+        $overtimeCollector = $this->listOvertime->overtimeByReport($reportId);
 
         $allowanceArray = $this->toIdArray($rAllowance);
         foreach($allowanceCollector->list() as $item){
@@ -81,6 +85,12 @@ class MassDeleteReport{
         foreach($noPayLeaveDeductionCollector->list() as $item){
             if(!in_array($item->id()->toString(), $noPayLeaveDeductionArray)){
                 (new DeleteNoPayLeaveDeductionReport())->delete($item->id());
+            }
+        }
+        $overtimeArray = $this->toIdArray($reportOvertime);
+        foreach($overtimeCollector->list() as $item){
+            if(!in_array($item->id()->toString(), $overtimeArray)){
+                (new DeleteReportOvertime())->delete($item->id());
             }
         }
     }

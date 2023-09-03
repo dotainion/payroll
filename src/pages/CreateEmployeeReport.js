@@ -14,6 +14,7 @@ export const CreateEmployeeReport = () =>{
 
     const onSubmit = () =>{
         const data = reportPayload.payload().first();
+        console.log(data);
         api.report.create(data).then((response)=>{
             toast.success(user?.attributes?.name + ' Report', 'Created');
             navigate(routes.workspace().nested().employeePayslip(response.data.data[0].id));

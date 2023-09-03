@@ -16,9 +16,9 @@ export const useAuth = () => useContext(Context);
 const creds = new ChangeCredential();
 export const AuthProvider = ({children}) =>{
     const [user, setUser] = useState();
-    const [business, setBusiness] = useState();
+    const [business, setBusiness] = useState(true);
     const [loading, setLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState();
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const timeoutRef = useRef();
 
@@ -53,6 +53,14 @@ export const AuthProvider = ({children}) =>{
         });
     }
 
+    const updateBusiness = (data) =>{
+        api.admin.editBusiness(data).then((response)=>{
+            setBusiness(response.data.data[0]);
+        }).catch((error)=>{
+            toast.error('Business', error);
+        });
+    }
+
     useEffect(()=>{
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
@@ -80,7 +88,8 @@ export const AuthProvider = ({children}) =>{
         isAuthenticated,
         signout,
         signin,
-        changePassord
+        changePassord,
+        updateBusiness
     }
 
     return(

@@ -1,8 +1,6 @@
 <?php
 namespace src\module\mail\service;
 
-use src\infrastructure\Assert;
-use src\infrastructure\Id;
 use src\infrastructure\Service;
 use src\module\user\logic\FetchUser;
 

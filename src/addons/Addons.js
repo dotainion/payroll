@@ -29,7 +29,7 @@ export const AddOn = ({onRemove, data}) =>{
         const display = $(e.target).find(':selected').text();
         if(display === costTypes?.rate?.name){
             $(rateRef.current).show('fast');
-            $(amountRef.current).attr('placeholder', 'Add rate');
+            $(amountRef.current).attr('placeholder', 'Add rate amount');
         }else{
             $(rateRef.current).hide('fast');
             $(amountRef.current).attr('placeholder', 'Add amount');
@@ -50,9 +50,9 @@ export const AddOn = ({onRemove, data}) =>{
             onRateChange({target: $(addOnRef.current).find('[name=type]')});
             if(!data) return;
             const typeValue = typeHandler.costDisplayToValue(data?.attributes?.type);
-            $('select[name=type]').find(`option[value=${typeValue}]`).attr('selected', 'selected');
+            $(addOnRef.current).find('select[name=type]').find(`option[value=${typeValue}]`).attr('selected', 'selected');
             const rateValue = typeHandler.rateDisplayToValue(data?.attributes?.rate);
-            $('select[name=rate]').find(`option[value=${rateValue}]`).attr('selected', 'selected');
+            $(addOnRef.current).find('select[name=rate]').find(`option[value=${rateValue}]`).attr('selected', 'selected');
         }, 100);
     }, [data, costTypes, rateTypes]);
 

@@ -8,6 +8,7 @@ use src\infrastructure\Service;
 use src\infrastructure\Token;
 use src\module\login\factory\HasCredentialFactory;
 use src\module\login\logic\CreateHasCredential;
+use src\module\mail\logic\RecoveryTemplate;
 use src\module\mail\service\SendMailService;
 use src\module\user\logic\FetchUser;
 
@@ -15,12 +16,14 @@ class AssignCredentialService extends Service{
     protected FetchUser $fetch;
     protected HasCredentialFactory $factory;
     protected CreateHasCredential $credential;
+    protected RecoveryTemplate $template;
 
     public function __construct(){
         parent::__construct(false);
         $this->fetch = new FetchUser();
         $this->factory = new HasCredentialFactory();
         $this->credential = new CreateHasCredential();
+        $this->template = new RecoveryTemplate();
     }
     
     public function process($id){
@@ -37,21 +40,12 @@ class AssignCredentialService extends Service{
 
         $user = $this->fetch->user($userId);
 
-        $domainName = $_SERVER['SERVER_NAME'];
-        $route = '/update/credential/by/token/';
-        $refreshToken = $credential->refreshToken();
-        $dir = '/gdbuild';
+        $this->template->setToken($credential->refreshToken());
 
-        $body = '
-            <h2><b>Pay Roll Application</b></h2>
-            <a href="'.$domainName.$dir.'/#'.$route.$refreshToken.'">Click here to accept access to this platform and create a password</a>
-        ';
-
-        $service = (new SendMailService())->process('Credentials', $body, [[
+        $service = (new SendMailService())->process('Credentials', $this->template->assignCredential(), [[
             'userId' => $user->first()->id()->toString(),
             'recipient' => $user->first()->email(),
         ]]);
-
 
         $this->credential->create($credential);
         

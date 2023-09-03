@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { routes } from "./routes";
 import { SettingsLayout } from "../layout/SettingsLayout";
-import { Profile } from "../pages/Profile";
+import { BusinessProfile } from "../pages/BusinessProfile";
 import { Security } from "../pages/Security";
 import { Notifications } from "../pages/Notifications";
 import { Allowances } from "../pages/Allowances";
@@ -15,7 +15,7 @@ export const SettingsRouter = () =>{
     return(
         <SettingsLayout>
             <Routes>
-                <Route path={routes.settings().profile()} element={<Profile/>}/>
+                <Route path={routes.settings().profile()} element={<BusinessProfile/>}/>
                 <Route path={routes.settings().security()} element={<Security/>}/>
                 <Route path={routes.settings().notifications()} element={<Notifications/>}/>
                 <Route path={routes.settings().allowances()} element={<Allowances/>}/>

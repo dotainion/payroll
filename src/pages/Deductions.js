@@ -23,6 +23,7 @@ export const Deductions = () =>{
             addOn.find('input').val('');
             addOn.find('select').each((i, child)=>{
                 $(child).find('option').removeAttr('selected');
+                $(child).find('option[hidden]').attr('selected', 'selected');
             });
             toast.success('Deduction', 'Created');
         }).catch((error)=>{
@@ -43,17 +44,17 @@ export const Deductions = () =>{
     }
 
     const onEdit = (e) =>{
-        const parent = $(e.currentTarget).parent().parent();
+        const parent = $(e.currentTarget).parent().parent().parent();
         const data = payload.addon.build(parent)[0];
         api.allowance.edit(data).then((response)=>{
+            onCloseAllEdit();
             parent.find('[data-read-only]').each((i, child)=>{
                 $(child).find('[data-name]').text(data.name);
                 $(child).find('[data-type]').text(data.type);
                 $(child).find('[data-amount]').text(data.amount);
                 $(child).find('[data-rate]').text(data.rate);
-                $(child).find('[data-rateAmount]').text(data.rateAmount);
+                $(child).find('[data-rate-amount]').text(data.rateAmount);
             });
-            onCloseAllEdit();
             toast.success('Deduction', 'Edited');
         }).catch((error)=>{
             console.log(error);
@@ -103,7 +104,7 @@ export const Deductions = () =>{
             <div className="my-3">
                 <button ref={buttonRef} className="btn btn-info btn-sm">New Allowance +</button>
             </div>
-            <div ref={inputContainerRef} style={{display: 'none'}}>
+            <div className="data-addon-customize" ref={inputContainerRef}>
                 <AddOn/>
                 <div className="my-3">
                     <button onClick={onSave} className="btn btn-sm btn-info px-3">Save</button>
@@ -138,7 +139,7 @@ export const Deductions = () =>{
                             {deduct?.attributes?.rate?
                             <div className="d-flex align-items-center w-100 small px-2">
                                 <div className="bg-white text-info border-bottom border-start text-truncate" style={{width: '150px'}} data-rate="">Rate: {deduct?.attributes?.rate}</div>
-                                <div className="bg-white text-info border-bottom border-end text-truncate" style={{width: '150px'}} data-rateAmount="">Amount: {deduct?.attributes?.rateAmount}</div>
+                                <div className="bg-white text-info border-bottom border-end text-truncate" style={{width: '150px'}} data-rate-amount="">Amount: {deduct?.attributes?.rateAmount}</div>
                             </div>:null}
                         </div>
                         <div className="border border-info p-1 mb-3" data-editable="" style={{display: 'none'}}>

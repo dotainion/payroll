@@ -105,7 +105,7 @@ class ReportPayload{
 
     sickLeave(instance){
         let data = [];
-        $(instance).find('[data-report-sickleaves]').each((i, addon)=>{
+        $(instance).find('[data-report-sickleaves]').find('[data-sick-leave-addon]').each((i, addon)=>{
             let json = {};
             if(!$(addon).find('[name=from]')[0].valueAsDate) json['from'] = '';
             else json['from'] = new DateHelper($(addon).find('[name=from]')[0].valueAsDate).toSqlString();
@@ -119,11 +119,38 @@ class ReportPayload{
         return data;
     }
 
+    overtime(instance){
+        let data = [];
+        $(instance).find('[data-report-allowances]').find('[data-overtime]').each((i, addon)=>{
+            let json = {};
+            json['id'] = $(addon).find('[name=id]').val();
+            json['name'] = $(addon).find('[name=name]').val();
+            json['rate'] = $(addon).find('[name=rate]').val();
+            json['hours'] = $(addon).find('[name=hours]').val();
+            json['amount'] = $(addon).find('[name=amount]').val();
+            data.push(json);
+        });
+        return data;
+    }
+
+    period(instance){
+        let json = {};
+        $(instance).find('[data-report-period]').each((i, addon)=>{
+            if(!$(addon).find('[name=from]')[0].valueAsDate) json['from'] = '';
+            else json['from'] = new DateHelper($(addon).find('[name=from]')[0].valueAsDate).toSqlString();
+            if(!$(addon).find('[name=to]')[0].valueAsDate) json['to'] = '';
+            else json['to'] = new DateHelper($(addon).find('[name=to]')[0].valueAsDate).toSqlString();
+        });
+        return json;
+    }
+
     payload(){
         this.reset();
         $('[data-report-instance]').each((i, instance)=>{
             let data = {};
             data['id'] = $(instance).find('input[name=userId]').val();
+            data['period'] = this.period(instance);
+            data['overtime'] = this.overtime(instance);
             data['allowance'] = this.allowances(instance);
             data['deduction'] = this.deductions(instance);
             data['sickLeaves'] = this.sickLeave(instance);

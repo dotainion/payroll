@@ -36,8 +36,8 @@ class BusinessRepository extends Repository{
             ->set('city', $business->city())
             ->set('state', $business->state())
             ->set('address', $business->address())
-            ->set('date', $business->date())
-            ->add('hide', (int)$business->hide())
+            //->set('date', $business->date())
+            ->set('hide', (int)$business->hide())
             ->set('isOrganization', $business->isOrganization())
             ->where('id', $this->uuid($business->id()));
         $this->execute();

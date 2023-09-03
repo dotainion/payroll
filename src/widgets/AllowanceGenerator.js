@@ -7,8 +7,9 @@ import { NoPayLeaveAddOn, NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAd
 import { api } from "../request/Api";
 import { MdAdd } from 'react-icons/md';
 import { toast } from "../utils/Toast";
+import { ExistingOvertimeAddOn, OvertimeAddOn } from "../addons/OvertimeAddOn";
 
-export const AllowanceGenerator = ({loanAllowances, banks, onRemove, existingAllowances}) =>{
+export const AllowanceGenerator = ({user, loanAllowances, banks, onRemove, existingAllowances}) =>{
     const [allowance, setAllowance] = useState([]);
     const [avilableAllowance, setAvailableAllowance] = useState([]);
 
@@ -36,6 +37,14 @@ export const AllowanceGenerator = ({loanAllowances, banks, onRemove, existingAll
         setAllowance((allows)=>[...allows, {component: NoPayLeaveAddOnExisting, data: data}]);
     }
 
+    const onCreateOvertime = () =>{
+        setAllowance((allows)=>[...allows, {component: OvertimeAddOn}]);
+    }
+
+    const onSelectOvertime = (data) =>{
+        setAllowance((allows)=>[...allows, {component: ExistingOvertimeAddOn, data: data}]);
+    }
+
     useEffect(()=>{
         if(!existingAllowances?.length) return;
         setAllowance((ext)=>[...ext, ...existingAllowances]);
@@ -54,7 +63,7 @@ export const AllowanceGenerator = ({loanAllowances, banks, onRemove, existingAll
             <div className="d-inline-block">
                 <div data-report-allowances="">
                     {allowance.map((card, key)=>(
-                        <card.component data={card.data} onRemove={onRemove} banks={banks} key={key} />
+                        <card.component data={card.data} onRemove={onRemove} banks={banks} user={user} key={key} />
                     ))}
                 </div>
                 <div className="text-end p-3">
@@ -98,6 +107,21 @@ export const AllowanceGenerator = ({loanAllowances, banks, onRemove, existingAll
                                         loanAllowances?.length?
                                         loanAllowances?.map((allow, key)=>(
                                             <Dropdown.Item onClick={(e)=>onSelectLoan?.(allow, e)} as="button" key={key}>{allow?.attributes?.name}</Dropdown.Item>
+                                        )):<div className="px-3 small text-center text-white bg-primary">No Records</div>
+                                    }
+                                </div>
+                            </Dropdown.Menu>
+                        </Dropdown>
+
+                        <Dropdown as={ButtonGroup} size="sm">
+                            <Button onClick={onCreateOvertime}><span className="me-2">Over Time</span><MdAdd/></Button>
+                            <Dropdown.Toggle split variant="primary"/>
+                            <Dropdown.Menu className="super-colors">
+                                <div className="overflow-auto" style={{maxHeight: '300px'}}>
+                                    {
+                                        []?.length?
+                                        []?.map((allow, key)=>(
+                                            <Dropdown.Item onClick={(e)=>onSelectOvertime?.(allow, e)} as="button" key={key}>{allow?.attributes?.name}</Dropdown.Item>
                                         )):<div className="px-3 small text-center text-white bg-primary">No Records</div>
                                     }
                                 </div>

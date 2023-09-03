@@ -21,8 +21,10 @@ class CreateBulkReportService extends Service{
                 $report['loanAllowances'],
                 $report['loanDeductions'],
                 $report['sickLeaves'],
+                $report['overtime'],
                 $report['noPayLeaveAllowances'],
                 $report['noPayLeaveDeductions'],
+                $report['period']
             );
         }
         if($this->stopExecution){

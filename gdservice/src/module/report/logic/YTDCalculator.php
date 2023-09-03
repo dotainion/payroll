@@ -10,6 +10,7 @@ use src\module\report\repository\LoanAllowanceRepository;
 use src\module\report\repository\LoanDeductionRepository;
 use src\module\report\repository\NoPayLeaveAllowanceRepository;
 use src\module\report\repository\NoPayLeaveDeductionRepository;
+use src\module\report\repository\OvertimeRepository;
 use src\module\report\repository\ReportRepository;
 use src\module\report\repository\SickLeaveRepository;
 
@@ -22,6 +23,7 @@ class YTDCalculator{
     protected SickLeaveRepository $sickLeave;
     protected NoPayLeaveAllowanceRepository $payLeave;
     protected NoPayLeaveDeductionRepository $noPayLeave;
+    protected OvertimeRepository $overtime;
 
     public function __construct(){
         $this->repo = new ReportRepository();
@@ -32,6 +34,7 @@ class YTDCalculator{
         $this->sickLeave = new SickLeaveRepository();
         $this->payLeave = new NoPayLeaveAllowanceRepository();
         $this->noPayLeave = new NoPayLeaveDeductionRepository();
+        $this->overtime = new OvertimeRepository();
     }
 
     private function _startDateTime():string{
@@ -167,6 +170,23 @@ class YTDCalculator{
             $ytd = 0;
             foreach($collector->list() as $noPayLeave){
                 $ytd = $ytd + (float)$noPayLeave->amount();
+            }
+            $item->setYtd($ytd);
+        }
+    }
+
+    public function calculateOvertimeYTD(Collector $collector, Id $userId):void{
+        foreach($collector->list() as $item){
+            $collector = $this->overtime->listOvertime([
+                'hide' => false,
+                'userId' => $userId,
+                'name' => $item->name(),
+                'from' => $this->_startDateTime(),
+                'to' => $item->date()->toString()
+            ]);
+            $ytd = 0;
+            foreach($collector->list() as $overtime){
+                $ytd = $ytd + (float)$overtime->totalAmount();
             }
             $item->setYtd($ytd);
         }

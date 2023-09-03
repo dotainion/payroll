@@ -7,6 +7,7 @@ export const LoanAddOn = ({onRemove, data, banks}) =>{
     const timeoutRef = useRef();
     
     const idRef = useRef();
+    const addOnRef = useRef();
 
     const remove = (e) =>{
         if(data){
@@ -21,13 +22,13 @@ export const LoanAddOn = ({onRemove, data, banks}) =>{
         if(!data) return;
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
-            $('select[name=bank]').find(`option:contains("${data?.attributes?.name}")`).attr('selected', 'selected');
+            $(addOnRef.current).find('select[name=bank]').find(`option:contains("${data?.attributes?.name}")`).attr('selected', 'selected');
         }, 100);
         console.log(banks);
     }, [data, banks]);
 
     return(
-        <div className="w-100 mb-2" data-loan="">
+        <div ref={addOnRef} className="w-100 mb-2" data-loan="">
             <div className="allowance-row border m-3 text-nowrap">
                 <div className="input-group">
                     <span className="input-group-text"><PiBankFill/></span>

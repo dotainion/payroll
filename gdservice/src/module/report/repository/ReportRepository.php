@@ -23,7 +23,9 @@ class ReportRepository extends Repository{
             ->add('totalDeduction', $report->totalDeduction())
             ->add('totalAllowance', $report->totalAllowance())
             ->add('totalSalary', $report->totalSalary())
-            ->add('netSalary', $report->netSalary());
+            ->add('netSalary', $report->netSalary())
+            ->add('periodFrom', $report->periodFrom())
+            ->add('periodTo', $report->periodTo());
         $this->execute();
     }
     
@@ -36,6 +38,8 @@ class ReportRepository extends Repository{
             ->set('totalAllowance', $report->totalAllowance())
             ->set('totalSalary', $report->totalSalary())
             ->set('netSalary', $report->netSalary())
+            ->set('periodFrom', $report->periodFrom())
+            ->set('periodTo', $report->periodTo())
             ->where('reportId', $this->uuid($report->id()));
         $this->execute();
     }

@@ -6,10 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../router/routes";
 
 export const EditEmployee = () =>{
+    const navigate = useNavigate();
     
     const onEdit = (data) =>{
         api.user.edit(data).then((response)=>{
             toast.success( response?.data?.data[0]?.attributes?.name, 'Updated');
+            navigate(routes.workspace().nested().employees());
         }).catch((error)=>{
             toast.error('Employee', error);
         });

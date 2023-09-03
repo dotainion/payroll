@@ -7,6 +7,10 @@ export class Authenticate{
         return await this.api.post('/signin', {email, password});
     }
 
+    async recoverAccount(email){
+        return await this.api.post('/recover/account', {email});
+    }
+
     async changePassword(id, currentPassword, password){
         return await this.api.post('/update/credential', {id, currentPassword, password});
     }

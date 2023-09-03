@@ -127,7 +127,7 @@ export const Settings = () =>{
                         <div className="bg-light p-2 mb-2">Sick leave days amount</div>
                         <div className="input-group" style={{width: '200px'}}>
                             <span className="input-group-text"><FaCalendarDays/></span>
-                            <input onChange={onSaveSickLeave} ref={daysRef} className="form-control shadow-none" placeholder="0.00" type="number"/>
+                            <input onChange={onSaveSickLeave} ref={daysRef} className="form-control shadow-none" placeholder="0" type="number"/>
                             <span className="input-group-text">days</span>
                         </div>
                     </li>

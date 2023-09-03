@@ -21,8 +21,10 @@ class CreateReportAction extends Request implements IAction{
             $this->get('loanAllowances'),
             $this->get('loanDeductions'),
             $this->get('sickLeaves'),
+            $this->get('overtime'),
             $this->get('noPayLeaveAllowances'),
-            $this->get('noPayLeaveDeductions')
+            $this->get('noPayLeaveDeductions'),
+            $this->get('period')
         );
     }
 }
