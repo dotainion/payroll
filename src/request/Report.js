@@ -34,4 +34,8 @@ export class Report{
     async searchByDate(from, to){
         return await this.api.get('/search/bulk/reports/by/date', {from, to});
     }
+
+    async listPeriods(){
+        return await this.api.get('/list/periods', null);
+    }
 }

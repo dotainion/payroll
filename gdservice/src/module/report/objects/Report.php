@@ -63,6 +63,10 @@ class Report implements IObjects{
         return $this->totalSalary;
     }
 
+    public function net(){
+        return $this->netSalary();
+    }
+
     public function netSalary():string{
         return $this->netSalary;
     }

@@ -12,6 +12,7 @@ import { FaCalendarDays } from 'react-icons/fa6';
 import { api } from "../request/Api";
 
 export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
+    const [periods, setPeriods] = useState([]);
     const [departments, setDepartments] = useState([]);
 
     const containerRef = useRef();
@@ -42,10 +43,17 @@ export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
             $(fromRef.current).addClass('border border-danger');
             return $(toRef.current).addClass('border border-danger');
         }
+        $(searchByDateOverlayRef.current).hide('fast');
         onDateSearch?.({
             from: fromRef.current.valueAsDate,
             to: toRef.current.valueAsDate
         });
+    }
+
+    const onPeriodSelect = (period) =>{
+        fromRef.current.value = period?.attributes?.from;
+        toRef.current.value = period?.attributes?.to;
+        onSearchByDate();
     }
 
     const onTriggerTyping = (e) =>{
@@ -92,10 +100,16 @@ export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
     }
 
     useEffect(()=>{
-        //$('[data-overlay]').click((e)=>e.stopPropagation());
         $(window).click(()=>onClose());
+        
         api.department.list().then((response)=>{
             setDepartments(response.data.data);
+        }).catch((error)=>{
+            console.log(error);
+        });
+
+        api.report.listPeriods().then((response)=>{
+            setPeriods(response.data.data);
         }).catch((error)=>{
             console.log(error);
         });
@@ -111,7 +125,7 @@ export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
                     <div className="d-flex align-items-center">
                         {onDateSearch && <button onClick={onShowSerchByDate} className="d-flex position-relative align-items-center border-end-0">
                             <FaCalendarDays className="m-1"/>
-                            <div ref={searchByDateOverlayRef} className="top-0 mt-5 pt-4 arrow-up position-absolute bg-white shadow text-nowrap text-start rounded-3" data-overlay="" style={{display: 'none', zIndex: '9999999999999999'}}>
+                            <div ref={searchByDateOverlayRef} className="top-0 mt-5 pt-4 arrow-up position-absolute bg-white shadow text-nowrap text-start rounded-3" data-overlay="" style={{display: 'none', zIndex: '9999999999999999'}} onClick={(e)=>e.stopPropagation()}>
                                 <div className="d-flex align-items-center px-3 pb-1">
                                     <div>
                                         <small>From</small>
@@ -122,13 +136,21 @@ export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
                                         <input ref={toRef} onChange={onSearchByDate} className="form-control shadow-none ms-1" type="date" onClick={(e)=>$(e.target).focus()} />
                                     </div>
                                 </div>
+                                <div>
+                                    {periods.map((period, key)=>(
+                                        <div onClick={()=>onPeriodSelect(period)} className="d-flex align-items-center list-item px-3 py-1" key={key}>
+                                            <div className="w-50">{period?.attributes?.from}</div>
+                                            <div className="w-50">{period?.attributes?.to}</div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </button>}
                         <button onClick={onShowFilter} className="d-flex position-relative align-items-center border-end-0" type="button">
                             <span>Filter by department</span>
                             <RiArrowDownSLine className="ms-1"/>
                             <div ref={filterOverlayRef} className="top-0 mt-5 pt-4 arrow-up position-absolute bg-white shadow text-nowrap text-start rounded-3" data-overlay="" style={{display: 'none', zIndex: '9999999999999999'}}>
-                                <div onClick={(e)=>onTriggerFilter(e, {attributes: {name: ''}})} className="px-3 pb-1 border-bottom">Departments</div>
+                                <div onClick={(e)=>onTriggerFilter(e, {attributes: {name: ''}})} className="px-3 pb-1 border-bottom">Departments <span className="text-primary">*</span></div>
                                 {departments.map((dept, key)=>(
                                     <div onClick={(e)=>onTriggerFilter(e, dept)} className="list-item" key={key}>{dept?.attributes?.name}</div>
                                 ))}

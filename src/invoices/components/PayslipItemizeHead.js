@@ -22,18 +22,20 @@ export const PayslipItemizeHead = ({report}) =>{
 
 
             <div className="d-flex w-100">
-                <div className="w-100">
+                <div className="d-flex align-items-center w-100">
                     <div className="me-3">Cagegory:</div>
                     <div className="fw-bold">ITEMIZE REPORT</div>
                 </div>
             </div>
 
             <div className="d-flex w-100 mb-3">
-                <div className="w-100">
-                    <div className="me-3">Period Ended:</div>
-                    <div className="fw-bold">{report?.attributes?.date?.split?.(' ')?.[0]}</div>
+                <div className="d-flex align-items-center w-100">
+                    <div className="me-3">Period:</div>
+                    <div className="fw-bold">{report?.attributes?.periodFrom?.split?.(' ')?.[0]}</div>
+                    <div className="mx-2">-</div>
+                    <div className="fw-bold">{report?.attributes?.periodTo?.split?.(' ')?.[0]}</div>
                 </div>
-                <div className="w-100">
+                <div className="d-flex align-items-center w-100">
                     <div className="me-3">Payroll Set:</div>
                     <div className="fw-bold">MONTHLY PAYROLL</div>
                 </div>

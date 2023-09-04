@@ -85,7 +85,7 @@ export const PayslipItemize = ({reports}) =>{
                                 <tr key={key2}>
                                     <td>{item?.attributes?.name}</td>
                                     <td>{item?.attributes?.rate}</td>
-                                    <td>{item?.attributes?.amount}</td>
+                                    <td>{item?.attributes?.net}</td>
                                     <td>{item?.attributes?.ytd}</td>
                                 </tr>
                             ))}

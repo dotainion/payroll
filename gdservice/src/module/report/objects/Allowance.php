@@ -36,6 +36,10 @@ class Allowance implements IObjects{
     public function ytd():?string{
         return $this->ytd;
     }
+        
+    public function net(){
+        return $this->totalAmount();
+    }
 
     public function name(){
         return $this->name;

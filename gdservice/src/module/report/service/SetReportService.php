@@ -58,8 +58,8 @@ class SetReportService extends Service{
         $period
     ){
         Assert::validUuid($reportId, 'Report not found.');
-        Assert::validDate($period['from'], 'Invlid periord date.');
-        Assert::validDate($period['to'], 'Invlid periord date.');
+        Assert::validDate($period['from'], 'Invlaid periord date.');
+        Assert::validDate($period['to'], 'Invalid periord date.');
 
         $reportId = (new Id())->set($reportId);
 

@@ -48,6 +48,7 @@ use src\module\report\action\ListBulkReportAction;
 use src\module\report\action\ListBulkReportBySpecifyReportIdsAction;
 use src\module\report\action\ListLoanAllowanceReportByUserAction;
 use src\module\report\action\ListLoanDeductionReportByUserAction;
+use src\module\report\action\ListReportPeriodsAction;
 use src\module\report\action\ListUserReportAction;
 use src\module\report\action\SearchBulkReportByDateAction;
 use src\module\settings\action\FetchSickLeaveSettingsAction;
@@ -299,6 +300,10 @@ class Router{
 
         $this->request->route('/set/sickleave/settings', function ($req){
             return new SetSickLeaveSettingsAction();
+        });
+
+        $this->request->route('/list/periods', function ($req){
+            return new ListReportPeriodsAction();
         });
     }
 

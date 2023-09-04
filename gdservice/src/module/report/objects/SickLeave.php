@@ -57,6 +57,10 @@ class SickLeave implements IObjects{
         return $this->fileId;
     }
         
+    public function net(){
+        return $this->amount();
+    }
+        
     public function date():DateHelper{
         return $this->date;
     }

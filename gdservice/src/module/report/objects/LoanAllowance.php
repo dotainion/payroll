@@ -33,6 +33,10 @@ class LoanAllowance implements IObjects{
         return $this->id;
     }
         
+    public function net(){
+        return $this->amount();
+    }
+        
     public function userId():IId{
         return $this->userId;
     }

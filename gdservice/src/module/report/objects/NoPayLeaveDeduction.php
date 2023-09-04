@@ -72,6 +72,10 @@ class NoPayLeaveDeduction implements IObjects{
     public function amount(){
         return $this->amount;
     }
+        
+    public function net(){
+        return $this->amount();
+    }
 
     public function setId(string $id):void{
         $this->id->set($id);

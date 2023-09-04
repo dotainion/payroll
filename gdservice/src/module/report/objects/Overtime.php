@@ -61,6 +61,10 @@ class Overtime implements IObjects{
     public function hide():bool{
         return $this->hide;
     }
+        
+    public function net(){
+        return $this->totalAmount();
+    }
     
     public function amount(){
         return $this->amount;

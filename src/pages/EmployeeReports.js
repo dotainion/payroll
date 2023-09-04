@@ -37,7 +37,7 @@ export const EmployeeReports = () =>{
 
     return(
         <div>
-            <Pagination beginChildren={<CollapseButton user={user} onClick={()=>setCollapse(!collapse)}/>} title={'Reports: ' + user?.attributes?.name}>
+            <Pagination beginChildren={<CollapseButton user={user} onClick={()=>setCollapse(!collapse)} isActive={collapse}/>} title={'Reports: ' + user?.attributes?.name}>
                 <div>
                     <table className="p-3 table table-white table-striped table-bordered text-nowrap">
                         <thead>
@@ -81,11 +81,11 @@ export const EmployeeReports = () =>{
     )
 }
 
-export const CollapseButton = ({user, onClick}) =>{
+export const CollapseButton = ({isActive, user, onClick}) =>{
     return(
         <div className="d-flex align-items-center mt-2">
             <Tooltip title={'Collapse details'}>
-                <button onClick={onClick} className=" btn btn-sm btn-outline-primary py-1 px-2">Collapse</button>
+                <button onClick={onClick} className=" btn btn-sm btn-outline-primary py-1 px-2">{isActive? 'Collaps': 'Expand'}</button>
             </Tooltip>
             <div className="ms-5">ID: <span className="fw-bold">{user?.attributes?.userId}</span></div>
         </div>

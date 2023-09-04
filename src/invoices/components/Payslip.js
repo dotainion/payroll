@@ -26,7 +26,7 @@ export const Payslip = ({report}) =>{
                         <tr key={key}>
                             <td>{item?.attributes?.name}</td>
                             <td>{item?.attributes?.rate}</td>
-                            <td>{item?.attributes?.amount}</td>
+                            <td>{item?.attributes?.net}</td>
                             <td>{item?.attributes?.ytd}</td>
                         </tr>
                     ))}
@@ -47,7 +47,7 @@ export const Payslip = ({report}) =>{
                         <tr key={key}>
                             <td>{item?.attributes?.name}</td>
                             <td>{item?.attributes?.rate}</td>
-                            <td>{item?.attributes?.amount}</td>
+                            <td>{item?.attributes?.net}</td>
                             <td>{item?.attributes?.ytd}</td>
                         </tr>
                     ))}
@@ -74,7 +74,7 @@ export const Payslip = ({report}) =>{
                     </tr>
                     <tr className="border-0">
                         <td className="border-0" colSpan={3}></td>
-                        <td className="border-0"><b>{report?.attributes?.totalSalary}</b></td>
+                        <td className="border-0"><b>{report?.attributes?.netSalary}</b></td>
                         <td className="border-0"><b>{report?.attributes?.ytd}</b></td>
                     </tr>
                 </tbody>

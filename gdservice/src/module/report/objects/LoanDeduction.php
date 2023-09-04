@@ -40,6 +40,10 @@ class LoanDeduction implements IObjects{
     public function ytd():?string{
         return $this->ytd;
     }
+        
+    public function net(){
+        return $this->amount();
+    }
 
     public function name(){
         return $this->name;

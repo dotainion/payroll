@@ -38,18 +38,18 @@ export const OvertimeAddOn = ({onRemove, user, data}) =>{
     return(
         <div ref={addOnRef} className="w-100" data-overtime="">
             <div className="allowance-row border m-3">
-                <input className="form-control shadow-none border-0" name="name" defaultValue={data?.attributes?.name || 'Over Time'} placeholder="Name of action"/>
+                <input className="form-control shadow-none border-0" name="name" defaultValue={data?.attributes?.name || 'Overtime'} placeholder="Name of action"/>
                 <div className="d-flex align-items-center mt-2">
                     <div className="input-group">
                         <span className="input-group-text"><MdOutlineStart/></span>
-                        <input ref={rateRef} className="form-control shadow-none" name="rate" defaultValue={data?.attributes?.amount} placeholder="1.5" type="number"/>
+                        <input ref={rateRef} className="form-control shadow-none" name="rate" defaultValue={data?.attributes?.rate} placeholder="1.5" type="number"/>
                         <span className="input-group-text w-25">Rate</span>
                     </div>
                 </div>
                 <div className="d-flex align-items-center mt-2">
                     <div className="input-group">
                         <span className="input-group-text"><FaRegClock/></span>
-                        <input ref={hoursRef} className="form-control shadow-none" name="hours" defaultValue={data?.attributes?.amount || 1} placeholder="1 Hours" type="number"/>
+                        <input ref={hoursRef} className="form-control shadow-none" name="hours" defaultValue={data?.attributes?.hours || 1} placeholder="1 Hours" type="number"/>
                         <span className="input-group-text w-25">Hours</span>
                     </div>
                 </div>

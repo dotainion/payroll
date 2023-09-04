@@ -40,7 +40,7 @@ const ColumnRow = ({item}) =>{
     return(
         <div className="d-flex align-items-center w-100 small">
             <div className="w-100 text-truncate">{item?.attributes?.name}</div>
-            <div className="fw-bold ms-1"><span>$</span>{item?.attributes?.amount}</div>
+            <div className="fw-bold ms-1"><span>$</span>{item?.attributes?.net}</div>
         </div>
     )
 }
