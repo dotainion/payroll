@@ -9,7 +9,7 @@ import { MdAdd } from 'react-icons/md';
 import { toast } from "../utils/Toast";
 import { ExistingOvertimeAddOn, OvertimeAddOn } from "../addons/OvertimeAddOn";
 
-export const AllowanceGenerator = ({user, loanAllowances, banks, onRemove, existingAllowances}) =>{
+export const AllowanceGenerator = ({user, loanAllowances, banks, existingAllowances}) =>{
     const [allowance, setAllowance] = useState([]);
     const [avilableAllowance, setAvailableAllowance] = useState([]);
 
@@ -18,6 +18,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, onRemove, exist
     }
 
     const onSelect = (data) =>{
+        data.id = null;
         setAllowance((allows)=>[...allows, {component: ExistingAddOn, data: data}]);
     }
 
@@ -26,6 +27,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, onRemove, exist
     }
 
     const onSelectLoan = (data) =>{
+        data.id = null;
         setAllowance((allows)=>[...allows, {component: LoanAddOnExisting, data: data}]);
     }
 
@@ -34,6 +36,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, onRemove, exist
     }
 
     const onSelectNoPayLeave = (data) =>{
+        data.id = null;
         setAllowance((allows)=>[...allows, {component: NoPayLeaveAddOnExisting, data: data}]);
     }
 
@@ -42,6 +45,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, onRemove, exist
     }
 
     const onSelectOvertime = (data) =>{
+        data.id = null;
         setAllowance((allows)=>[...allows, {component: ExistingOvertimeAddOn, data: data}]);
     }
 
@@ -63,7 +67,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, onRemove, exist
             <div className="d-inline-block">
                 <div data-report-allowances="">
                     {allowance.map((card, key)=>(
-                        <card.component data={card.data} onRemove={onRemove} banks={banks} user={user} key={key} />
+                        <card.component data={card.data} banks={banks} user={user} key={key} />
                     ))}
                 </div>
                 <div className="text-end p-3">

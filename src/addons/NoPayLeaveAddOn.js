@@ -6,7 +6,7 @@ import $ from 'jquery';
 import { FaDollarSign } from "react-icons/fa";
 import { DateHelper } from "../utils/DateHelper";
 
-export const NoPayLeaveAddOn = ({onRemove, data}) =>{
+export const NoPayLeaveAddOn = ({data}) =>{
     const fileRef = useRef();
     const dropRef = useRef();
     
@@ -15,12 +15,7 @@ export const NoPayLeaveAddOn = ({onRemove, data}) =>{
     const toRef = useRef();
 
     const remove = (e) =>{
-        if(data){
-            const currentTarget = e.currentTarget;
-            onRemove?.(()=>$(currentTarget).parent().parent().remove(), $(idRef.current).val());
-        }else{
-            $(e.currentTarget).parent().parent().remove();
-        }
+        $(e.currentTarget).parent().parent().remove();
     }
 
     useEffect(()=>{
@@ -89,8 +84,8 @@ export const NoPayLeaveAddOn = ({onRemove, data}) =>{
 }
 
 
-export const NoPayLeaveAddOnExisting = ({onRemove, data}) =>{
+export const NoPayLeaveAddOnExisting = ({data}) =>{
     return(
-        <NoPayLeaveAddOn data={data} onRemove={onRemove} />
+        <NoPayLeaveAddOn data={data} />
     )
 }

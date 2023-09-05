@@ -10,9 +10,15 @@ import { GoWorkflow } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
 import { FaCalendarDays } from 'react-icons/fa6';
 import { api } from "../request/Api";
+import { BsDashLg } from "react-icons/bs";
 
 export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
-    const [periods, setPeriods] = useState([]);
+    const [periods, setPeriods] = useState([{
+        attributes: {
+            from: '2023-09-01 12:01:25',
+            to: '2023-09-01 12:01:25'
+        }
+    }]);
     const [departments, setDepartments] = useState([]);
 
     const containerRef = useRef();
@@ -51,8 +57,8 @@ export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
     }
 
     const onPeriodSelect = (period) =>{
-        fromRef.current.value = period?.attributes?.from;
-        toRef.current.value = period?.attributes?.to;
+        fromRef.current.value = period?.attributes?.from?.split(' ')?.[0];
+        toRef.current.value = period?.attributes?.to?.split(' ')?.[0];
         onSearchByDate();
     }
 
@@ -139,8 +145,9 @@ export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
                                 <div>
                                     {periods.map((period, key)=>(
                                         <div onClick={()=>onPeriodSelect(period)} className="d-flex align-items-center list-item px-3 py-1" key={key}>
-                                            <div className="w-50">{period?.attributes?.from}</div>
-                                            <div className="w-50">{period?.attributes?.to}</div>
+                                            <div className="w-50 text-end">{period?.attributes?.from?.split(' ')?.[0]}</div>
+                                            <div className="mx-3"><BsDashLg/></div>
+                                            <div className="w-50 text-start">{period?.attributes?.to?.split(' ')?.[0]}</div>
                                         </div>
                                     ))}
                                 </div>

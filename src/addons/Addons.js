@@ -5,7 +5,7 @@ import { CostTypeAndRateHandler } from "../utils/CostTypeAndRateHandler";
 import $ from 'jquery';
 
 const typeHandler = new CostTypeAndRateHandler();
-export const AddOn = ({onRemove, data}) =>{
+export const AddOn = ({data}) =>{
     const { costTypes, rateTypes } = useDocument();
     
     const idRef = useRef();
@@ -17,12 +17,7 @@ export const AddOn = ({onRemove, data}) =>{
     const amountRef = useRef();
 
     const remove = (e) =>{
-        if(data){
-            const currentTarget = e.currentTarget;
-            onRemove?.(()=>$(currentTarget).parent().parent().remove(), $(idRef.current).val());
-        }else{
-            $(e.currentTarget).parent().parent().remove();
-        }
+        $(e.currentTarget).parent().parent().remove();
     }
     
     const onRateChange = (e) =>{
@@ -99,11 +94,11 @@ export const AddOn = ({onRemove, data}) =>{
 }
 
 
-export const ExistingAddOn = ({onRemove, data}) =>{
+export const ExistingAddOn = ({data}) =>{
     useEffect(()=>{
         
     }, []);
     return(
-        <AddOn data={data} onRemove={onRemove}/>
+        <AddOn data={data}/>
     )
 }

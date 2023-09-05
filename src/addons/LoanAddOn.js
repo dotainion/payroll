@@ -3,19 +3,14 @@ import { IoClose } from "react-icons/io5";
 import { PiBankFill } from "react-icons/pi";
 import $ from 'jquery';
 
-export const LoanAddOn = ({onRemove, data, banks}) =>{
+export const LoanAddOn = ({data, banks}) =>{
     const timeoutRef = useRef();
     
     const idRef = useRef();
     const addOnRef = useRef();
 
     const remove = (e) =>{
-        if(data){
-            const currentTarget = e.currentTarget;
-            onRemove?.(()=>$(currentTarget).parent().parent().remove(), $(idRef.current).val());
-        }else{
-            $(e.currentTarget).parent().parent().remove();
-        }
+        $(e.currentTarget).parent().parent().remove();
     }
 
     useEffect(()=>{
@@ -53,13 +48,13 @@ export const LoanAddOn = ({onRemove, data, banks}) =>{
     )
 }
 
-export const LoanAddOnExisting = ({onRemove, data, loans}) =>{
+export const LoanAddOnExisting = ({data, loans}) =>{
     useEffect(()=>{
         
     }, []);
 
     return(
-        <LoanAddOn data={data} loans={loans} onRemove={onRemove} />
+        <LoanAddOn data={data} loans={loans} />
     )
 }
 

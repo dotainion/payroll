@@ -7,22 +7,8 @@ import { payload } from "../utils/AddonsPayload";
 import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
 
-const dataG = [
-    {
-        "id":"6c3c4f2f-a31e-42f7-b6f7-9084ebc8816b",
-        "type":"allowance",
-        "attributes":{
-            "hide":false,
-            "name":"frogs",
-            "type":"1",
-            "rate":"h",
-            "rateAmount":"1",
-            "amount":"40"
-        }
-    }
-];
 export const Allowances = () =>{
-    const [allowances, setAllowances] = useState(dataG);
+    const [allowances, setAllowances] = useState([]);
 
     const scrollRef = useRef();
     const closeRef = useRef();

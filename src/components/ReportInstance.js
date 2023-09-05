@@ -8,7 +8,7 @@ import { ExistingSickLeaveAddOn } from "../addons/SickLeaveAddOn";
 import { ExistingOvertimeAddOn } from "../addons/OvertimeAddOn";
 
 const typeHandler = new CostTypeAndRateHandler();
-export const ReportInstance = ({title, report,  onUser, onAllowanceRemove, onDeductionRemove, children}) =>{
+export const ReportInstance = ({title, report,  onUser, children}) =>{
     const [sickLeaves, setSickLeaves] = useState();
     const [period, setPeriod] = useState();
     const [existingAllowances, setExistingAllowances] = useState([]);
@@ -20,9 +20,9 @@ export const ReportInstance = ({title, report,  onUser, onAllowanceRemove, onDed
         let existAllows = [];
         let existSickLeaves = [];
         report?.attributes?.allAllowances?.forEach((item)=>{
-            item.attributes.type = typeHandler.costValueToDisplay(item.attributes.type);
-            item.attributes.rate = typeHandler.costValueToDisplay(item.attributes.rate);
             if(item.type === 'allowance'){
+                item.attributes.type = typeHandler.costValueToDisplay(item.attributes.type);
+                item.attributes.rate = typeHandler.costValueToDisplay(item.attributes.rate);
                 existAllows.push({component: ExistingAddOn, data: item});
             }else if (item.type === 'loanAllowance'){
                 existAllows.push({component: LoanAddOnExisting, data: item});
@@ -38,9 +38,9 @@ export const ReportInstance = ({title, report,  onUser, onAllowanceRemove, onDed
 
         let existDeducts = [];
         report?.attributes?.allDeductions?.forEach((item)=>{
-            item.attributes.type = typeHandler.costValueToDisplay(item.attributes.type);
-            item.attributes.rate = typeHandler.costValueToDisplay(item.attributes.rate);
             if(item.type === 'deduction'){
+                item.attributes.type = typeHandler.costValueToDisplay(item.attributes.type);
+                item.attributes.rate = typeHandler.costValueToDisplay(item.attributes.rate);
                 existDeducts.push({component: ExistingAddOn, data: item});
             }else if (item.type === 'loanDeduction'){
                 existDeducts.push({component: LoanAddOnExisting, data: item});
@@ -60,14 +60,13 @@ export const ReportInstance = ({title, report,  onUser, onAllowanceRemove, onDed
         <Report 
             period={period}
             title={title} 
+            reportId={report?.id} 
             userId={report?.attributes?.userId} 
             propUser={report?.attributes?.user} 
             onUser={onUser} 
             sickLeaves={sickLeaves}
             existingAllowances={existingAllowances} 
             existingDeductions={existingDeductions}
-            onAllowanceRemove={onAllowanceRemove}
-            onDeductionRemove={onDeductionRemove}
         >
             {children}
         </Report>

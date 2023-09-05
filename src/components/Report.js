@@ -8,7 +8,7 @@ import { MdSick } from "react-icons/md";
 import { SickLeaveGenerator } from "../widgets/SickLeaveGenerator";
 import { DateHelper } from "../utils/DateHelper";
 
-export const Report = ({period, title, userId, onUser, propUser, onAllowanceRemove, onDeductionRemove, existingAllowances, existingDeductions, sickLeaves, children}) =>{
+export const Report = ({period, title, userId, reportId, onUser, propUser, existingAllowances, existingDeductions, sickLeaves, children}) =>{
     const [user, setUser] = useState();
     const [banks, setBanks] = useState([]);
     const [loanAllowances, setLoanAllowances] = useState([]);
@@ -98,12 +98,12 @@ export const Report = ({period, title, userId, onUser, propUser, onAllowanceRemo
                 <div className="px-3 bg-lightergray py-3">
                     <div className="fw-bold">Allowances</div>
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
-                    <AllowanceGenerator onRemove={onAllowanceRemove} loanAllowances={loanAllowances} banks={banks} existingAllowances={existingAllowances} user={propUser || user} />
+                    <AllowanceGenerator loanAllowances={loanAllowances} banks={banks} existingAllowances={existingAllowances} user={propUser || user} />
                 </div>
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Deductions</div>
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
-                    <DeductionGenerator onRemove={onDeductionRemove} loanDeductions={loanDeductions} banks={banks} existingDeductions={existingDeductions} />
+                    <DeductionGenerator loanDeductions={loanDeductions} banks={banks} existingDeductions={existingDeductions} />
                 </div>
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Sick Leave</div>
@@ -113,7 +113,8 @@ export const Report = ({period, title, userId, onUser, propUser, onAllowanceRemo
                 <div className="p-3 text-center">
                     {children}
                 </div>
-                <input value={user?.id} name="userId" hidden/>
+                <input onChange={()=>{}} hidden value={user?.id || ''} name="userId"/>
+                <input onChange={()=>{}} hidden value={reportId || ''} name="reportId"/>
             </div>
         </div>
     )

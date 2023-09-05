@@ -8,7 +8,7 @@ import { MdAdd } from 'react-icons/md';
 import { NoPayLeaveAddOn, NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAddOn";
 import { toast } from "../utils/Toast";
 
-export const DeductionGenerator = ({loanDeductions, loans, onRemove, banks, existingDeductions}) =>{
+export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeductions}) =>{
     const [deduction, setDeduction] = useState([]);
     const [availableDeduction, setAvailableDeduction] = useState([]);
 
@@ -17,6 +17,7 @@ export const DeductionGenerator = ({loanDeductions, loans, onRemove, banks, exis
     }
 
     const onSelect = (data) =>{
+        data.id = null;
         setDeduction((allows)=>[...allows, {component: ExistingAddOn, data: data}]);
     }
 
@@ -25,6 +26,7 @@ export const DeductionGenerator = ({loanDeductions, loans, onRemove, banks, exis
     }
 
     const onSelectLoan = (data) =>{
+        data.id = null;
         setDeduction((allows)=>[...allows, {component: LoanAddOnExisting, data: data}]);
     }
 
@@ -33,6 +35,7 @@ export const DeductionGenerator = ({loanDeductions, loans, onRemove, banks, exis
     }
 
     const onSelectNoPayLeave = (data) =>{
+        data.id = null;
         setDeduction((allows)=>[...allows, {component: NoPayLeaveAddOnExisting, data: data}]);
     }
 
@@ -54,7 +57,7 @@ export const DeductionGenerator = ({loanDeductions, loans, onRemove, banks, exis
             <div className="d-inline-block">
                 <div data-report-deductions="">
                     {deduction.map((card, key)=>(
-                        <card.component data={card.data} onRemove={onRemove} banks={banks} key={key}/>
+                        <card.component data={card.data} banks={banks} key={key}/>
                     ))}
                 </div>
                 <div className="text-end p-3">

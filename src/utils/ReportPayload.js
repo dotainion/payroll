@@ -3,6 +3,8 @@ import { DateHelper } from './DateHelper';
 import { toast } from './Toast';
 
 class ReportPayload{
+    excludedReportIds = [];
+
     reset(){
         this.payloads = [];
     }
@@ -13,6 +15,24 @@ class ReportPayload{
 
     first(){
         return this.payloads?.[0] || null;
+    }
+
+    addExcluded(reportId){
+        if(!this.excludedReportIds.includes(reportId)){
+            this.excludedReportIds.push(reportId);
+        }
+    }
+
+    removeExcluded(reportId){
+        let reportIds = [];
+        this.excludedReportIds.forEach((id)=>{
+            if(reportId !== id) reportIds.push(id);
+        });
+        this.excludedReportIds = reportIds;
+    }
+
+    excluded(reportId){
+        return this.excludedReportIds.includes(reportId);
     }
 
     allowances(instance){
@@ -147,6 +167,7 @@ class ReportPayload{
     payload(){
         this.reset();
         $('[data-report-instance]').each((i, instance)=>{
+            if(this.excluded($(instance).find('input[name=reportId]').val())) return;
             let data = {};
             data['id'] = $(instance).find('input[name=userId]').val();
             data['period'] = this.period(instance);

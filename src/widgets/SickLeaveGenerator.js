@@ -9,7 +9,7 @@ import { NoPayLeaveAddOn, NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAd
 import { toast } from "../utils/Toast";
 import { ExistingSickLeaveAddOn, SickLeaveAddOn } from "../addons/SickLeaveAddOn";
 
-export const SickLeaveGenerator = ({user, onRemove, existingSickLeaves}) =>{
+export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
     const [setting, setSetting] = useState();
     const [reduceTo, setReduceTo] = useState();
     const [sickLeaves, setSickLeave] = useState([]);
@@ -20,12 +20,8 @@ export const SickLeaveGenerator = ({user, onRemove, existingSickLeaves}) =>{
     }
 
     const onSelect = (data) =>{
+        data.id = null;
         setSickLeave((sick)=>[...sick, {component: ExistingSickLeaveAddOn, data: data}]);
-    }
-
-    const onRemoveTrigger = (data, removeCallback, value) =>{
-        if(!data) removeCallback();
-        else onRemove?.(removeCallback, value);
     }
 
     useEffect(()=>{
@@ -74,7 +70,6 @@ export const SickLeaveGenerator = ({user, onRemove, existingSickLeaves}) =>{
                             user={user} 
                             data={card.data} 
                             setting={setting} 
-                            onRemove={onRemoveTrigger} 
                             onSickLeaveAmount={console.log} 
                             key={key}
                         />

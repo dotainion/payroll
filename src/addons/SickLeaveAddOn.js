@@ -8,7 +8,7 @@ import { BsCalendar2Date, BsCalendar2DateFill } from "react-icons/bs";
 import { FaDollarSign } from "react-icons/fa";
 import { BiSolidFilePdf } from "react-icons/bi";
 
-export const SickLeaveAddOn = ({onSickLeaveAmount, onRemove, data, user, setting}) =>{
+export const SickLeaveAddOn = ({onSickLeaveAmount, data, user, setting}) =>{
     const idRef = useRef();
     const fileRef = useRef();
     const dropRef = useRef();
@@ -33,8 +33,7 @@ export const SickLeaveAddOn = ({onSickLeaveAmount, onRemove, data, user, setting
     }
 
     const remove = (e) =>{
-        const currentTarget = e.currentTarget;
-        onRemove?.(data, ()=>$(currentTarget).parent().remove(), $(idRef.current).val());
+        $(e.currentTarget).parent().remove()
     }
 
     useEffect(()=>{
@@ -104,7 +103,7 @@ export const SickLeaveAddOn = ({onSickLeaveAmount, onRemove, data, user, setting
 }
 
 
-export const ExistingSickLeaveAddOn = ({onSickLeaveAmount, data, onRemove, user, setting}) =>{
+export const ExistingSickLeaveAddOn = ({onSickLeaveAmount, data, user, setting}) =>{
     useEffect(()=>{
         
     }, []);
@@ -113,7 +112,6 @@ export const ExistingSickLeaveAddOn = ({onSickLeaveAmount, data, onRemove, user,
             data={data} 
             setting={setting} 
             user={user} 
-            onRemove={onRemove} 
             onSickLeaveAmount={onSickLeaveAmount}
         />
     )
