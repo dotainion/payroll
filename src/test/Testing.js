@@ -27,6 +27,8 @@ import { PasswordValidation } from "../utils/PasswordValidation";
 import { Departments } from "../pages/Departments";
 import { BusinessProfile } from "../pages/BusinessProfile";
 import { PasswrodRecovery } from "../accounts/PasswordRecovery";
+import { PasswordInput } from "../widgets/PasswordInput";
+import { EmailSetup } from "../pages/EmailSetup";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
@@ -69,31 +71,8 @@ export const Testing = () =>{
     }, []);
 
     return (
-        <div>
-            
-        </div>
-    )
-
-    return(
-        <div>
-            <label className="mt-3">Email:</label>
-            <div className="input-group">
-                <span className="input-group-text"><MdOutlineMailLock/></span>
-                <input className="form-control shadow-none" placeholder="example@example.com" type="email"/>
-            </div>
-            <label className="mt-3">Password:</label>
-            <div className="input-group">
-                <span className="input-group-text"><RiLockPasswordFill/></span>
-                <input className="form-control shadow-none" placeholder="Password1234#" type="password"/>
-            </div>
-            <label className="mt-3">Confirm Password:</label>
-            <div className="input-group">
-                <span className="input-group-text"><RiLockPasswordFill/></span>
-                <input className="form-control shadow-none" placeholder="Password1234#" type="password"/>
-            </div>
-            <button onClick={()=>{
-                window.location.href = "mailto:user@example.com?subject=Subject&body=message%20goes%20here";
-            }}>Send Email</button>
+        <div className="w-50">
+            <Notifications/>
         </div>
     )
 

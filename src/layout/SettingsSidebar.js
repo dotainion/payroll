@@ -28,15 +28,15 @@ export const SettingsSidebar = () =>{
             active: location.pathname.includes(routes.settings().notifications()),
             onClick: ()=>navigate(routes.settings().notifications())
         },{
-            title: 'Deductions',
-            icon: MdMoneyOff,
-            active: location.pathname.includes(routes.settings().deductions()),
-            onClick: ()=>navigate(routes.settings().deductions())
-        },{
             title: 'Allowances',
             icon: MdOutlineAttachMoney,
             active: location.pathname.includes(routes.settings().allowances()),
             onClick: ()=>navigate(routes.settings().allowances())
+        },{
+            title: 'Deductions',
+            icon: MdMoneyOff,
+            active: location.pathname.includes(routes.settings().deductions()),
+            onClick: ()=>navigate(routes.settings().deductions())
         },{
             title: 'Departments',
             icon: HiBuildingOffice2,

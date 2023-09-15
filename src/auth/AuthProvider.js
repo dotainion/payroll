@@ -23,15 +23,17 @@ export const AuthProvider = ({children}) =>{
     const timeoutRef = useRef();
 
     const signin = (email, password, successCallback, errorCallback) =>{
+        const success = successCallback;
+        const error = errorCallback;
         api.auth.signin(email, password).then((response)=>{
             setUser(response.data.data[0]);
             setIsAuthenticated(true);
-            successCallback?.(response.data.data[0]);
+            success?.(response.data.data[0]);
             token.set(response.data.data[0].attributes.token);
-        }).catch((error)=>{
-            errorCallback?.(error);
+        }).catch((err)=>{
+            error?.(err);
             console.log('Unable to sign in at this time.');
-            toast.error('Sign In', error);
+            toast.error('Sign In', err);
         });
     }
 

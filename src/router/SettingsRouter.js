@@ -10,6 +10,7 @@ import { Deductions } from "../pages/Deductions";
 import { Banks } from "../pages/Banks";
 import { Settings } from "../pages/Settings";
 import { Departments } from "../pages/Departments";
+import { EmailSetup } from "../pages/EmailSetup";
 
 export const SettingsRouter = () =>{
     return(
@@ -23,6 +24,7 @@ export const SettingsRouter = () =>{
                 <Route path={routes.settings().departments()} element={<Departments/>}/>
                 <Route path={routes.settings().banks()} element={<Banks/>}/>
                 <Route path={routes.settings().settings()} element={<Settings/>}/>
+                <Route path={routes.settings().emailNotificationSetup()} element={<EmailSetup/>}/>
                 <Route path={'*'} element={<Navigate to={routes.settings().security()}/>}/>
             </Routes>
         </SettingsLayout>

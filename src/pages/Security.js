@@ -22,14 +22,14 @@ export const Security = () =>{
                     <TbLockShare className="display-5"/>
                     <div className="ms-2">
                         <button onClick={creds.open} className="btn btn-sm border-0 p-0 small fw-bold">Change Password</button>
-                        <div className="small">Set up a unique, strong password to protect your Fusioo Account.</div>
+                        <div className="small text-wrap">Set up a unique, strong password to protect your Fusioo Account.</div>
                     </div>
                 </li>
                 <li className="small list-group-item d-flex align-items-center py-4">
                     <FcSettings className="display-5"/>
                     <div className="ms-2">
                         <button className="btn btn-sm border-0 p-0 small fw-bold">Two-Factor Authentication</button>
-                        <div className="small">Highly recommended. Set up Two-Factor Authentication to add an extra layer of security to your Account.</div>
+                        <div className="small text-wrap">Highly recommended. Set up Two-Factor Authentication to add an extra layer of security to your Account.</div>
                     </div>
                 </li>
             </ul>

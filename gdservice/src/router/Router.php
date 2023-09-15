@@ -38,6 +38,10 @@ use src\module\login\action\UpdateCredentialAction;
 use src\module\login\action\UpdateCredentialByTokenAction;
 use src\module\mail\action\SendBulkPayslipMailAction;
 use src\module\mail\action\SendPayslipMailAction;
+use src\module\notification\action\FetchNotificationSetupAction;
+use src\module\notification\action\FetchUserNotificationSettingAction;
+use src\module\notification\action\SetNotificationSetupAction;
+use src\module\notification\action\SetUserNotificationSettingAction;
 use src\module\report\action\CreateBulkReportAction;
 use src\module\report\action\CreateReportAction;
 use src\module\report\action\DeleteAllowanceReportAction;
@@ -304,6 +308,22 @@ class Router{
 
         $this->request->route('/list/periods', function ($req){
             return new ListReportPeriodsAction();
+        });
+
+        $this->request->route('/fetch/notification/setup', function ($req){
+            return new FetchNotificationSetupAction();
+        });
+
+        $this->request->route('/fetch/user/notification/setting', function ($req){
+            return new FetchUserNotificationSettingAction();
+        });
+
+        $this->request->route('/set/notification/setup', function ($req){
+            return new SetNotificationSetupAction();
+        });
+
+        $this->request->route('/set/user/notification/setting', function ($req){
+            return new SetUserNotificationSettingAction();
         });
     }
 

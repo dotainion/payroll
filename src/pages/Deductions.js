@@ -36,10 +36,10 @@ export const Deductions = () =>{
         const data = payload.addon.build(parent)[0];
         api.deduction.delete(data?.id).then((response)=>{
             parent.remove();
-            toast.success('Allowance', 'Deleted');
+            toast.success('Deduction', 'Deleted');
         }).catch((error)=>{
             console.log(error);
-            toast.error('Allowance', error);
+            toast.error('Deduction', error);
         });
     }
 
@@ -100,9 +100,9 @@ export const Deductions = () =>{
 
     return(
         <div className="page profile text-nowrap">
-            <div className="border-bottom p-2 fw-bold bg-warning text-dark mt-2">Allowances</div>
+            <div className="border-bottom p-2 fw-bold bg-warning text-dark mt-2">Deductions</div>
             <div className="my-3">
-                <button ref={buttonRef} className="btn btn-info btn-sm">New Allowance +</button>
+                <button ref={buttonRef} className="btn btn-info btn-sm">New Deduction +</button>
             </div>
             <div className="data-addon-customize" ref={inputContainerRef}>
                 <AddOn/>

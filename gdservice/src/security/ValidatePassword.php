@@ -1,7 +1,6 @@
 <?php
 namespace src\security;
 
-use InvalidArgumentException;
 use src\infrastructure\ChainError;
 
 class ValidatePassword{

@@ -14,6 +14,7 @@ import { ReAuthenticate } from "../utils/ReAuthenticate";
 import { RegisterAdmin } from "./RegisterAdmin";
 import { Mail } from "./Mail";
 import { Settings } from "./Settings";
+import { Notification } from "./Notification";
 
 const reAuth = new ReAuthenticate();
 export class Api{
@@ -35,6 +36,7 @@ export class Api{
         this.admin = new RegisterAdmin(this);
         this.mail = new Mail(this);
         this.settings = new Settings(this);
+        this.notification = new Notification(this);
     }
 
     handler(error, option){

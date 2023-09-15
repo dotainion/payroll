@@ -1,9 +1,11 @@
 <?php
 namespace src\infrastructure;
 
+use InvalidArgumentException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use src\module\login\logic\FetchNotificationSetup;
 use src\module\mail\objects\Mail;
 use Throwable;
 
@@ -11,19 +13,26 @@ class SendMail{
     protected PHPMailer $mail;
 
     public function __construct(){
+        $fetchSetup = new FetchNotificationSetup();
+        $setup = $fetchSetup->fetchSetup();
+
+        if(!$setup->hasItem()){
+            throw new InvalidArgumentException('Email Notification not yet setup.');
+        }
+
         $this->mail = new PHPMailer(true);
         //Server settings
         //$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
         $this->mail->isSMTP();                                            //Send using SMTP
         $this->mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $this->mail->Username   = 'areset0000@gmail.com';                     //SMTP username
-        $this->mail->Password   = 'nmczpulryktsbisr';                               //SMTP password
+        $this->mail->Username   = $setup->first()->email();//'areset0000@gmail.com';                     //SMTP username
+        $this->mail->Password   = $setup->first()->password();//'nmczpulryktsbisr';                               //SMTP password
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
         $this->mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $this->mail->setFrom('areset0000@gmail.com', 'Mailer');
+        $this->mail->setFrom($setup->first()->email(), 'Mailer');
         /*$this->mail->addAddress('ellen@example.com');               //Name is optional
         $this->mail->addReplyTo('info@example.com', 'Information');
         $this->mail->addCC('cc@example.com');
@@ -49,6 +58,5 @@ class SendMail{
 
     public function send():void{
         $this->mail->send();
-
     }
 }

@@ -11,6 +11,7 @@ export const useDocument = () => useContext(Context);
 export const DocumentProvider = ({children}) =>{
     const { isAuthenticated } = useAuth();
     
+    const [loading, setLoading] = useState(false);
     const [costTypes, setCostTypes] = useState();
     const [rateTypes, setRateTypes] = useState();
     const [previousHistory, setPreviousHistory] = useState([]);
@@ -46,7 +47,9 @@ export const DocumentProvider = ({children}) =>{
         costTypes,
         rateTypes,
         previousHistory,
-        addPreviousHistory
+        addPreviousHistory,
+        loading,
+        setLoading
     }
 
     return(

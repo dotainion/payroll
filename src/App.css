@@ -187,7 +187,6 @@
 .page{
   background-color: white;
   width: 50%;
-  min-width: 767px;
   margin: auto;
   padding: 5px !important;
 }

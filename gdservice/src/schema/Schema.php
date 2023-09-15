@@ -252,6 +252,25 @@ class Schema{
         return $this->sql->execute();
     }
 
+    public function notificationSetup(){
+        $this->sql->create('notificationSetup')
+            ->column('id')->bindary()
+            ->column('email')->string()
+            ->column('password')->string();
+        return $this->sql->execute();
+    }
+
+    public function notification(){
+        $this->sql->create('notification')
+            ->column('id')->bindary()
+            ->column('userId')->bindary()
+            ->column('created')->bool()
+            ->column('updated')->bool()
+            ->column('deleted')->bool()
+            ->column('mentioned')->bool();
+        return $this->sql->execute();
+    }
+
     public function run(){
         foreach(get_class_methods($this) as $method){
             if($method === '__construct' || $method === 'run') continue;
