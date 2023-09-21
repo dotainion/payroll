@@ -23,16 +23,17 @@ class SendMail{
         $this->mail = new PHPMailer(true);
         //Server settings
         //$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        
         $this->mail->isSMTP();                                            //Send using SMTP
         $this->mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $this->mail->Username   = $setup->first()->email();//'areset0000@gmail.com';                     //SMTP username
-        $this->mail->Password   = $setup->first()->password();//'nmczpulryktsbisr';                               //SMTP password
+        $this->mail->Username   = $setup->first()->email()->toString();//'areset0000@gmail.com';                     //SMTP username
+        $this->mail->Password   = $setup->first()->password()->toControlString();//'nmczpulryktsbisr';                               //SMTP password
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
         $this->mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $this->mail->setFrom($setup->first()->email(), 'Mailer');
+        $this->mail->setFrom($setup->first()->email()->toString(), 'Mailer');
         /*$this->mail->addAddress('ellen@example.com');               //Name is optional
         $this->mail->addReplyTo('info@example.com', 'Information');
         $this->mail->addCC('cc@example.com');
@@ -57,6 +58,10 @@ class SendMail{
     }
 
     public function send():void{
-        $this->mail->send();
+        try {
+            $this->mail->send();
+        }catch(Throwable $e){
+            throw new InvalidArgumentException($e->getMessage());
+        }
     }
 }

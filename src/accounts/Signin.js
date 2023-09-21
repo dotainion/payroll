@@ -12,8 +12,8 @@ export const Signin = ({onSucess, onError}) =>{
     const emailRef = useRef();
     const passwordRef = useRef();
 
-    const onSignIn = () =>{
-        signin(emailRef.current.value, passwordRef.current.value, onSucess, onError);
+    const onSignIn = async() =>{
+        await signin(emailRef.current.value, passwordRef.current.value, onSucess, onError);
     }
 
     return(

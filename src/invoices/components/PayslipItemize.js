@@ -31,10 +31,12 @@ export const PayslipItemize = ({reports}) =>{
             reports?.forEach((report)=>{
                 report?.attributes?.allAllowances?.forEach((item)=>{
                     if(!options?.[item?.type]) options[item?.type] = [];
+                    item.attributes.userName = report?.attributes?.user?.attributes?.name;
                     options[item?.type].push(item);
                 });
                 report?.attributes?.allDeductions?.forEach((item)=>{
                     if(!options?.[item?.type]) options[item?.type] = [];
+                    item.attributes.userName = report?.attributes?.user?.attributes?.name;
                     options[item?.type].push(item);
                 });
             });
@@ -43,12 +45,14 @@ export const PayslipItemize = ({reports}) =>{
                 report?.attributes?.allAllowances?.forEach((item)=>{
                     if(payslipPages === item?.type){
                         if(!options?.[item?.type]) options[item?.type] = [];
+                        item.attributes.userName = report?.attributes?.user?.attributes?.name;
                         options[item?.type].push(item);
                     }
                 });
                 report?.attributes?.allDeductions?.forEach((item)=>{
                     if(payslipPages === item?.type){
                         if(!options?.[item?.type]) options[item?.type] = [];
+                        item.attributes.userName = report?.attributes?.user?.attributes?.name;
                         options[item?.type].push(item);
                     }
                 });
@@ -57,10 +61,7 @@ export const PayslipItemize = ({reports}) =>{
 
         let reportTempList = [];
         Object.keys(options || {}).forEach((key)=>{
-            reportTempList.push({
-                list: options[key], 
-                report: reports?.find((r)=>r?.id === options[key]?.[0]?.attributes?.reportId)
-            });
+            reportTempList.push({list: options[key]});
         });
         
         setListReports(reportTempList);
@@ -74,6 +75,7 @@ export const PayslipItemize = ({reports}) =>{
                     <table className="table table-sm table-white table-bordered text-nowrap">
                         <thead>
                             <tr>
+                                <th>Name</th>
                                 <th>{itemize?.list?.[0]?.type}</th>
                                 <th>Rate</th>
                                 <th>Amount</th>
@@ -83,6 +85,7 @@ export const PayslipItemize = ({reports}) =>{
                         <tbody>
                             {itemize?.list?.map((item, key2)=>(
                                 <tr key={key2}>
+                                    <td>{item?.attributes?.userName}</td>
                                     <td>{item?.attributes?.name}</td>
                                     <td>{item?.attributes?.rate}</td>
                                     <td>{item?.attributes?.net}</td>
@@ -90,7 +93,7 @@ export const PayslipItemize = ({reports}) =>{
                                 </tr>
                             ))}
                             <tr className="border-0">
-                                <td className="border-0" colSpan={2}></td>
+                                <td className="border-0" colSpan={3}></td>
                                 <td className="border-0"><b>{toTotalAmount(itemize)}</b></td>
                                 <td className="border-0"><b>{toTotalRate(itemize)}</b></td>
                             </tr>

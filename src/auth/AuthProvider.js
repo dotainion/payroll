@@ -16,16 +16,16 @@ export const useAuth = () => useContext(Context);
 const creds = new ChangeCredential();
 export const AuthProvider = ({children}) =>{
     const [user, setUser] = useState();
-    const [business, setBusiness] = useState(true);
+    const [business, setBusiness] = useState();
     const [loading, setLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState();
 
     const timeoutRef = useRef();
 
-    const signin = (email, password, successCallback, errorCallback) =>{
+    const signin = async(email, password, successCallback, errorCallback) =>{
         const success = successCallback;
         const error = errorCallback;
-        api.auth.signin(email, password).then((response)=>{
+        await api.auth.signin(email, password).then((response)=>{
             setUser(response.data.data[0]);
             setIsAuthenticated(true);
             success?.(response.data.data[0]);

@@ -18,14 +18,14 @@ class NotificationSetupRepository extends Repository{
         $this->insert('notificationSetup')        
             ->add('id', $this->uuid($notification->id()))
             ->add('email', $notification->email())
-            ->add('password', $notification->password()->toHash());
+            ->add('password', $notification->password()->toControlHash());
         $this->execute();
     }
     
     public function edit(NotificationSetup $notification):void{
         $this->update('notificationSetup')        
             ->set('email', $notification->email()->toString())
-            ->set('password', $notification->password()->toHash())
+            ->set('password', $notification->password()->toControlHash())
             ->where('id', $this->uuid($notification->id()));
         $this->execute();
     }

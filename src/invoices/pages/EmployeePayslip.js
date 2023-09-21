@@ -20,7 +20,7 @@ export const EmployeePayslip = () =>{
     }, []);
 
     return(
-        <InvoiceLayout>
+        <InvoiceLayout hidePeriodSelection>
             <PayslipSwitcher reports={[report]}>
                 <Payslip report={report} />
             </PayslipSwitcher>

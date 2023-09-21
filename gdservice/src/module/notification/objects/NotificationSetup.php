@@ -41,8 +41,7 @@ class NotificationSetup implements IObjects{
     }
 
     public function setPassword(string $password):void{
-        Assert::validPassword($password, 'Invalid password.');
-        $this->password = (new Password())->set($password);
+        $this->password = (new Password())->setControlPassword($password);
     }
 
     public function unSetPassword():void{

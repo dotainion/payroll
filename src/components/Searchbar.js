@@ -13,12 +13,7 @@ import { api } from "../request/Api";
 import { BsDashLg } from "react-icons/bs";
 
 export const Searchbar = ({onTyping, onFilter, onDateSearch, beginChildren}) =>{
-    const [periods, setPeriods] = useState([{
-        attributes: {
-            from: '2023-09-01 12:01:25',
-            to: '2023-09-01 12:01:25'
-        }
-    }]);
+    const [periods, setPeriods] = useState([]);
     const [departments, setDepartments] = useState([]);
 
     const containerRef = useRef();

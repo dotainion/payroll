@@ -6,6 +6,7 @@ import { MenuOption } from "../widgets/MenuOption";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from "../router/routes";
 import { FaClone } from "react-icons/fa";
+import { TbReportSearch } from 'react-icons/tb';
 import { useDocument } from "../contents/DocumentProvider";
 
 export const WorkspaceSidebar = () =>{
@@ -33,6 +34,11 @@ export const WorkspaceSidebar = () =>{
                     title: 'Generate Bulk Report',
                     active: location.pathname.includes(routes.workspace().bulkReport()),
                     onClick: ()=>navigate(routes.workspace().bulkReport())
+                },{
+                    icon: TbReportSearch,
+                    title: 'View Payslip',
+                    active: location.pathname.includes(routes.workspace().bulkPayslip()),
+                    onClick: ()=>navigate(routes.workspace().bulkPayslip())
                 }
             ]
         }

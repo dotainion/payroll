@@ -11,6 +11,14 @@ export const EeachEmployeePayslip = () =>{
 
     const params = useParams();
 
+    const onSearchByPeriod = (data) =>{
+        api.report.searchByDate(data.from, data.to).then((response)=>{
+            setReports(response.data.data);
+        }).catch((error)=>{
+
+        });
+    }
+
     useEffect(()=>{
         api.report.listEachReportByIdArray(routes.utils.parse(params.eachReportId)).then((response)=>{
             setReports(response.data.data);
@@ -20,7 +28,7 @@ export const EeachEmployeePayslip = () =>{
     }, [params]);
 
     return(
-        <InvoiceLayout>
+        <InvoiceLayout onPeriodSelect={onSearchByPeriod}>
             <PayslipSwitcher reports={reports}>
                 <PayslipBuilder reports={reports}/>
             </PayslipSwitcher>

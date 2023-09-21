@@ -29,6 +29,7 @@ class SetNotificationSetupService extends Service{
         ]);
         
         $this->setup->set($notification);
+        $notification->unSetPassword();
         $this->setOutput($notification);
         return $this;
     }

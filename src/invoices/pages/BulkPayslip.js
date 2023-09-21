@@ -10,6 +10,14 @@ export const BulkPayslip = () =>{
 
     const params = useParams();
 
+    const onSearchByPeriod = (data) =>{
+        api.report.searchByDate(data.from, data.to).then((response)=>{
+            setReports(response.data.data);
+        }).catch((error)=>{
+
+        });
+    }
+
     useEffect(()=>{
         api.report.listBulkReports(params?.reportId).then((response)=>{
             setReports(response.data.data);
@@ -19,7 +27,7 @@ export const BulkPayslip = () =>{
     }, []);
 
     return(
-        <InvoiceLayout>
+        <InvoiceLayout onPeriodSelect={onSearchByPeriod}>
             <PayslipSwitcher reports={reports}>
                 <PayslipBuilder reports={reports}/>
             </PayslipSwitcher>
