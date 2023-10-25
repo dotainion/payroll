@@ -15,7 +15,7 @@ import { EllipsisOption } from "../widgets/EllipsisOption";
 import { api } from "../request/Api";
 import { DateHelper } from "../utils/DateHelper";
 
-export const InvoiceLayout = ({children, onPeriodSelect, hidePeriodSelection}) =>{
+export const InvoiceLayout = ({users, children, onUserFilter, onPeriodSelect, hidePeriodSelection}) =>{
     const { setPayslipPages, payslipSelectOptions } = useWorkspace();
 
     const [periods, setPeriods] = useState([]);
@@ -29,12 +29,23 @@ export const InvoiceLayout = ({children, onPeriodSelect, hidePeriodSelection}) =
     const fromRef = useRef();
     const toRef = useRef();
 
+    const userSelectRef = useRef();
+    const pagePrintRef = useRef();
+
     const menus = [
         {
             title: 'List Last Payslips generated',
             onClick: ()=>navigate(routes.workspace().nested().bulkPayslip())
         },
     ];
+
+    const onUserSelected = () =>{
+        let ids = [];
+        $(userSelectRef.current).find('input[type=checkbox]').each((i, checkbox)=>{
+            if($(checkbox).is(':checked')) ids.push($(checkbox).val());
+        });
+        onUserFilter(ids);
+    }
 
     const toCamelUpper = (value) =>{
         const test = value.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
@@ -71,6 +82,16 @@ export const InvoiceLayout = ({children, onPeriodSelect, hidePeriodSelection}) =
         }
         onPeriodSelect?.(data);
     }
+
+    useEffect(()=>{
+        if(users?.length){
+            $(pagePrintRef.current).css({marginLeft: '100px'});
+            $(userSelectRef.current).show();
+        }else{
+            $(pagePrintRef.current).css({marginLeft: '0'});
+            $(userSelectRef.current).hide();
+        }
+    }, [users]);
 
     useEffect(()=>{
         setPayslipPages('payslip');
@@ -138,9 +159,23 @@ export const InvoiceLayout = ({children, onPeriodSelect, hidePeriodSelection}) =
 
                 <EllipsisOption option={menus}/>
             </div>
-            <ToPrintAndDownload ref={pageRef}>
-                {children}
-            </ToPrintAndDownload>
+            <div className="d-flex">
+                <div ref={userSelectRef} className="bg-light border-end user-select-none report-user-sidebar">
+                    {users?.map((usr, key)=>(
+                        <label onChange={onUserSelected} className="d-flex list-item d-block" key={key}>
+                            <div>
+                                <input className="bg-info form-check-input pointer me-1" type="checkbox" value={usr?.id} defaultChecked={true}/>
+                            </div>
+                            <div className="text-truncate">{usr?.attributes?.name}</div>
+                        </label>
+                    ))}
+                </div>
+                <div ref={pagePrintRef} className="w-100">
+                    <ToPrintAndDownload ref={pageRef}>
+                        {children}
+                    </ToPrintAndDownload>
+                </div>
+            </div>
         </div>
     )
 }

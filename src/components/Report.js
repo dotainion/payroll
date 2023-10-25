@@ -7,22 +7,15 @@ import { api } from "../request/Api";
 import { MdSick } from "react-icons/md";
 import { SickLeaveGenerator } from "../widgets/SickLeaveGenerator";
 import { DateHelper } from "../utils/DateHelper";
+import { TaxAlert } from "./TaxAlert";
+import { BiCalendar } from "./BiCalendar";
+import { TaxDeductionReadOnly } from "../widgets/TaxDeductionReadOnly";
 
-export const Report = ({period, title, userId, reportId, onUser, propUser, existingAllowances, existingDeductions, sickLeaves, children}) =>{
+export const Report = ({period, title, userId, reportId, onUser, propUser, existingTaxDeduction, existingAllowances, existingDeductions, sickLeaves, children}) =>{
     const [user, setUser] = useState();
     const [banks, setBanks] = useState([]);
     const [loanAllowances, setLoanAllowances] = useState([]);
     const [loanDeductions, setLoanDeductions] = useState([]);
-
-    const fromRef = useRef();
-    const toRef = useRef();
-
-    useEffect(()=>{
-        if(!period) return;
-        const date = new DateHelper();
-        fromRef.current.value = date.sqlStringToInput(period?.from);
-        toRef.current.value = date.sqlStringToInput(period?.to);
-    }, [period]);
 
     useEffect(()=>{
         if(!user) return;
@@ -69,6 +62,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, exist
                 {title && <div className="d-flex align-items-center p-2 border-bottom">
                     <div className="fw-bold fs-5 my-3 w-100">{title}</div>
                 </div>}
+                <TaxAlert/>
                 <div className="p-3">
                     <div className="bg-light p-2">
                         <div className="fw-bold">{user?.attributes?.name}</div>
@@ -83,16 +77,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, exist
                     </div>
                     <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>
                         <label>Period <span className="text-danger">*</span></label>
-                        <div className="d-flex align-items-center" data-report-period="">
-                            <div className="input-group w-100">
-                                <span className="input-group-text">From</span>
-                                <input ref={fromRef} className="form-control shadow-none" name="from" type="date" />
-                            </div>
-                            <div className="input-group w-100 ms-3">
-                                <span className="input-group-text">To</span>
-                                <input ref={toRef} className="form-control shadow-none" name="to" type="date" />
-                            </div>
-                        </div>
+                        <BiCalendar period={period} />
                     </div>
                 </div>
                 <div className="px-3 bg-lightergray py-3">
@@ -110,6 +95,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, exist
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
                     <SickLeaveGenerator user={propUser || user} data={sickLeaves}/>
                 </div>
+                <TaxDeductionReadOnly data={existingTaxDeduction} />
                 <div className="p-3 text-center">
                     {children}
                 </div>

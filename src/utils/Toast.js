@@ -46,7 +46,6 @@ export class Toast{
     }
 
     error(title, message, interval=5000){
-        console.log(message);
         this._buildToast(title, message, 'text-danger', interval).appendTo(this._parent);
     }
 }

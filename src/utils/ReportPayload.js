@@ -164,6 +164,10 @@ class ReportPayload{
         return json;
     }
 
+    notified(instance){
+        return $(instance).find('[name=notify]').val() === 'notified';
+    }
+
     payload(){
         this.reset();
         $('[data-report-instance]').each((i, instance)=>{
@@ -171,6 +175,7 @@ class ReportPayload{
             let data = {};
             data['id'] = $(instance).find('input[name=userId]').val();
             data['period'] = this.period(instance);
+            data['notified'] = this.notified(instance);
             data['overtime'] = this.overtime(instance);
             data['allowance'] = this.allowances(instance);
             data['deduction'] = this.deductions(instance);

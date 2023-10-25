@@ -55,7 +55,8 @@ class SetReportService extends Service{
         $overtime,
         $noPayLeaveAllowances,
         $noPayLeaveDeductions,
-        $period
+        $period,
+        $notified
     ){
         Assert::validUuid($reportId, 'Report not found.');
         Assert::validDate($period['from'], 'Invlaid periord date.');
@@ -96,7 +97,7 @@ class SetReportService extends Service{
         $overtimeCollector = (new OvertimeReportToFactory())->toFactory($overtime, $user->id(), $reportId);
         $reportOvertime = (new CalculateReportOvertime())->calculate($overtimeCollector);
 
-        $report = $this->report->create(
+        $report = $this->report->set(
             $user, 
             $periodFrom,
             $periodTo,
@@ -108,7 +109,8 @@ class SetReportService extends Service{
             $reportNoPayLeaveAllowances,
             $reportNoPayLeaveDeductions,
             $reportOvertime,
-            $reportId
+            $reportId,
+            $notified
         );
 
         $this->setOutput($report);

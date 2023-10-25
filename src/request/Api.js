@@ -15,6 +15,8 @@ import { RegisterAdmin } from "./RegisterAdmin";
 import { Mail } from "./Mail";
 import { Settings } from "./Settings";
 import { Notification } from "./Notification";
+import { Tax } from "./Tax";
+import { v4 as uuidv4 } from 'uuid';
 
 const reAuth = new ReAuthenticate();
 export class Api{
@@ -37,6 +39,7 @@ export class Api{
         this.mail = new Mail(this);
         this.settings = new Settings(this);
         this.notification = new Notification(this);
+        this.tax = new Tax(this);
     }
 
     handler(error, option){

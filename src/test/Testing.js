@@ -29,6 +29,8 @@ import { BusinessProfile } from "../pages/BusinessProfile";
 import { PasswrodRecovery } from "../accounts/PasswordRecovery";
 import { PasswordInput } from "../widgets/PasswordInput";
 import { EmailSetup } from "../pages/EmailSetup";
+import { BiCalendar } from "../components/BiCalendar";
+import { TaxDeductionReadOnly } from "../widgets/TaxDeductionReadOnly";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
@@ -72,7 +74,7 @@ export const Testing = () =>{
 
     return (
         <div className="w-50">
-            <Notifications/>
+            <TaxDeductionReadOnly/>
         </div>
     )
 

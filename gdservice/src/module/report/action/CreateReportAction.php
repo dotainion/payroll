@@ -24,7 +24,8 @@ class CreateReportAction extends Request implements IAction{
             $this->get('overtime'),
             $this->get('noPayLeaveAllowances'),
             $this->get('noPayLeaveDeductions'),
-            $this->get('period')
+            $this->get('period'),
+            $this->get('notified')
         );
     }
 }

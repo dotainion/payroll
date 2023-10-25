@@ -25,4 +25,29 @@ export class DateHelper{
     weekDays(){
         return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     }
+
+    months(name){
+        return [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+    }
+
+    monthIndex(name){
+        let index = 0;
+        for(let month of this.months()){
+            if(month === name) return index;
+            index ++;
+        }
+    }
 }

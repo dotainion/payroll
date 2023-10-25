@@ -28,7 +28,9 @@ class Settings{
     deductions = () => this._nested + 'deductions';
     departments = () => this._nested + 'departments';
     banks = () => this._nested + 'banks';
-    settings = () => this._nested + 'system/settings';
+    settings = () => this._nested + 'system/settings/*';
+    tax = () => this._nested + 'tax';
+    sickLeave = () => this._nested + 'sickleave';
     emailNotificationSetup = () => this._nested + 'email/notificatin/setup';
     nested = () => {
         this._nested = this.default().replace('*', '');

@@ -25,4 +25,12 @@ class AssertBankExist{
         }
         return true;
     }
+
+    public function assertBankNameExist(string $bankName, $message='Bank not found.'):bool{
+        $collector = $this->repo->listBanks(['name' => $bankName, 'hide'=> false]);
+        if(!$collector->hasItem()){
+            throw new InvalidArgumentException($message);
+        }
+        return true;
+    }
 }

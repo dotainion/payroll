@@ -17,7 +17,7 @@ export const PayslipItemize = ({reports}) =>{
         return total;
     }
 
-    const toTotalRate = (itemize) =>{
+    const toTotalYTD = (itemize) =>{
         let total = 0;
         itemize?.list?.forEach((item)=>{
             total = total + parseFloat(item?.attributes?.ytd);
@@ -30,30 +30,30 @@ export const PayslipItemize = ({reports}) =>{
         if(payslipPages === 'itemize'){
             reports?.forEach((report)=>{
                 report?.attributes?.allAllowances?.forEach((item)=>{
-                    if(!options?.[item?.type]) options[item?.type] = [];
+                    if(!options?.[item?.attributes?.name]) options[item?.attributes?.name] = [];
                     item.attributes.userName = report?.attributes?.user?.attributes?.name;
-                    options[item?.type].push(item);
+                    options[item?.attributes?.name].push(item);
                 });
                 report?.attributes?.allDeductions?.forEach((item)=>{
-                    if(!options?.[item?.type]) options[item?.type] = [];
+                    if(!options?.[item?.attributes?.name]) options[item?.attributes?.name] = [];
                     item.attributes.userName = report?.attributes?.user?.attributes?.name;
-                    options[item?.type].push(item);
+                    options[item?.attributes?.name].push(item);
                 });
             });
         }else{
             reports?.forEach((report)=>{
                 report?.attributes?.allAllowances?.forEach((item)=>{
                     if(payslipPages === item?.type){
-                        if(!options?.[item?.type]) options[item?.type] = [];
+                        if(!options?.[item?.attributes?.name]) options[item?.attributes?.name] = [];
                         item.attributes.userName = report?.attributes?.user?.attributes?.name;
-                        options[item?.type].push(item);
+                        options[item?.attributes?.name].push(item);
                     }
                 });
                 report?.attributes?.allDeductions?.forEach((item)=>{
                     if(payslipPages === item?.type){
-                        if(!options?.[item?.type]) options[item?.type] = [];
+                        if(!options?.[item?.attributes?.name]) options[item?.attributes?.name] = [];
                         item.attributes.userName = report?.attributes?.user?.attributes?.name;
-                        options[item?.type].push(item);
+                        options[item?.attributes?.name].push(item);
                     }
                 });
             });
@@ -77,6 +77,7 @@ export const PayslipItemize = ({reports}) =>{
                             <tr>
                                 <th>Name</th>
                                 <th>{itemize?.list?.[0]?.type}</th>
+                                <th>Number</th>
                                 <th>Rate</th>
                                 <th>Amount</th>
                                 <th>YTD</th>
@@ -87,6 +88,7 @@ export const PayslipItemize = ({reports}) =>{
                                 <tr key={key2}>
                                     <td>{item?.attributes?.userName}</td>
                                     <td>{item?.attributes?.name}</td>
+                                    <td>{item?.attributes?.number}</td>
                                     <td>{item?.attributes?.rate}</td>
                                     <td>{item?.attributes?.net}</td>
                                     <td>{item?.attributes?.ytd}</td>
@@ -95,7 +97,7 @@ export const PayslipItemize = ({reports}) =>{
                             <tr className="border-0">
                                 <td className="border-0" colSpan={3}></td>
                                 <td className="border-0"><b>{toTotalAmount(itemize)}</b></td>
-                                <td className="border-0"><b>{toTotalRate(itemize)}</b></td>
+                                <td className="border-0"><b>{toTotalYTD(itemize)}</b></td>
                             </tr>
                         </tbody>
                     </table>

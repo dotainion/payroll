@@ -63,7 +63,7 @@ export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeduct
                 <div className="text-end p-3">
                     <div className="dropdown-button-group">
                         <Dropdown as={ButtonGroup} size="sm">
-                            <Button onClick={onCreate}><span className="me-2">Add</span><MdAdd/></Button>
+                            <Button onClick={onCreate} className="text-nowrap"><span className="me-2">Add</span><MdAdd/></Button>
                             <Dropdown.Toggle split variant="primary"/>
                             <Dropdown.Menu className="super-colors">
                                 <div className="overflow-auto" style={{maxHeight: '300px'}}>
@@ -78,7 +78,7 @@ export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeduct
                         </Dropdown>
 
                         <Dropdown as={ButtonGroup} size="sm">
-                            <Button onClick={onCreateNoPayLeave}><span className="me-2">No Pay Leave</span><MdAdd/></Button>
+                            <Button onClick={onCreateNoPayLeave} className="text-nowrap"><span className="me-2">No Pay Leave</span><MdAdd/></Button>
                             <Dropdown.Toggle split variant="primary"/>
                             <Dropdown.Menu className="super-colors">
                                 <div className="overflow-auto" style={{maxHeight: '300px'}}>
@@ -93,7 +93,7 @@ export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeduct
                         </Dropdown>
 
                         <Dropdown as={ButtonGroup} size="sm">
-                            <Button onClick={onCreateLoan}><span className="me-2">Loan</span><MdAdd/></Button>
+                            <Button onClick={onCreateLoan} className="text-nowrap"><span className="me-2">Loan</span><MdAdd/></Button>
                             <Dropdown.Toggle split variant="primary"/>
                             <Dropdown.Menu className="super-colors">
                                 <div className="overflow-auto" style={{maxHeight: '300px'}}>

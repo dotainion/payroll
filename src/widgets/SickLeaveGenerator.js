@@ -78,7 +78,7 @@ export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
                 <div className="text-end p-3">
                     <div className="dropdown-button-group">
                         <Dropdown as={ButtonGroup} size="sm">
-                            <Button onClick={onCreate}><span className="me-2">Add Sick Leave</span><MdAdd/></Button>
+                            <Button onClick={onCreate} className="text-nowrap"><span className="me-2">Add Sick Leave</span><MdAdd/></Button>
                             <Dropdown.Toggle split variant="primary"/>
                             <Dropdown.Menu className="super-colors">
                                 <div className="overflow-auto" style={{maxHeight: '300px'}}>

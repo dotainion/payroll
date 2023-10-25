@@ -271,6 +271,28 @@ class Schema{
         return $this->sql->execute();
     }
 
+    public function taxSettings(){
+        $this->sql->create('taxSettings')
+            ->column('id')->bindary()
+            ->column('active')->bool()
+            ->column('percentage')->string()
+            ->column('limitAmount')->string()
+            ->column('alert')->string();
+        return $this->sql->execute();
+    }
+
+    public function taxDeduction(){
+        $this->sql->create('taxDeduction')
+            ->column('taxDId')->bindary()
+            ->column('userId')->bindary()
+            ->column('taxDName')->string()
+            ->column('taxDDate')->timestamp()
+            ->column('taxDAmount')->string()
+            ->column('taxDHide')->bool()
+            ->column('taxDReportId')->bindary();
+        return $this->sql->execute();
+    }
+
     public function run(){
         foreach(get_class_methods($this) as $method){
             if($method === '__construct' || $method === 'run') continue;

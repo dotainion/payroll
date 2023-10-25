@@ -38,4 +38,8 @@ export class Report{
     async listPeriods(){
         return await this.api.get('/list/periods', null);
     }
+
+    async calculateReport(data){
+        return await this.api.get('/calculate/report', data);
+    }
 }

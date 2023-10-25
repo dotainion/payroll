@@ -1,36 +1,33 @@
 <?php
 namespace src\module\report\logic;
 
-use InvalidArgumentException;
 use src\infrastructure\Assert;
 use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
+use src\module\bank\logic\AssertBankExist;
 use src\module\report\factory\LoanDeductionFactory;
-use src\module\report\repository\LoanDeductionRepository;
 
 class LoanDeductionReportToFactory{
-    protected LoanDeductionRepository $repo;
     protected LoanDeductionFactory $factory;
+    protected AssertBankExist $assertBanks;
 
     public function __construct(){
-        $this->repo = new LoanDeductionRepository();
         $this->factory = new LoanDeductionFactory();
+        $this->assertBanks = new AssertBankExist();
     }
 
     private function _assertBankExist(string $name):bool{
-        $collector = $this->repo->listLoanDeductions(['name' => $name, 'hide' => false]);
-        if(!$collector->hasItem()){
-            throw new InvalidArgumentException('Bank not found');
-        }
+        $message = 'Bank name ('.$name.') do not exist.';
+        $this->assertBanks->assertBankNameExist($name, $message);
         return true;
     }
 
     public function toFactory(array $loanAllowance, Id $userId, Id $reportId):Collector{
         foreach($loanAllowance as $loan){
             Assert::stringNotEmpty($loan['name'], 'Loan name is required.');
-            Assert::stringNotEmpty($loan['number'], 'Loan number is required.');
-            Assert::stringNotEmpty($loan['amount'], 'Loan amount is required.');
+            Assert::stringNotEmpty($loan['number'], 'Loan number is required. ('.$loan['name'].')');
+            Assert::stringNotEmpty($loan['amount'], 'Loan amount is required. ('.$loan['name'].')');
 
             $this->_assertBankExist($loan['name']);
 

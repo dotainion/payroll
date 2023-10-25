@@ -3,8 +3,11 @@ import { Signin } from "../accounts/Signin";
 import $ from 'jquery';
 import { useLocation } from "react-router-dom";
 import { routes } from "../router/routes";
+import { useAuth } from "../auth/AuthProvider";
 
 export const NotAuthenticated = () =>{
+    const { onAuthStateChange } = useAuth();
+
     const location = useLocation();
 
     const warningRef = useRef();
@@ -15,15 +18,15 @@ export const NotAuthenticated = () =>{
         $(warningRef.current).hide('fast');
     }
 
-    const closeReAuthentication = () =>{
-        $('[data-re-authenticated]').hide('fast');
-        $(loginRef.current).hide('fast');
-        $(warningRef.current).show('fast');
-        window.location.reload();
-    }
-
     useEffect(()=>{
+        onAuthStateChange(() =>{
+            $('[data-re-authenticated]').hide('fast');
+            $(loginRef.current).hide('fast');
+            $(warningRef.current).show('fast');
+            window.location.reload();
+        }, () =>{
         
+        });
     }, []);
 
     return(
@@ -33,7 +36,7 @@ export const NotAuthenticated = () =>{
                 <button onClick={onShowLogin} className="btn btn-sm btn-outline-primary px-3 py-1">Login</button>
             </div>
             <div ref={loginRef} style={{display: 'none'}}>
-                <Signin onSucess={closeReAuthentication} />
+                <Signin />
             </div>
         </div>
     )

@@ -2,6 +2,7 @@
 namespace src\module\report\service;
 
 use src\infrastructure\Collector;
+use src\module\report\logic\FetchTaxDeductionReport;
 use src\module\report\logic\ListLoanAllowanceByUserReport;
 use src\module\report\logic\ListLoanDeductionByUserReport;
 use src\module\report\logic\ListNoPayLeaveAllowance;
@@ -24,6 +25,7 @@ class ReportDependenciesService{
     protected ListNoPayLeaveAllowance $payLeave;
     protected ListNoPayLeaveDeduction $noPayLeave;
     protected ListReportOvertime $overtime;
+    protected FetchTaxDeductionReport $tax;
     protected YTDCalculator $ytd;
     protected FetchUser $user;
 
@@ -37,6 +39,7 @@ class ReportDependenciesService{
         $this->payLeave = new ListNoPayLeaveAllowance();
         $this->noPayLeave = new ListNoPayLeaveDeduction();
         $this->overtime = new ListReportOvertime();
+        $this->tax = new FetchTaxDeductionReport();
         $this->ytd = new YTDCalculator();
         $this->user = new FetchUser();
     }
@@ -76,6 +79,10 @@ class ReportDependenciesService{
             $overtimeCollector = $this->overtime->overtimeByReport($report->id());
             $this->ytd->calculateOvertimeYTD($overtimeCollector, $report->userId());
             $report->setToAllAllowancesCollection($overtimeCollector);
+
+            $taxDeductionCollector = $this->tax->taxDeductionByReportId($report->id());
+            $this->ytd->calculateTaxDeductionYTD($taxDeductionCollector, $report->userId());
+            $report->setToAllDeductionsCollection($taxDeductionCollector);
 
             $user = $this->user->user($report->userId());
             $report->setUser($user->first());

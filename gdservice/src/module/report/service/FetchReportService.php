@@ -19,6 +19,7 @@ class FetchReportService extends Service{
 
         $reportId = new Id();
         $reportId->set($id);
+        
         $collector = $this->report->report($reportId);
         (new ReportDependenciesService())->process($collector);
 

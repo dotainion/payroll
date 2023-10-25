@@ -17,7 +17,7 @@ class LoanAllowanceFactory extends Collector{
         $loan->setUserId($this->uuid($record['userId']));
         $loan->setName($record['rLAName'] ?? $record['name']);
         $loan->setDate($record['rLADate'] ?? $record['date']);
-        $loan->setHide($record['rLAHide'] ?? $record['hide']);
+        $loan->setHide((bool)$record['rLAHide'] ?? $record['hide']);
         $loan->setNumber($record['rLANumber'] ?? $record['number']);
         $loan->setAmount($record['rLAAmount'] ?? $record['amount']);
         $loan->setReportId($this->uuid($record['rLAReportId'] ?? $record['reportId']));

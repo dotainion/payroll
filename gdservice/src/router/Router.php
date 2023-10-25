@@ -1,6 +1,7 @@
 <?php
 namespace src\router;
 
+use src\infrastructure\DateHelper;
 use src\infrastructure\Https;
 use src\module\allowance\action\CreateAllowanceAction;
 use src\module\allowance\action\DeleteAllowanceAction;
@@ -42,6 +43,7 @@ use src\module\notification\action\FetchNotificationSetupAction;
 use src\module\notification\action\FetchUserNotificationSettingAction;
 use src\module\notification\action\SetNotificationSetupAction;
 use src\module\notification\action\SetUserNotificationSettingAction;
+use src\module\report\action\CalculateReportAction;
 use src\module\report\action\CreateBulkReportAction;
 use src\module\report\action\CreateReportAction;
 use src\module\report\action\DeleteAllowanceReportAction;
@@ -57,6 +59,9 @@ use src\module\report\action\ListUserReportAction;
 use src\module\report\action\SearchBulkReportByDateAction;
 use src\module\settings\action\FetchSickLeaveSettingsAction;
 use src\module\settings\action\SetSickLeaveSettingsAction;
+use src\module\tax\action\DeleteTaxSettingsAction;
+use src\module\tax\action\ListTaxSettingsAction;
+use src\module\tax\action\SetTaxSettingsAction;
 use src\module\user\action\CreateUserAction;
 use src\module\user\action\EditUserAction;
 use src\module\user\action\FetchUserAction;
@@ -87,7 +92,7 @@ class Router{
         });*/
 
         $this->request->route('/test', function ($req){
-            var_dump(Https::baseDirectory());
+            
         });
 
         $this->request->route('/signin', function ($req){
@@ -238,6 +243,10 @@ class Router{
             return new CreateBulkReportAction();
         });
 
+        $this->request->route('/calculate/report', function ($req){
+            return new CalculateReportAction();
+        });
+
         $this->request->route('/list/bulk/reports', function ($req){
             return new ListBulkReportAction();
         });
@@ -324,6 +333,18 @@ class Router{
 
         $this->request->route('/set/user/notification/setting', function ($req){
             return new SetUserNotificationSettingAction();
+        });
+
+        $this->request->route('/list/tax/setting', function ($req){
+            return new ListTaxSettingsAction();
+        });
+
+        $this->request->route('/delete/tax/setting', function ($req){
+            return new DeleteTaxSettingsAction();
+        });
+
+        $this->request->route('/set/tax/setting', function ($req){
+            return new SetTaxSettingsAction();
         });
     }
 

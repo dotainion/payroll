@@ -3,6 +3,7 @@ namespace src\module\user\repository;
 
 use src\database\Repository;
 use src\infrastructure\Collector;
+use src\infrastructure\DateHelper;
 use src\module\user\factory\UserFactory;
 use src\module\user\objects\User;
 
@@ -71,6 +72,9 @@ class UserRepository extends Repository{
         }
         if(isset($where['hide'])){
             $this->where('hide', (int)$where['hide']);
+        }
+        if(isset($where['dob'])){
+            $this->where('dob', (int)$where['dob']);
         }
         $this->execute();
         return $this->factory->map(

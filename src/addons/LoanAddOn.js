@@ -13,13 +13,21 @@ export const LoanAddOn = ({data, banks}) =>{
         $(e.currentTarget).parent().parent().remove();
     }
 
+    const onBankChange = (e) =>{
+        const bank = banks.find((b)=>b?.attributes?.name === e.target.value);
+        if(!bank) return;
+        $(addOnRef.current).find('[name=number]').val(bank?.attributes?.number);
+    }
+
     useEffect(()=>{
         if(!data) return;
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
-            $(addOnRef.current).find('select[name=bank]').find(`option:contains("${data?.attributes?.name}")`).attr('selected', 'selected');
+            $(addOnRef.current).find('select[name=bank]').find('option').each((i, option)=>{
+                if($(option).text() === data?.attributes?.name) $(option).attr('selected', 'selected');
+                else $(option).removeAttr('selected');
+            });
         }, 100);
-        console.log(banks);
     }, [data, banks]);
 
     return(
@@ -27,7 +35,7 @@ export const LoanAddOn = ({data, banks}) =>{
             <div className="allowance-row border m-3 text-nowrap">
                 <div className="input-group">
                     <span className="input-group-text"><PiBankFill/></span>
-                    <select className="form-control shadow-none" name="bank" defaultValue={data?.attributes?.name || 'Select loan'}>
+                    <select onChange={onBankChange} className="form-control shadow-none" name="bank" defaultValue={data?.attributes?.name || 'Select loan'}>
                         {banks?.map?.((bank, key)=>(
                             <option key={key}>{bank?.attributes?.name}</option>
                         ))}

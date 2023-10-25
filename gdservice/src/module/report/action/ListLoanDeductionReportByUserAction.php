@@ -3,14 +3,14 @@ namespace src\module\report\action;
 
 use src\infrastructure\IAction;
 use src\infrastructure\Request;
-use src\module\report\service\LsitLoanDeductionReportByUserService;
+use src\module\report\service\ListLoanDeductionReportByUserService;
 
 class ListLoanDeductionReportByUserAction extends Request implements IAction{
     protected $service;
 
     public function __construct(){
         parent::__REQUEST__();
-        $this->service = new LsitLoanDeductionReportByUserService();
+        $this->service = new ListLoanDeductionReportByUserService();
     }
 
     public function execute(){

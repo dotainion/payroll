@@ -41,7 +41,7 @@ class BankRepository extends Repository{
     public function listBanks(array $where=[]):Collector{
         $this->select('bank');
         if(isset($where['name'])){
-            $this->where('bankName', $where['bankName']);
+            $this->where('bankName', $where['name']);
         }
         if(isset($where['id'])){
             $this->where('bankId', $this->uuid($where['id']));

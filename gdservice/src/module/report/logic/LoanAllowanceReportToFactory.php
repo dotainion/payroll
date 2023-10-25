@@ -1,36 +1,33 @@
 <?php
 namespace src\module\report\logic;
 
-use InvalidArgumentException;
 use src\infrastructure\Assert;
 use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
-use src\module\bank\repository\BankLinkRepository;
+use src\module\bank\logic\AssertBankExist;
 use src\module\report\factory\LoanAllowanceFactory;
 
 class LoanAllowanceReportToFactory{
-    protected BankLinkRepository $repo;
     protected LoanAllowanceFactory $factory;
+    protected AssertBankExist $assertBanks;
 
     public function __construct(){
-        $this->repo = new BankLinkRepository();
         $this->factory = new LoanAllowanceFactory();
+        $this->assertBanks = new AssertBankExist();
     }
 
     private function _assertBankExist(string $name):bool{
-        $collector = $this->repo->listBanks(['name' => $name, 'hide' => false]);
-        if(!$collector->hasItem()){
-            throw new InvalidArgumentException('Bank not found under this user account.');
-        }
+        $message = 'Bank name ('.$name.') do not exist.';
+        $this->assertBanks->assertBankNameExist($name, $message);
         return true;
     }
 
     public function toFactory(array $loanDeduction, Id $userId, Id $reportId):Collector{
         foreach($loanDeduction as $loan){
             Assert::stringNotEmpty($loan['name'], 'Loan name is required.');
-            Assert::stringNotEmpty($loan['number'], 'Loan number is required.');
-            Assert::stringNotEmpty($loan['amount'], 'Loan amount is required.');
+            Assert::stringNotEmpty($loan['number'], 'Loan number is required. ('.$loan['name'].')');
+            Assert::stringNotEmpty($loan['amount'], 'Loan amount is required. ('.$loan['name'].')');
 
             $this->_assertBankExist($loan['name']);
             $id = new Id();
@@ -38,7 +35,7 @@ class LoanAllowanceReportToFactory{
                 'id' => $id->isValid($loan['id']) ? $loan['id'] : $id->new()->toString(),
                 'userId' => $userId->toString(),
                 'name' => $loan['name'],
-                'date' => (new DateHelper())->toString(),
+                'date' => (new DateHelper())->new()->toString(),
                 'number' => $loan['number'],
                 'amount' => $loan['amount'],
                 'reportId' => $reportId->toString()

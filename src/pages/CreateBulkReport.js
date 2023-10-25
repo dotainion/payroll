@@ -16,23 +16,28 @@ import { routes } from "../router/routes";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { DateHelper } from "../utils/DateHelper";
 import { useDocument } from "../contents/DocumentProvider";
-
-const ddts = [{"id":"592ef782-6526-4d74-89ce-0a570cdd824e","type":"report","attributes":{"hide":false,"userId":"dbe82072-33cc-41d0-ac26-a41545698862","user":{"id":"dbe82072-33cc-41d0-ac26-a41545698862","type":"user","attributes":{"userId":"123","name":"Nick Blair","email":"mb.repairss@gmail.com","hide":false,"gender":"Male","number":"1234","token":null,"emergencyNumber":"1234","registrationDate":"2023-09-13 00:00:00","salary":"2000","dob":"2023-09-13 00:00:00","taxId":"252525","otRate":"25","city":"Saint Andrew","state":"Grenada","address":"tempe","department":"Accounts"}},"totalDeduction":"0","totalAllowance":"37.5","totalSalary":"2000","net":"2037.5","netSalary":"2037.5","date":"2023-09-05 02:22:46","ytd":"7952.5","periodFrom":"2023-09-05 00:00:00","periodTo":"2023-09-26 00:00:00","allAllowances":[{"id":"fa732974-0506-4971-901a-9dec52e21a59","type":"overtime","attributes":{"userId":"dbe82072-33cc-41d0-ac26-a41545698862","reportId":"592ef782-6526-4d74-89ce-0a570cdd824e","ytd":"112.5","name":"Overtime","rate":"1.5","hours":"1","date":"2023-09-05 02:22:46","hide":false,"net":"37.5","amount":"25","totalAmount":"37.5"}}],"allDeductions":[]}},{"id":"592ef782-6526-4d74-89ce-0a570cdd824e","type":"report","attributes":{"hide":false,"userId":"dbe82072-33cc-41d0-ac26-a41545698862","user":{"id":"dbe82072-33cc-41d0-ac26-a41545698862","type":"user","attributes":{"userId":"123","name":"Nick Blair","email":"mb.repairss@gmail.com","hide":false,"gender":"Male","number":"1234","token":null,"emergencyNumber":"1234","registrationDate":"2023-09-13 00:00:00","salary":"2000","dob":"2023-09-13 00:00:00","taxId":"252525","otRate":"25","city":"Saint Andrew","state":"Grenada","address":"tempe","department":"Accounts"}},"totalDeduction":"0","totalAllowance":"37.5","totalSalary":"2000","net":"2037.5","netSalary":"2037.5","date":"2023-09-05 02:22:46","ytd":"7952.5","periodFrom":"2023-09-05 00:00:00","periodTo":"2023-09-26 00:00:00","allAllowances":[{"id":"fa732974-0506-4971-901a-9dec52e21a59","type":"overtime","attributes":{"userId":"dbe82072-33cc-41d0-ac26-a41545698862","reportId":"592ef782-6526-4d74-89ce-0a570cdd824e","ytd":"112.5","name":"Overtime","rate":"1.5","hours":"1","date":"2023-09-05 02:22:46","hide":false,"net":"37.5","amount":"25","totalAmount":"37.5"}}],"allDeductions":[]}}];
+import { BiCalendar } from "../components/BiCalendar";
 
 export const CreateBulkReport = () =>{
-    const { addPreviousHistory } = useDocument();
-    const [reports, setReports] = useState(ddts);
+    const { loading, setLoading, addPreviousHistory } = useDocument();
+
+    const [reports, setReports] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
 
     const navigate = useNavigate();
 
     const reportContainerRef = useRef();
     
-    const onGenerateBulkReport = () =>{
+    const onGenerateBulkReport = async() =>{
+        setLoading(true);
+
         const data = {
             reports: reportPayload.payload().list(),
         }
-        if(!data.reports.length) return toast.warning('Generating Blulk Report', 'No report selected.');
+        if(!data.reports.length){ 
+            setLoading(false);
+            return toast.warning('Generating Blulk Report', 'No report selected.');
+        }
         console.log(data);
         api.report.bulkCreate(data).then((response)=>{
             console.log(response);
@@ -46,9 +51,14 @@ export const CreateBulkReport = () =>{
                     navigate(routes.workspace().nested().eachEmployeePayslip(routes.utils.stringify(reportIdArray)));
                 }
             })?.();
+
+            $('[data-notification-icon]').hide();
+            $('[data-report-row-container]').removeClass('alert alert-danger p-0');
         }).catch((error)=>{
             console.log(error);
             toast.error('Generating Blulk Report', error);
+        }).finally(()=>{
+            setLoading(false);
         });
     }
 
@@ -84,7 +94,7 @@ export const CreateBulkReport = () =>{
 
     return(
         <Pagination 
-            beginChildren={<Generate onGenerate={onGenerateBulkReport}/>} 
+            beginChildren={<Generate onGenerate={onGenerateBulkReport} disabled={loading}/>} 
             title="Generate Bulk Report"
             searchTargetContainer={$('[data-report-children-container]')}
             onDateSearch={searchByDate}
@@ -112,15 +122,14 @@ export const CreateBulkReport = () =>{
     )
 }
 
-const Generate = ({onGenerate}) =>{
+const Generate = ({onGenerate, disabled}) =>{
     const { addPreviousHistory } = useDocument();
     const [isActive, setIsActive] = useState(true);
+    const [dateRange, setDateRange] = useState({from: '', to: ''});
 
     const navigate = useNavigate();
 
     const overlayRef = useRef();
-    const fromRef = useRef();
-    const toRef = useRef();
     const errorRef = useRef();
 
     const onSeeInvoices = () =>{
@@ -145,16 +154,21 @@ const Generate = ({onGenerate}) =>{
         setIsActive(state);
     }
 
-    const onTriggerGenerate = () =>{
-        if(!fromRef.current.valueAsDate) return $(errorRef.current).show('fast').text('Invalid date (from)');
-        if(!toRef.current.valueAsDate) return $(errorRef.current).show('fast').text('Invalid date (to)');
-        const from = new DateHelper().sqlStringToInput(new DateHelper(fromRef.current.valueAsDate).toSqlString());
-        const to = new DateHelper().sqlStringToInput(new DateHelper(toRef.current.valueAsDate).toSqlString());
+    const updateEachReport = () =>{
+        const from = new DateHelper().sqlStringToInput(new DateHelper(dateRange.from).toSqlString());
+        const to = new DateHelper().sqlStringToInput(new DateHelper(dateRange.to).toSqlString());
         $('[data-report-row-container]').find('[data-report-period]').each((i, row)=>{
             $(row).find('input[name=from]').val(from);
             $(row).find('input[name=to]').val(to);
         });
+    }
+
+    const onTriggerGenerate = () =>{
+        if(disabled) return;
+        if(!dateRange.from) return $(errorRef.current).show('fast').text('Invalid date (from)');
+        if(!dateRange.to) return $(errorRef.current).show('fast').text('Invalid date (to)');
         $(overlayRef.current).hide('fast');
+        updateEachReport();
         onGenerate?.();
     }
 
@@ -163,22 +177,12 @@ const Generate = ({onGenerate}) =>{
             <button onClick={()=>toggleCollapsAll(!isActive)} className="btn btn-sm btn-outline-primary px-2 py-1 me-2">{isActive? 'Expand': 'Collaps'} All <BsArrowsCollapse/></button>   
             <button onClick={()=>$(overlayRef.current).show('fast')} className="btn btn-sm btn-outline-success px-2 py-1 me-2">Clone Reports <BiSolidReport/></button>      
             <button onClick={onSeeInvoices} className="btn btn-sm btn-outline-warning px-2 py-1">Invoices <FaFileInvoiceDollar/></button>
-            
             <div ref={overlayRef} onClick={()=>$(overlayRef.current).hide('fast')} className="backdrop position-absolute top-0 start-0 vw-100 vh-100" style={{display: 'none'}}>
                 <div onClick={(e)=>e.stopPropagation()} className="position-absolute top-50 start-50 translate-middle text-end bg-light py-4 px-5 rounded-3 shadow-sm">
-                    <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>
-                        <div className="text-start fw-bold text-wrap mb-3">What period do you want to create your records from for the cloning of employee records</div>
+                    <div onChange={()=>$(errorRef.current).hide('fast')} className="allowance-row bg-transparent py-3" style={{width: '445px'}}>
+                        <div className="text-start fw-bold text-wrap mb-3">What period do you want to create your records from for the cloning of employee records.</div>
                         <div ref={errorRef} className="alert alert-danger text-start" style={{display: 'none'}}></div>
-                        <div className="d-flex align-items-center" data-report-period="">
-                            <div className="input-group w-100">
-                                <span className="input-group-text">From</span>
-                                <input ref={fromRef} onChange={()=>$(errorRef.current).hide('fast')} className="form-control shadow-none" name="from" type="date" />
-                            </div>
-                            <div className="input-group w-100 ms-3">
-                                <span className="input-group-text">To</span>
-                                <input ref={toRef} onChange={()=>$(errorRef.current).hide('fast')} className="form-control shadow-none" name="to" type="date" />
-                            </div>
-                        </div>
+                        <BiCalendar onSelect={(s, e)=>setDateRange({from: s.dateInstance, to: e.dateInstance})} inlineMode />
                     </div>
                     <div className="text-center mt-2">
                         <div onClick={onTriggerGenerate} className="btn btn-sm btn-primary px-3">Generate Report</div>
@@ -231,7 +235,7 @@ const ReportInstanceRow = ({report}) =>{
     return(
         <div ref={reportRef}>
             <div onClick={onOpenCard} className="pointer bulk-report-item position-relative d-flex align-items-center border p-1 my-2" data-report-card-row="">
-                <div className="position-absolute text-danger fs-5 end-0" style={{top: '-8px', zIndex: '8888'}}>
+                <div className="position-absolute text-danger fs-5 end-0" style={{top: '-8px', zIndex: '8888', display: 'none'}} data-notification-icon="">
                     <IoNotificationsCircleOutline/>
                 </div>
                 <div onClick={(e)=>e.stopPropagation()} className="d-flex align-items-center border-end px-2">

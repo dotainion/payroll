@@ -4,7 +4,7 @@ import { useNavigate} from 'react-router-dom';
 import { routes } from "../router/routes";
 import { useAuth } from "../auth/AuthProvider";
 
-export const Signin = ({onSucess, onError}) =>{
+export const Signin = () =>{
     const { signin } = useAuth();
 
     const navigate = useNavigate();
@@ -12,8 +12,8 @@ export const Signin = ({onSucess, onError}) =>{
     const emailRef = useRef();
     const passwordRef = useRef();
 
-    const onSignIn = async() =>{
-        await signin(emailRef.current.value, passwordRef.current.value, onSucess, onError);
+    const onSignIn = () =>{
+        signin(emailRef.current.value, passwordRef.current.value);
     }
 
     return(

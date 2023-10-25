@@ -23,6 +23,9 @@ class SetReport{
     protected SetReportOvertime $setOvertime;
     protected FetchSickLeave $settings;
     protected MassDeleteReport $massDelete;
+    protected TaxReportToFactory $taxReport;
+    protected SetReportTaxDeduction $setTaxDeduction;
+    protected BiMonthlySalary $biMonthly;
 
     public function __construct(){
         $this->repo = new ReportRepository();
@@ -37,13 +40,20 @@ class SetReport{
         $this->setOvertime = new SetReportOvertime();
         $this->settings = new FetchSickLeave();
         $this->massDelete = new MassDeleteReport();
+        $this->taxReport = new TaxReportToFactory();
+        $this->setTaxDeduction = new SetReportTaxDeduction();
+        $this->biMonthly = new BiMonthlySalary();
+    }
+
+    public function execution():bool{
+        return $this->stopExecution;
     }
 
     public function stopExecution(bool $stopExecution):void{
         $this->stopExecution = $stopExecution;
     }
 
-    public function create(
+    public function set(
         User $user, 
         DateHelper $periodFrom,
         DateHelper $periodTo,
@@ -55,7 +65,8 @@ class SetReport{
         CalculateReportNoPayLeaveAllowance $reportNoPayLeaveAllowances,
         CalculateReportNoPayLeaveDeduction $reportNoPayLeaveDeductions,
         CalculateReportOvertime $reportOVertime,
-        Id $reportId
+        Id $reportId,
+        ?bool $notified
     ):Report{
         $totalAllowance = $rAllowance->totalAllowance();
         $totalDeduction = $rDeduction->totalDeduction();
@@ -68,16 +79,34 @@ class SetReport{
 
         $totalAllowance = $totalAllowance + $reportOVertime->totalOvertime();
 
+        $this->biMonthly->set($user, $periodFrom, $periodTo, $totalAllowance)->calculate();
+
         $salary = 0;
         if($reportSickLeaves->hasSickLeave()){
             $salary = $reportSickLeaves->totalSickLeave();
             $settings = $this->settings->settings();
             if($settings->includeSalary()){
-                $salary = $salary + ((float)$user->salary());
+                $salary = $salary + $this->biMonthly->biMonthlySalary();
             }
         }else{
-            $salary = (float)$user->salary();
+            $salary = $this->biMonthly->biMonthlySalary();
         }
+
+        //add allowance before tax deduction is subtracted if any.
+        $total = $salary  + $this->biMonthly->biMonthlyNetSalary();
+
+        if(!$this->execution()){
+            $this->taxReport->initializeTaxDeduction($user, $reportId, $total, $notified);
+            $this->taxReport->assertTaxDeduction();
+            if($this->taxReport->hasTaxDeduction()){
+                $taxDeductionTotal = (float)$this->taxReport->taxDeduction()->amount();
+                $totalDeduction = $totalDeduction + $taxDeductionTotal;
+                ///$total = $total - $taxDeductionTotal;
+            }
+        }
+
+        //add deduction after tax deduction was subtracted if any.
+        $total = $total - $totalDeduction;
 
         $report = $this->factory->mapResult([
             'id' => $reportId->toString(),
@@ -85,14 +114,14 @@ class SetReport{
             'date' => (new DateHelper())->new()->toString(),
             'allowance' => $totalAllowance,
             'deduction' => $totalDeduction,
-            'salary' => $salary,
+            'salary' => $this->biMonthly->biMonthlyNetSalary(),
             'hide' => $user->hide(),
             'from' => $periodFrom->toString(),
             'to' => $periodTo->toString(),
-            'net' => (($salary  + $totalAllowance) - $totalDeduction)
+            'net' => $total
         ]);
 
-        if(!$this->stopExecution){
+        if(!$this->execution()){
             $reportCollector = (new FetchReport())->report($report->id());
             if($reportCollector->hasItem()){
                 $this->setAllowance->massEdit($rAllowance->reportAllowances(), true);
@@ -107,6 +136,10 @@ class SetReport{
                 $this->setNoPayLeaveDeduction->massEdit($reportNoPayLeaveDeductions->noPayLeaveDeductions(), true);
 
                 $this->setOvertime->massEdit($reportOVertime->reportOvertimes(), true);
+
+                if($this->taxReport->hasTaxDeduction()){
+                    $this->setTaxDeduction->edit($this->taxReport->taxDeduction());
+                }
 
                 $this->repo->edit($report);
 
@@ -134,6 +167,10 @@ class SetReport{
                 $this->setNoPayLeaveDeduction->massCreate($reportNoPayLeaveDeductions->noPayLeaveDeductions());
 
                 $this->setOvertime->massCreate($reportOVertime->reportOvertimes());
+
+                if($this->taxReport->hasTaxDeduction()){
+                    $this->setTaxDeduction->create($this->taxReport->taxDeduction());
+                }
 
                 $this->repo->create($report);
             }

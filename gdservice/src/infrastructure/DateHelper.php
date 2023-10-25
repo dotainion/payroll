@@ -11,7 +11,9 @@ class DateHelper
     protected DateTime $date;
 
     public function __toString(){
-        return $this->date->format($this->format);
+        $stringDate = $this->date->format($this->format);
+        Assert::validDate($stringDate);
+        return $stringDate;
     }
 
     private function timezone():DateTimeZone{
@@ -25,6 +27,22 @@ class DateHelper
     public function new():self{
         $this->date = new DateTime('now', $this->timezone());
         return $this;
+    }
+
+    public function year():string{
+        return $this->modify('Y');
+    }
+
+    public function month():string{
+        return $this->modify('m');
+    }
+
+    public function date():string{
+        return $this->modify('d');
+    }
+
+    public function daysInMonth():int{
+        return cal_days_in_month(CAL_GREGORIAN, $this->month(), $this->year());
     }
 
     public function modify(string $format):string{
@@ -51,6 +69,9 @@ class DateHelper
 
     public function isValid($dateTime):bool{
         $date = DateTime::createFromFormat($this->format, $dateTime);
+        if(!$date || $date->format($this->format) === $this->nullable()){
+            return false;
+        }
         return $date && $date->format($this->format) == $dateTime;
     }
 
@@ -64,6 +85,10 @@ class DateHelper
 
     public function dateTime():DateTime{
         return $this->date;
+    }
+
+    public function difference(DateHelper $startDate, DateHelper $endDate):string{
+        return $endDate->dateTime()->diff($startDate->dateTime())->format("%a");
     }
 
     public function nullable():string{

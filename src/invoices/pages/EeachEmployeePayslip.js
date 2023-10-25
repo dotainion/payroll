@@ -7,13 +7,27 @@ import { InvoiceLayout } from "../../layout/InvoiceLayout";
 import { PayslipSwitcher } from "../components/PayslipSwitcher";
 
 export const EeachEmployeePayslip = () =>{
+    const [users, setUsers] = useState([]);
     const [reports, setReports] = useState([]);
+    const [rawReports, setRawReports] = useState([]);
 
     const params = useParams();
 
+    const parseUsers = (records) =>{
+        const usrs = records?.map((r)=>r.attributes.user);
+        setUsers(usrs);
+    }
+
+    const filterUsers = (records) =>{
+        const filteredReports = rawReports?.filter((r)=>records.includes(r.attributes.user.id));
+        setReports(filteredReports);
+    }
+
     const onSearchByPeriod = (data) =>{
         api.report.searchByDate(data.from, data.to).then((response)=>{
-            setReports(response.data.data);
+            setRawReports(response.data.data);
+            parseUsers(response.data.data);
+            filterUsers(response.data.data);
         }).catch((error)=>{
 
         });
@@ -22,13 +36,15 @@ export const EeachEmployeePayslip = () =>{
     useEffect(()=>{
         api.report.listEachReportByIdArray(routes.utils.parse(params.eachReportId)).then((response)=>{
             setReports(response.data.data);
+            setRawReports(response.data.data);
+            parseUsers(response.data.data);
         }).catch((error)=>{
 
         });
     }, [params]);
 
     return(
-        <InvoiceLayout onPeriodSelect={onSearchByPeriod}>
+        <InvoiceLayout onPeriodSelect={onSearchByPeriod} users={users} onUserFilter={filterUsers}>
             <PayslipSwitcher reports={reports}>
                 <PayslipBuilder reports={reports}/>
             </PayslipSwitcher>

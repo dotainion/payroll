@@ -63,14 +63,14 @@ const Bank = ({banks, data, disableApiRequest}) =>{
             }
             if(bankData?.id){
                 api.bank.editBankLink(record).then((response)=>{
-                    toast.success('Bank', 'Edited.');
+                    //toast.success('Bank', 'Edited.');
                 }).catch((error)=>{
                     toast.error('Bank', error);
                 });
             }else{
                 api.bank.createBankLink(record).then((response)=>{
                     setBankData(response?.data?.data?.[0]);
-                    toast.success('Bank', 'Created');
+                    //toast.success('Bank', 'Created');
                 }).catch((error)=>{
                     toast.error('Bank', error);
                 });
@@ -96,6 +96,14 @@ const Bank = ({banks, data, disableApiRequest}) =>{
     useEffect(()=>{
         if(!data) return;
         setBankData(data);
+        timeoutRef.current = setTimeout(() => {
+            $(bankRef.current).find('option').each((i, option)=>{
+                if($(option).text() === data?.attributes?.name){
+                    $(option).attr('selected', 'selected');
+                    accountNumberRef.current.value = data.attributes.number;
+                }else $(option).removeAttr('selected');
+            });
+        }, 100);
     }, [data]);
 
     return(

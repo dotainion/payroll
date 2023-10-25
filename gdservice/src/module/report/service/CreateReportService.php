@@ -1,6 +1,7 @@
 <?php
 namespace src\module\report\service;
 
+use InvalidArgumentException;
 use src\infrastructure\Id;
 use src\infrastructure\Service;
 
@@ -26,11 +27,12 @@ class CreateReportService extends Service{
         $overtime,
         $noPayLeaveAllowances,
         $noPayLeaveDeductions,
-        $period
+        $period,
+        $notified
     ){
         $reportId = (new Id())->new()->toString();
 
-        $service = (new SetReportService())->process(
+        $service = $this->report->process(
             $id,
             $reportId,
             $allowance,
@@ -41,7 +43,8 @@ class CreateReportService extends Service{
             $overtime,
             $noPayLeaveAllowances,
             $noPayLeaveDeductions,
-            $period
+            $period,
+            $notified
         );
 
         $this->mergeOutput($service);

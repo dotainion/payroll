@@ -16,22 +16,21 @@ export const useAuth = () => useContext(Context);
 const creds = new ChangeCredential();
 export const AuthProvider = ({children}) =>{
     const [user, setUser] = useState();
-    const [business, setBusiness] = useState();
+    const [business, setBusiness] = useState(true);
     const [loading, setLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState();
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const timeoutRef = useRef();
+    const authStateChangeRef = useRef([]);
 
-    const signin = async(email, password, successCallback, errorCallback) =>{
-        const success = successCallback;
-        const error = errorCallback;
-        await api.auth.signin(email, password).then((response)=>{
+    const signin = (email, password) =>{
+        api.auth.signin(email, password).then((response)=>{
             setUser(response.data.data[0]);
             setIsAuthenticated(true);
-            success?.(response.data.data[0]);
+            authStateChangeRef.current.forEach((api)=>api.triggerSuccess(response.data.data[0]));
             token.set(response.data.data[0].attributes.token);
         }).catch((err)=>{
-            error?.(err);
+            authStateChangeRef.current.forEach((api)=>api.triggerError(err));
             console.log('Unable to sign in at this time.');
             toast.error('Sign In', err);
         });
@@ -63,6 +62,13 @@ export const AuthProvider = ({children}) =>{
         });
     }
 
+    const onAuthStateChange = (success, error) =>{
+        authStateChangeRef.current.push({
+            triggerSuccess: success, 
+            triggerError: error
+        });
+    }
+
     useEffect(()=>{
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
@@ -91,7 +97,8 @@ export const AuthProvider = ({children}) =>{
         signout,
         signin,
         changePassord,
-        updateBusiness
+        updateBusiness,
+        onAuthStateChange
     }
 
     return(

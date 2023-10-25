@@ -13,6 +13,7 @@ use src\module\report\repository\NoPayLeaveDeductionRepository;
 use src\module\report\repository\OvertimeRepository;
 use src\module\report\repository\ReportRepository;
 use src\module\report\repository\SickLeaveRepository;
+use src\module\report\repository\TaxRepository;
 
 class YTDCalculator{
     protected ReportRepository $repo;
@@ -24,6 +25,7 @@ class YTDCalculator{
     protected NoPayLeaveAllowanceRepository $payLeave;
     protected NoPayLeaveDeductionRepository $noPayLeave;
     protected OvertimeRepository $overtime;
+    protected TaxRepository $tax;
 
     public function __construct(){
         $this->repo = new ReportRepository();
@@ -35,6 +37,7 @@ class YTDCalculator{
         $this->payLeave = new NoPayLeaveAllowanceRepository();
         $this->noPayLeave = new NoPayLeaveDeductionRepository();
         $this->overtime = new OvertimeRepository();
+        $this->tax = new TaxRepository();
     }
 
     private function _startDateTime():string{
@@ -56,8 +59,8 @@ class YTDCalculator{
         return $ytd;
     }
 
-    public function calculateAllowanceYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculateAllowanceYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->repoAllowance->listAllowances([
                 'hide' => false,
                 'userId' => $userId,
@@ -73,8 +76,8 @@ class YTDCalculator{
         }
     }
 
-    public function calculateDeductionYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculateDeductionYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->repoDeduction->listDeductions([
                 'hide' => false,
                 'userId' => $userId,
@@ -90,8 +93,8 @@ class YTDCalculator{
         }
     }
 
-    public function calculateLoanAllowanceYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculateLoanAllowanceYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->repoLoanAllowance->listLoanAllowances([
                 'hide' => false,
                 'userId' => $userId,
@@ -107,8 +110,8 @@ class YTDCalculator{
         }
     }
 
-    public function calculateLoanDeductionYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculateLoanDeductionYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->repoLoanDeduction->listLoanDeductions([
                 'hide' => false,
                 'userId' => $userId,
@@ -124,8 +127,8 @@ class YTDCalculator{
         }
     }
 
-    public function calculateSickLeaveYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculateSickLeaveYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->sickLeave->listSickLeave([
                 'hide' => false,
                 'userId' => $userId,
@@ -141,8 +144,8 @@ class YTDCalculator{
         }
     }
 
-    public function calculatePayLeaveYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculatePayLeaveYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->payLeave->listNopayLeave([
                 'hide' => false,
                 'userId' => $userId,
@@ -158,8 +161,8 @@ class YTDCalculator{
         }
     }
 
-    public function calculateNoPayLeaveYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculateNoPayLeaveYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->noPayLeave->listNopayLeave([
                 'hide' => false,
                 'userId' => $userId,
@@ -175,8 +178,8 @@ class YTDCalculator{
         }
     }
 
-    public function calculateOvertimeYTD(Collector $collector, Id $userId):void{
-        foreach($collector->list() as $item){
+    public function calculateOvertimeYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
             $collector = $this->overtime->listOvertime([
                 'hide' => false,
                 'userId' => $userId,
@@ -187,6 +190,22 @@ class YTDCalculator{
             $ytd = 0;
             foreach($collector->list() as $overtime){
                 $ytd = $ytd + (float)$overtime->totalAmount();
+            }
+            $item->setYtd($ytd);
+        }
+    }
+
+    public function calculateTaxDeductionYTD(Collector $collection, Id $userId):void{
+        foreach($collection->list() as $item){
+            $collector = $this->tax->listTaxDedution([
+                'hide' => false,
+                'userId' => $userId,
+                'from' => $this->_startDateTime(),
+                'to' => $item->date()->toString()
+            ]);
+            $ytd = 0;
+            foreach($collector->list() as $tax){
+                $ytd = $ytd + (float)$tax->amount();
             }
             $item->setYtd($ytd);
         }
