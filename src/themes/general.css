@@ -559,7 +559,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   height: 70px;
   margin: auto;
   cursor: move;
-  background-image: url(./images/logo-icon.png);
+  background-image: url(../images/logo-icon.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -1,4 +1,4 @@
-import './App.css';
+import './themes/general.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './auth/AuthProvider';
