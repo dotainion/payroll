@@ -51,7 +51,7 @@ export const ReportInstance = ({title, report,  onUser, children}) =>{
                 existDeducts.push({component: ExistingOvertimeAddOn, data: item});
             }else if (item.type === 'sickLeave'){
                 existSickLeaves.push({component: ExistingSickLeaveAddOn, data: item});
-            }else if (item.type === 'Tax'){
+            }else if (item.type === 'tax'){
                 setTaxDeduction(item);
             }
         });
@@ -66,6 +66,7 @@ export const ReportInstance = ({title, report,  onUser, children}) =>{
             reportId={report?.id} 
             userId={report?.attributes?.userId} 
             propUser={report?.attributes?.user} 
+            netSalary={report?.attributes?.netSalary}
             onUser={onUser} 
             sickLeaves={sickLeaves}
             existingAllowances={existingAllowances} 

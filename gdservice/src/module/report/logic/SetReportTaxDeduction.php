@@ -1,25 +1,16 @@
 <?php
 namespace src\module\report\logic;
 
-use InvalidArgumentException;
-use src\infrastructure\Collector;
-use src\infrastructure\Id;
 use src\module\report\objects\Tax;
 use src\module\report\repository\TaxRepository;
 
 class SetReportTaxDeduction{
     protected TaxRepository $repo;
+    protected FetchTaxDeductionReport $fetch;
 
     public function __construct(){
         $this->repo = new TaxRepository();
-    }
-
-    private function _assertAllowanceExist(Id $reportId):Collector{
-        $collector = $this->repo->listTaxDedution(['reportId' => $reportId, 'hide' => false]);
-        if(!$collector->hasItem()){
-            throw new InvalidArgumentException('Tax deduction not found.');
-        }
-        return $collector;
+        $this->fetch = new FetchTaxDeductionReport();
     }
 
     public function create(Tax $tax):void{
@@ -27,8 +18,12 @@ class SetReportTaxDeduction{
     }
 
     public function edit(Tax $tax):void{
-        $collector = $this->_assertAllowanceExist($tax->reportId());
-        $tax->setId($collector->first()->id()->toString());
-        $this->repo->edit($tax);
+        $collector = $this->fetch->taxDeductionByReportId($tax->reportId());
+        if($collector->hasItem()){
+            $tax->setId($collector->first()->id()->toString());
+            $this->repo->edit($tax);
+        }else{
+            $this->create($tax);
+        }
     }
 }

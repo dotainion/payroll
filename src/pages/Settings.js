@@ -30,6 +30,7 @@ export const Settings = () =>{
                     <Routes>
                         <Route path={routes.settings().tax()} element={<TaxSetupContainer/>}/>
                         <Route path={routes.settings().sickLeave()} element={<SickLeaves/>}/>
+                        <Route path={'*'} element={<TaxSetupContainer/>}/>
                     </Routes>
                 </div>
             </div>

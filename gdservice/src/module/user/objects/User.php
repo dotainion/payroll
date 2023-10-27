@@ -26,6 +26,7 @@ class User implements IObjects, IUser{
     protected string $salary;
     protected DateHelper $dob;
     protected string $taxId;
+    protected string $nisId;
     protected string $otRate;
     protected string $city;
     protected string $state;
@@ -96,6 +97,10 @@ class User implements IObjects, IUser{
         return $this->taxId;
     }
 
+    public function nisId():string{
+        return $this->nisId;
+    }
+
     public function otRate():string{
         return $this->otRate;
     }
@@ -127,6 +132,10 @@ class User implements IObjects, IUser{
 
     public function setTaxId(string $taxId):void{
         $this->taxId = $taxId;
+    }
+
+    public function setNisId(string $nisId):void{
+        $this->nisId = $nisId;
     }
 
     public function setOtRate(string $otRate):void{

@@ -6,7 +6,10 @@ import { AddOn } from "../addons/Addons";
 import { payload } from "../utils/AddonsPayload";
 import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
+import { CostTypeAndRateHandler } from "../utils/CostTypeAndRateHandler";
+import { AllowanceDeductionReadOnly } from "../components/AllowanceDeductionReadOnly";
 
+const typeHandler = new CostTypeAndRateHandler();
 export const Deductions = () =>{
     const [deductions, setDeductions] = useState([]);
 
@@ -50,7 +53,7 @@ export const Deductions = () =>{
             onCloseAllEdit();
             parent.find('[data-read-only]').each((i, child)=>{
                 $(child).find('[data-name]').text(data.name);
-                $(child).find('[data-type]').text(data.type);
+                $(child).find('[data-type]').text(typeHandler.costValueToDisplay(data.type));
                 $(child).find('[data-amount]').text(data.amount);
                 $(child).find('[data-rate]').text(data.rate);
                 $(child).find('[data-rate-amount]').text(data.rateAmount);
@@ -115,33 +118,7 @@ export const Deductions = () =>{
             <div ref={scrollRef} className="overflow-auto">
                 {deductions.map((deduct, key)=>(
                     <div onClick={(e)=>e.stopPropagation()} className="my-2" key={key}>
-                        <div data-read-only="">
-                            <div className="d-flex align-items-center border w-100 bg-light">
-                                <div className='d-flex align-items-center w-100 px-2 py-1'>
-                                    <div className='w-50'>
-                                        <div className="fw-bold small p-0 m-0"><small>Name:</small></div>
-                                        <div className="text-truncate" style={{marginTop: '-5px'}} data-name="">{deduct?.attributes?.name}</div>
-                                    </div>
-                                    <div className="ms-3 w-50">
-                                        <div className="fw-bold small p-0 m-0"><small>Type:</small></div>
-                                        <div className="text-truncate" style={{marginTop: '-5px'}} data-type="">{deduct?.attributes?.type}</div>
-                                    </div>
-                                    <div className="ms-3 w-50">
-                                        <div className="fw-bold small p-0 m-0"><small>Amount:</small></div>
-                                        <div className="text-truncate" style={{marginTop: '-5px'}} data-amount="">{deduct?.attributes?.amount}</div>
-                                    </div>
-                                </div>
-                                <div className="d-flex align-items-center px-2">
-                                    <button onClick={onOpenEdit} className="btn btn-sm btn-outline-primary px-4 py-0">Edit</button>
-                                    <button onClick={onDelete} className="btn btn-sm btn-outline-danger px-3 ms-2 py-0">Delete</button>
-                                </div>
-                            </div>
-                            {deduct?.attributes?.rate?
-                            <div className="d-flex align-items-center w-100 small px-2">
-                                <div className="bg-white text-info border-bottom border-start text-truncate" style={{width: '150px'}} data-rate="">Rate: {deduct?.attributes?.rate}</div>
-                                <div className="bg-white text-info border-bottom border-end text-truncate" style={{width: '150px'}} data-rate-amount="">Amount: {deduct?.attributes?.rateAmount}</div>
-                            </div>:null}
-                        </div>
+                        <AllowanceDeductionReadOnly data={deduct} onOpen={onOpenEdit} onDelete={onDelete} />
                         <div className="border border-info p-1 mb-3" data-editable="" style={{display: 'none'}}>
                             <AddOn data={deduct}/>
                             <div className="d-flex align-items-center justify-content-end my-2">
@@ -155,3 +132,4 @@ export const Deductions = () =>{
         </div>
     )
 }
+

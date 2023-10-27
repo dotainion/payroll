@@ -4,18 +4,18 @@ import { DeductionGenerator } from "../widgets/DeductionGenerator";
 import $ from "jquery";
 import { FaDollarSign } from "react-icons/fa";
 import { api } from "../request/Api";
-import { MdSick } from "react-icons/md";
 import { SickLeaveGenerator } from "../widgets/SickLeaveGenerator";
-import { DateHelper } from "../utils/DateHelper";
 import { TaxAlert } from "./TaxAlert";
 import { BiCalendar } from "./BiCalendar";
 import { TaxDeductionReadOnly } from "../widgets/TaxDeductionReadOnly";
+import { useDocument } from "../contents/DocumentProvider";
 
-export const Report = ({period, title, userId, reportId, onUser, propUser, existingTaxDeduction, existingAllowances, existingDeductions, sickLeaves, children}) =>{
+export const Report = ({period, title, userId, reportId, onUser, propUser, netSalary, existingTaxDeduction, existingAllowances, existingDeductions, sickLeaves, children}) =>{    
     const [user, setUser] = useState();
     const [banks, setBanks] = useState([]);
     const [loanAllowances, setLoanAllowances] = useState([]);
     const [loanDeductions, setLoanDeductions] = useState([]);
+    const [biMonthlySalary, setBiMonthlySalary] = useState();
 
     useEffect(()=>{
         if(!user) return;
@@ -55,24 +55,25 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, exist
             console.log(error);
         });
     }, [userId]);
-
+    
     return(
         <div className="" data-report-instance="">
             <div className="px-3 pb-3 m-4 bg-white">
                 {title && <div className="d-flex align-items-center p-2 border-bottom">
                     <div className="fw-bold fs-5 my-3 w-100">{title}</div>
                 </div>}
-                <TaxAlert/>
+                <TaxAlert onSalaryChange={setBiMonthlySalary} />
                 <div className="p-3">
                     <div className="bg-light p-2">
                         <div className="fw-bold">{user?.attributes?.name}</div>
                         <div className="small">ID: <span>{user?.attributes?.userId}</span></div>
                     </div>
-                    <div className="allowance-row bg-transparent py-3">
+                    <div className="allowance-row bg-transparent text-nowrap py-3">
                         <label>Base Salary <span className="text-danger">*</span></label>
                         <div className="input-group">
                             <span className="input-group-text"><FaDollarSign/></span>
                             <div className="form-control shadow-none">{user?.attributes?.salary}</div>
+                            <div className="form-control shadow-none"><small>Bi Monthly | </small>{biMonthlySalary || netSalary}</div>
                         </div>
                     </div>
                     <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>

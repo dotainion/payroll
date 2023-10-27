@@ -48,6 +48,7 @@ class Schema{
             ->column('salary')->string()
             ->column('dob')->timestamp()
             ->column('taxId')->string()
+            ->column('nisId')->string()
             ->column('otRate')->string()
             ->column('gender')->string()
             ->column('number')->string()
@@ -290,6 +291,20 @@ class Schema{
             ->column('taxDAmount')->string()
             ->column('taxDHide')->bool()
             ->column('taxDReportId')->bindary();
+        return $this->sql->execute();
+    }
+
+    public function allowanceDeductionIdLink(){
+        $this->sql->create('allowanceDeductionIdLink')
+            ->column('linkId')->bindary()
+            ->column('cmd')->string();
+        return $this->sql->execute();
+    }
+
+    public function reportAllowanceDeductionIdLink(){
+        $this->sql->create('reportAllowanceDeductionIdLink')
+            ->column('linkId')->bindary()
+            ->column('reportLinkId')->bindary();
         return $this->sql->execute();
     }
 

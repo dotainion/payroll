@@ -44,6 +44,7 @@ class ReportPayload{
             json['type'] = $(addon).find('[name=type]').val();
             json['rate'] = $(addon).find('[name=rate]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             json['rateAmount'] = $(addon).find('[name=rateAmount]').val();
             data.push(json);
         });
@@ -59,6 +60,7 @@ class ReportPayload{
             json['type'] = $(addon).find('[name=type]').val();
             json['rate'] = $(addon).find('[name=rate]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             json['rateAmount'] = $(addon).find('[name=rateAmount]').val();
             data.push(json);
         });
@@ -76,6 +78,7 @@ class ReportPayload{
             json['id'] = $(addon).find('[name=id]').val();
             json['name'] = $(addon).find('[name=name]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             data.push(json);
         });
         return data;
@@ -92,6 +95,7 @@ class ReportPayload{
             json['id'] = $(addon).find('[name=id]').val();
             json['name'] = $(addon).find('[name=name]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             data.push(json);
         });
         return data;
@@ -105,6 +109,7 @@ class ReportPayload{
             json['name'] = $(addon).find('[name=bank]').val();
             json['number'] = $(addon).find('[name=number]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             data.push(json);
         });
         return data;
@@ -118,6 +123,7 @@ class ReportPayload{
             json['name'] = $(addon).find('[name=bank]').val();
             json['number'] = $(addon).find('[name=number]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             data.push(json);
         });
         return data;
@@ -134,6 +140,7 @@ class ReportPayload{
             json['id'] = $(addon).find('[name=id]').val();
             json['name'] = $(addon).find('[name=name]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             data.push(json);
         });
         return data;
@@ -148,6 +155,7 @@ class ReportPayload{
             json['rate'] = $(addon).find('[name=rate]').val();
             json['hours'] = $(addon).find('[name=hours]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
+            json['linkId'] = $(addon).find('[name=linkId]').val();
             data.push(json);
         });
         return data;

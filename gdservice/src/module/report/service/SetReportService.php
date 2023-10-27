@@ -17,6 +17,7 @@ use src\module\report\logic\CalculateReportNoPayLeaveAllowance;
 use src\module\report\logic\CalculateReportNoPayLeaveDeduction;
 use src\module\report\logic\CalculateReportOvertime;
 use src\module\report\logic\CalculateReportSickLeave;
+use src\module\report\logic\HandleAllowanceDeductionIdLinkToFactory;
 use src\module\report\logic\LoanAllowanceReportToFactory;
 use src\module\report\logic\LoanDeductionReportToFactory;
 use src\module\report\logic\NoPayLeaveAllowanceReportToFactory;
@@ -29,6 +30,7 @@ use src\module\user\logic\FetchUser;
 class SetReportService extends Service{
     protected AllowanceFactory $allowanceFactory;
     protected DeductionFactory $deductionFactory;
+    protected FetchReportService $fetch;
     protected SetReport $report;
     protected FetchUser $user;
 
@@ -36,6 +38,7 @@ class SetReportService extends Service{
         parent::__construct();
         $this->allowanceFactory = new AllowanceFactory();
         $this->deductionFactory = new DeductionFactory();
+        $this->fetch = new FetchReportService();
         $this->report = new SetReport();
         $this->user = new FetchUser();
     }
@@ -97,6 +100,9 @@ class SetReportService extends Service{
         $overtimeCollector = (new OvertimeReportToFactory())->toFactory($overtime, $user->id(), $reportId);
         $reportOvertime = (new CalculateReportOvertime())->calculate($overtimeCollector);
 
+        $allowanceOptionLink = (new HandleAllowanceDeductionIdLinkToFactory())->toFactory($allowance);
+        $deductionOptionLink = (new HandleAllowanceDeductionIdLinkToFactory())->toFactory($deduction);
+
         $report = $this->report->set(
             $user, 
             $periodFrom,
@@ -109,11 +115,15 @@ class SetReportService extends Service{
             $reportNoPayLeaveAllowances,
             $reportNoPayLeaveDeductions,
             $reportOvertime,
+            $allowanceOptionLink,
+            $deductionOptionLink,
             $reportId,
             $notified
         );
 
-        $this->setOutput($report);
+        $service = $this->fetch->process($report->id()->toString());
+        $this->mergeOutput($service);
+
         return $this;
     }
 }

@@ -3,7 +3,7 @@ import { api } from '../request/Api';
 import $ from 'jquery';
 import { reportPayload } from '../utils/ReportPayload';
 
-export const TaxAlert = () =>{
+export const TaxAlert = ({onSalaryChange}) =>{
     const [setting, setSetting] = useState();
     const [message, setMessage] = useState();
     const [applied, setApplied] = useState();
@@ -70,8 +70,12 @@ export const TaxAlert = () =>{
     };
 
     useEffect(()=>{
+        onSalaryChange?.(netSalary);
+    }, [netSalary]);
+
+    useEffect(()=>{
         const element = $(taxAlertRef.current).parent().parent();
-        element.on('change', ()=>{apiTrigger()}).trigger('change');
+        element.on('change', ()=>apiTrigger()).trigger('change');
     }, []);
 
     return(

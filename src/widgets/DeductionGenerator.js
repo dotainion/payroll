@@ -17,6 +17,7 @@ export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeduct
     }
 
     const onSelect = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setDeduction((allows)=>[...allows, {component: ExistingAddOn, data: data}]);
     }
@@ -26,6 +27,7 @@ export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeduct
     }
 
     const onSelectLoan = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setDeduction((allows)=>[...allows, {component: LoanAddOnExisting, data: data}]);
     }
@@ -35,6 +37,7 @@ export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeduct
     }
 
     const onSelectNoPayLeave = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setDeduction((allows)=>[...allows, {component: NoPayLeaveAddOnExisting, data: data}]);
     }

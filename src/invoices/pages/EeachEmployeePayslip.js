@@ -25,9 +25,8 @@ export const EeachEmployeePayslip = () =>{
 
     const onSearchByPeriod = (data) =>{
         api.report.searchByDate(data.from, data.to).then((response)=>{
-            setRawReports(response.data.data);
-            parseUsers(response.data.data);
-            filterUsers(response.data.data);
+            setRawReports(()=>response.data.data);
+            parseUsers(()=>response.data.data);
         }).catch((error)=>{
 
         });

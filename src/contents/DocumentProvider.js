@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { createContext } from "react";
 import { api } from "../request/Api";
 import { useAuth } from "../auth/AuthProvider";
+import { LoadingSpinner } from "../other/LoadingSpinner";
 
 const Context = createContext();
 export const useDocument = () => useContext(Context);
@@ -15,6 +16,7 @@ export const DocumentProvider = ({children}) =>{
     const [costTypes, setCostTypes] = useState();
     const [rateTypes, setRateTypes] = useState();
     const [previousHistory, setPreviousHistory] = useState([]);
+    const [allowanceDeductionIdLinks, setAllowanceDeductionIdLinks] = useState();
 
     const timeoutRef = useRef();
 
@@ -40,6 +42,12 @@ export const DocumentProvider = ({children}) =>{
             }).catch((error)=>{
                 console.log(error);
             });
+
+            api.document.allowanceDeductionIdLink().then((response)=>{
+                setAllowanceDeductionIdLinks(response.data.data[0].attributes);
+            }).catch((error)=>{
+                console.log(error);
+            });
         }, 100);
     }, [isAuthenticated]);
 
@@ -49,11 +57,13 @@ export const DocumentProvider = ({children}) =>{
         previousHistory,
         addPreviousHistory,
         loading,
-        setLoading
+        setLoading,
+        allowanceDeductionIdLinks,
     }
 
     return(
         <Context.Provider value={value}>
+            <LoadingSpinner isActive={loading}/>
             {children}
         </Context.Provider>
     )

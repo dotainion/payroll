@@ -7,6 +7,7 @@ use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\infrastructure\IId;
 use src\infrastructure\IObjects;
+use src\infrastructure\NumberHelper;
 use src\module\user\objects\User;
 
 class Report implements IObjects{
@@ -112,23 +113,23 @@ class Report implements IObjects{
     }
         
     public function setTotalDeduction(string $totalDeduction):void{
-        $this->totalDeduction = $totalDeduction;
+        $this->totalDeduction = NumberHelper::to2dp($totalDeduction);
     }
         
     public function setTotalAllowance(string $totalAllowance):void{
-        $this->totalAllowance = $totalAllowance;
+        $this->totalAllowance = NumberHelper::to2dp($totalAllowance);
     }
         
     public function setTotalSalary(string $totalSalary):void{
-        $this->totalSalary = $totalSalary;
+        $this->totalSalary = NumberHelper::to2dp($totalSalary);
     }
 
     public function setNetSalary(string $netSalary):void{
-        $this->netSalary = $netSalary;
+        $this->netSalary = NumberHelper::to2dp($netSalary);
     }
         
     public function setYtd(float $ytd):void{
-        $this->ytd = $ytd;
+        $this->ytd = NumberHelper::to2dp($ytd);
     }
         
     public function setPeriodFrom(string $periodFrom):void{

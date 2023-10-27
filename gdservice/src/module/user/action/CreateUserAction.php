@@ -22,6 +22,7 @@ class CreateUserAction extends Request implements IAction{
             $this->get('salary'),
             $this->get('dob'),
             $this->get('taxId'),
+            $this->get('nisId'),
             $this->get('otRate'),
             $this->get('gender'),
             $this->get('number'),

@@ -1,12 +1,16 @@
 <?php
 namespace src\router;
 
+use src\database\Table;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Https;
 use src\module\allowance\action\CreateAllowanceAction;
 use src\module\allowance\action\DeleteAllowanceAction;
 use src\module\allowance\action\EditAllowanceAction;
 use src\module\allowance\action\ListAllowanceAction;
+use src\module\allowanceDeductionIdLink\action\DeleteAllowanceDeductionIdLinkAction;
+use src\module\allowanceDeductionIdLink\action\ListAllowanceDeductionIdLinkAction;
+use src\module\allowanceDeductionIdLink\action\SetAllowanceDeductionIdLinkAction;
 use src\module\bank\action\CreateBankAction;
 use src\module\bank\action\CreateBankLinkAction;
 use src\module\bank\action\DeleteBankAction;
@@ -26,6 +30,7 @@ use src\module\departments\action\CreateDepartmentAction;
 use src\module\departments\action\DeleteDepartmentAction;
 use src\module\departments\action\EditDepartmentAction;
 use src\module\departments\action\ListDepartmentsAction;
+use src\module\documents\action\FetchAllowanceDeductionAction;
 use src\module\documents\action\FetchCostTypesAction;
 use src\module\documents\action\FetchRateTypesAction;
 use src\module\login\action\AssignCredentialAction;
@@ -92,7 +97,9 @@ class Router{
         });*/
 
         $this->request->route('/test', function ($req){
-            
+            $number = 1;
+            var_dump(number_format((float)$number, 2, '.', ''));
+            var_dump(number_format((float)$number, 2, '.', ''));
         });
 
         $this->request->route('/signin', function ($req){
@@ -345,6 +352,22 @@ class Router{
 
         $this->request->route('/set/tax/setting', function ($req){
             return new SetTaxSettingsAction();
+        });
+
+        $this->request->route('/list/allowance/deduction/doc/id/link', function ($req){
+            return new FetchAllowanceDeductionAction();
+        });
+        
+        $this->request->route('/set/allowance/deduction/id/link', function ($req){
+            return new SetAllowanceDeductionIdLinkAction();
+        });
+
+        $this->request->route('/list/allowance/deduction/id/link', function ($req){
+            return new ListAllowanceDeductionIdLinkAction();
+        });
+
+        $this->request->route('/delete/allowance/deduction/id/link', function ($req){
+            return new DeleteAllowanceDeductionIdLinkAction();
         });
     }
 

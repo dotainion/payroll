@@ -13,8 +13,11 @@ import { ReportExpandableColumn } from "../components/ReportExpandableColumn";
 import { FiEdit } from 'react-icons/fi';
 import { EllipsisOption } from "../widgets/EllipsisOption";
 import { BiSolidReport } from "react-icons/bi";
+import { useDocument } from "../contents/DocumentProvider";
 
 export const EmployeeReports = () =>{
+    const { setLoading } = useDocument();
+
     const [user, setUser] = useState();
     const [reports, setReporst] = useState([]);
     const [collapse, setCollapse] = useState(false);
@@ -23,6 +26,7 @@ export const EmployeeReports = () =>{
     const navigate = useNavigate();
 
     useEffect(()=>{
+        setLoading(true);
         api.user.fetchUser(params?.userId).then((response)=>{
             setUser(response.data.data[0]);
         }).catch((error)=>{
@@ -32,6 +36,8 @@ export const EmployeeReports = () =>{
             setReporst(response.data.data);
         }).catch((error)=>{
             console.log(error);
+        }).finally(()=>{
+            setLoading(false);
         });
     }, []);
 

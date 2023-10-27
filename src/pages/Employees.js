@@ -7,8 +7,11 @@ import { routes } from "../router/routes";
 import { EmployeeOptions } from "../components/EmployeeOptions";
 import { useNavigate } from "react-router-dom";
 import { api } from "../request/Api";
+import { useDocument } from "../contents/DocumentProvider";
 
 export const Employees = () =>{
+    const { setLoading } = useDocument();
+
     const [users, setUsers] = useState([]);
 
     const navigate = useNavigate();
@@ -75,10 +78,13 @@ export const Employees = () =>{
     }, []);
 
     useEffect(()=>{
+        setLoading(true);
         api.user.listUsers().then((response)=>{
             setUsers(response.data.data);
         }).catch((error)=>{
             console.log(error);
+        }).finally(()=>{
+            setLoading(false);
         });
     }, []);
     return(

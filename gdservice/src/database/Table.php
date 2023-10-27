@@ -32,10 +32,14 @@ class Table extends Connection{
 		return $this;
 	}
 
+	public function customQuery($statement){
+		$this->query($statement);
+		$this->commit();
+	}
+
 	public function execute(){
 		$this->isCreating && $this->endTransaction();
-		$this->query($this->statement);
-		$this->commit();
+		$this->customQuery($this->statement);
 		return $this;
 	}
 

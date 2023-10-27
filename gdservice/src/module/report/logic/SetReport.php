@@ -21,6 +21,7 @@ class SetReport{
     protected SetReportNoPayLeaveAllowance $setNoPayLeaveAllowance;
     protected SetReportNoPayLeaveDeduction $setNoPayLeaveDeduction;
     protected SetReportOvertime $setOvertime;
+    protected SetReportAllowanceDeductionIdLink $setOptionLink;
     protected FetchSickLeave $settings;
     protected MassDeleteReport $massDelete;
     protected TaxReportToFactory $taxReport;
@@ -38,6 +39,7 @@ class SetReport{
         $this->setNoPayLeaveAllowance = new SetReportNoPayLeaveAllowance();
         $this->setNoPayLeaveDeduction = new SetReportNoPayLeaveDeduction();
         $this->setOvertime = new SetReportOvertime();
+        $this->setOptionLink = new SetReportAllowanceDeductionIdLink();
         $this->settings = new FetchSickLeave();
         $this->massDelete = new MassDeleteReport();
         $this->taxReport = new TaxReportToFactory();
@@ -65,6 +67,8 @@ class SetReport{
         CalculateReportNoPayLeaveAllowance $reportNoPayLeaveAllowances,
         CalculateReportNoPayLeaveDeduction $reportNoPayLeaveDeductions,
         CalculateReportOvertime $reportOVertime,
+        HandleAllowanceDeductionIdLinkToFactory $allowanceOptionLink,
+        HandleAllowanceDeductionIdLinkToFactory $deductionOptionLink,
         Id $reportId,
         ?bool $notified
     ):Report{
@@ -137,6 +141,9 @@ class SetReport{
 
                 $this->setOvertime->massEdit($reportOVertime->reportOvertimes(), true);
 
+                $this->setOptionLink->setOptionLink($allowanceOptionLink->optionLinks());
+                $this->setOptionLink->setOptionLink($deductionOptionLink->optionLinks());
+
                 if($this->taxReport->hasTaxDeduction()){
                     $this->setTaxDeduction->edit($this->taxReport->taxDeduction());
                 }
@@ -167,6 +174,9 @@ class SetReport{
                 $this->setNoPayLeaveDeduction->massCreate($reportNoPayLeaveDeductions->noPayLeaveDeductions());
 
                 $this->setOvertime->massCreate($reportOVertime->reportOvertimes());
+
+                $this->setOptionLink->setOptionLink($allowanceOptionLink->optionLinks());
+                //$this->setOptionLink->setOptionLink($deductionOptionLink->optionLinks());
 
                 if($this->taxReport->hasTaxDeduction()){
                     $this->setTaxDeduction->create($this->taxReport->taxDeduction());

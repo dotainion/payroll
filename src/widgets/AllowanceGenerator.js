@@ -18,6 +18,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, existingAllowan
     }
 
     const onSelect = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: ExistingAddOn, data: data}]);
     }
@@ -27,6 +28,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, existingAllowan
     }
 
     const onSelectLoan = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: LoanAddOnExisting, data: data}]);
     }
@@ -36,6 +38,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, existingAllowan
     }
 
     const onSelectNoPayLeave = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: NoPayLeaveAddOnExisting, data: data}]);
     }
@@ -45,6 +48,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, existingAllowan
     }
 
     const onSelectOvertime = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: ExistingOvertimeAddOn, data: data}]);
     }

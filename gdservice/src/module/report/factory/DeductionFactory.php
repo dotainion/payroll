@@ -7,6 +7,7 @@ use src\module\report\objects\Deduction;
 
 class DeductionFactory extends Collector{
     use Factory;
+    use AllowanceDeductionFactoryTrait;
 
     public function __construct(){
     }
@@ -23,6 +24,11 @@ class DeductionFactory extends Collector{
         $deduction->setAmount($record['rDAmount'] ?? $record['amount']);
         $deduction->setRateAmount($record['rDRateAmount'] ?? $record['rateAmount']);
         $deduction->setTotalAmount($record['rDTotalAmount'] ?? $record['totalAmount']);
+        if(isset($record['cmd']) && isset($record['linkId'])){
+            $attribute = $this->getAllowDeducAttribute($record['cmd']);
+            $attribute && $deduction->setNumber($record[$attribute]);
+            $attribute && $deduction->setLinkId($this->uuid($record['linkId']));
+        }
         return $deduction;
     }
 }

@@ -26,6 +26,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
     const salaryRef = useRef();
     const dobRef = useRef();
     const taxIdRef = useRef();
+    const nisIdRef = useRef();
     const otRateRef = useRef();
     const genderRef = useRef();
     const numberRef = useRef();
@@ -56,6 +57,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
             salary: salaryRef.current.value,
             dob: dobDate.toSqlString(),
             taxId: taxIdRef.current.value,
+            nisId: nisIdRef.current.value,
             otRate: otRateRef.current.value,
             gender: genderRef.current.value,
             number: numberRef.current.value,
@@ -90,6 +92,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
             salaryRef.current.value = user.attributes.salary;
             dobRef.current.value = date.sqlStringToInput(user.attributes.dob);
             taxIdRef.current.value = user.attributes.taxId;
+            nisIdRef.current.value = user.attributes.nisId;
             otRateRef.current.value = user.attributes.otRate;
             genderRef.current.value = user.attributes.gender;
             numberRef.current.value = user.attributes.number;
@@ -176,6 +179,11 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                             </div>
                         </div>
                         <div className="w-100 px-3">
+                            <label>Nis ID</label>
+                            <div className="input-group">
+                                <span className="input-group-text fw-bold"><small>NIS</small></span>
+                                <input ref={nisIdRef} className="form-control shadow-none"/>
+                            </div>
                         </div>
                     </div>
                     <div className="d-flex w-100 bg-white py-3">

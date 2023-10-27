@@ -20,6 +20,7 @@ export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
     }
 
     const onSelect = (data) =>{
+        data.linkId = data.linkId || data.id;
         data.id = null;
         setSickLeave((sick)=>[...sick, {component: ExistingSickLeaveAddOn, data: data}]);
     }

@@ -53,7 +53,11 @@ class AllowanceRepository extends Repository{
     }
     
     public function listAllowances(array $where=[]):Collector{
-        $this->select('reportAllowance');
+        $this->select('reportAllowance')
+            ->leftJoin('report', 'reportId', 'reportAllowance', 'rAReportId')
+            ->leftJoin('user', 'id', 'report', 'userId')
+            ->leftJoin('reportAllowanceDeductionIdLink', 'reportLinkId', 'reportAllowance', 'rAId')
+            ->leftJoin('allowanceDeductionIdLink', 'linkId', 'reportAllowanceDeductionIdLink', 'linkId');
         if(isset($where['from']) && isset($where['to'])){
             $this->between('rADate', $where['from'], $where['to']);
         }

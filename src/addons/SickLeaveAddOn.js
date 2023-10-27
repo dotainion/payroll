@@ -97,6 +97,7 @@ export const SickLeaveAddOn = ({onSickLeaveAmount, data, user, setting}) =>{
                 <input ref={fileRef} accept="application/pdf" type="file" hidden />
             </div>
             <input ref={idRef} hidden name="id" onChange={()=>{}} />
+            <input hidden value={data?.linkId} name="linkId" onChange={()=>{}} />
             <span onClick={remove} className="close" title="Remove"><IoClose className="fs-4"/></span>
         </div>
     )

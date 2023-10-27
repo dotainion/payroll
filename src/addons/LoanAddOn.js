@@ -52,17 +52,18 @@ export const LoanAddOn = ({data, banks}) =>{
                 <span onClick={remove} className="close" title="Remove"><IoClose className="fs-4"/></span>
             </div>
             <input ref={idRef} hidden value={data?.id} name="id" onChange={()=>{}} />
+            <input hidden value={data?.linkId} name="linkId" onChange={()=>{}} />
         </div>
     )
 }
 
-export const LoanAddOnExisting = ({data, loans}) =>{
+export const LoanAddOnExisting = ({data, banks}) =>{
     useEffect(()=>{
         
     }, []);
 
     return(
-        <LoanAddOn data={data} loans={loans} />
+        <LoanAddOn data={data} banks={banks} />
     )
 }
 

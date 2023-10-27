@@ -54,6 +54,7 @@ export const OvertimeAddOn = ({user, data}) =>{
                 <span onClick={remove} className="close" title="Remove"><IoClose className="fs-4"/></span>
             </div>
             <input ref={idRef} hidden value={data?.id} name="id" onChange={()=>{}} />
+            <input hidden value={data?.linkId} name="linkId" onChange={()=>{}} />
         </div>
     )
 }

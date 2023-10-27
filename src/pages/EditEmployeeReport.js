@@ -4,11 +4,13 @@ import { api } from "../request/Api";
 import { reportPayload } from "../utils/ReportPayload";
 import { toast } from "../utils/Toast";
 import { ReportInstance } from "../components/ReportInstance";
+import { useDocument } from "../contents/DocumentProvider";
 
 export const EditEmployeeReport = () =>{
+    const { loading, setLoading } = useDocument();
+
     const [user, setUser] = useState();
     const [retport, setReport] = useState();
-    const [loading, setLoading] = useState(true);
 
     const timeoutRef = useRef();
 
@@ -21,6 +23,7 @@ export const EditEmployeeReport = () =>{
         }
         console.log(data);
         api.report.edit(data).then((response)=>{
+            setReport(response.data.data[0]);
             toast.success(user?.attributes?.name + ' Report', 'Edited');
         }).catch((error)=>{
             console.log(error);
@@ -29,6 +32,7 @@ export const EditEmployeeReport = () =>{
     }
 
     useEffect(()=>{
+        setLoading(true);
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
             api.report.report(params?.reportId).then((response)=>{

@@ -3,6 +3,7 @@ namespace src\infrastructure;
 
 use InvalidArgumentException;
 use src\database\Repository;
+use src\infrastructure\documents\CheckAllowDeducIdLink;
 use src\security\ValidatePassword;
 
 class Assert extends Repository{
@@ -95,6 +96,13 @@ class Assert extends Repository{
 
     public static function validTaxNotification($string, string $message = 'Invalid tax notification value.'):bool{
         TaxHelper::valid($string, $message);
+        return true;
+    }
+
+    public static function validAllowDeducOption($cmd, string $message = 'Invalid Allowance|Deduction option.'):bool{
+        if(!(new CheckAllowDeducIdLink())->isValid($cmd)){
+            throw new InvalidArgumentException($message);
+        }
         return true;
     }
 

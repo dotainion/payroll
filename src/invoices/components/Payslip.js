@@ -16,6 +16,7 @@ export const Payslip = ({report}) =>{
                 <thead>
                     <tr>
                         <th>Allowance</th>
+                        <th>Number</th>
                         <th>Rate</th>
                         <th>Amount</th>
                         <th>YTD</th>
@@ -25,6 +26,7 @@ export const Payslip = ({report}) =>{
                     {report?.attributes?.allAllowances?.map((item, key)=>(
                         <tr key={key}>
                             <td>{item?.attributes?.name}</td>
+                            <td>{item?.attributes?.number}</td>
                             <td>{item?.attributes?.rate}</td>
                             <td>{item?.attributes?.net}</td>
                             <td>{item?.attributes?.ytd}</td>
@@ -37,6 +39,7 @@ export const Payslip = ({report}) =>{
                 <thead>
                     <tr>
                         <th>Deduction</th>
+                        <th>Number</th>
                         <th>Rate</th>
                         <th>Amount</th>
                         <th>YTD</th>
@@ -46,6 +49,7 @@ export const Payslip = ({report}) =>{
                     {report?.attributes?.allDeductions?.map((item, key)=>(
                         <tr key={key}>
                             <td>{item?.attributes?.name}</td>
+                            <td>{item?.attributes?.number}</td>
                             <td>{item?.attributes?.rate}</td>
                             <td>{item?.attributes?.net}</td>
                             <td>{item?.attributes?.ytd}</td>

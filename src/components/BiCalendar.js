@@ -136,8 +136,6 @@ export const BiCalendar = ({onSelect, period, inlineMode}) =>{
             $(lockOverlayRef.current).show();
         });
 
-        pickerRef.current.setDateRange(new Date(), new Date());
-
         return ()=>{
             $(containerRef.current).empty();
             $(document).off('click');

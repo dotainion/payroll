@@ -18,9 +18,12 @@ class Deduction implements IObjects{
     protected string $rateAmount;
     protected string $totalAmount;
     protected bool $hide;
+    protected ?string $number = null;
+    protected ?Id $linkId = null;
 
     public function __construct(){
         $this->id = new Id();
+        $this->linkId = new Id();
         $this->reportId = new Id();
         $this->date = new DateHelper();
     }
@@ -43,6 +46,17 @@ class Deduction implements IObjects{
         
     public function net(){
         return $this->totalAmount();
+    }
+        
+    public function number(){
+        return $this->number;
+    }
+
+    public function linkId():?IId{
+        if(!$this->linkId->hasId()){
+            return null;
+        }
+        return $this->linkId;
     }
 
     public function name(){
@@ -87,6 +101,14 @@ class Deduction implements IObjects{
 
     public function setReportId(string $reportId):void{
         $this->reportId->set($reportId);
+    }
+
+    public function setNumber(string $number):void{
+        $this->number = $number;
+    }
+
+    public function setLinkId(string $linkId){
+        $this->linkId->set($linkId);
     }
 
     public function setName(string $name):void{

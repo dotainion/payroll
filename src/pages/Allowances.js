@@ -6,9 +6,13 @@ import { AddOn } from "../addons/Addons";
 import { payload } from "../utils/AddonsPayload";
 import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
+import { CostTypeAndRateHandler } from "../utils/CostTypeAndRateHandler";
+import { AllowanceDeductionReadOnly } from "../components/AllowanceDeductionReadOnly";
 
+const typeHandler = new CostTypeAndRateHandler();
 export const Allowances = () =>{
     const [allowances, setAllowances] = useState([]);
+    const [availableData, setAvailableData] = useState([]);
 
     const scrollRef = useRef();
     const closeRef = useRef();
@@ -36,11 +40,12 @@ export const Allowances = () =>{
         const parent = $(e.currentTarget).parent().parent().parent();
         const data = payload.addon.build(parent)[0];
         api.allowance.edit(data).then((response)=>{
+            console.log(response.data);
             onCloseAllEdit();
             parent.find('[data-read-only]').each((i, child)=>{
                 console.log(child);
                 $(child).find('[data-name]').text(data.name);
-                $(child).find('[data-type]').text(data.type);
+                $(child).find('[data-type]').text(typeHandler.costValueToDisplay(data.type));
                 $(child).find('[data-amount]').text(data.amount);
                 $(child).find('[data-rate]').text(data.rate);
                 $(child).find('[data-rate-amount]').text(data.rateAmount);
@@ -83,6 +88,13 @@ export const Allowances = () =>{
         }).catch((error)=>{
             console.log(error);
         });
+
+        api.allowanceDeductionIdLink.list().then((response)=>{
+            console.log(response.data.data);
+            setAvailableData(response.data.data);
+        }).catch((error)=>{
+            console.log(error);
+        });
     }, []);
 
     useEffect(()=>{
@@ -117,33 +129,7 @@ export const Allowances = () =>{
             <div ref={scrollRef} className="overflow-auto">
                 {allowances.map((allow, key)=>(
                     <div onClick={(e)=>e.stopPropagation()} className="my-2" key={key}>
-                        <div data-read-only="">
-                            <div className="d-flex align-items-center border w-100 bg-light">
-                                <div className='d-flex align-items-center w-100 px-2 py-1'>
-                                    <div className='w-50'>
-                                        <div className="fw-bold small p-0 m-0"><small>Name:</small></div>
-                                        <div className="text-truncate" style={{marginTop: '-5px'}} data-name="">{allow?.attributes?.name}</div>
-                                    </div>
-                                    <div className="ms-3 w-50">
-                                        <div className="fw-bold small p-0 m-0"><small>Type:</small></div>
-                                        <div className="text-truncate" style={{marginTop: '-5px'}} data-type="">{allow?.attributes?.type}</div>
-                                    </div>
-                                    <div className="ms-3 w-50">
-                                        <div className="fw-bold small p-0 m-0"><small>Amount:</small></div>
-                                        <div className="text-truncate" style={{marginTop: '-5px'}} data-amount="">{allow?.attributes?.amount}</div>
-                                    </div>
-                                </div>
-                                <div className="d-flex align-items-center px-2">
-                                    <button onClick={onOpenEdit} className="btn btn-sm btn-outline-primary px-4 py-0">Edit</button>
-                                    <button onClick={onDelete} className="btn btn-sm btn-outline-danger px-3 ms-2 py-0">Delete</button>
-                                </div>
-                            </div>
-                            {allow?.attributes?.rate?
-                            <div className="d-flex align-items-center w-100 small px-2">
-                                <div className="bg-white text-info border-bottom border-start text-truncate ps-2" style={{width: '150px'}} data-rate="">Rate: {allow?.attributes?.rate}</div>
-                                <div className="bg-white text-info border-bottom border-end text-truncate" style={{width: '150px'}} data-rate-amount="">Amount: {allow?.attributes?.rateAmount}</div>
-                            </div>:null}
-                        </div>
+                        <AllowanceDeductionReadOnly data={allow} availableData={availableData} onOpen={onOpenEdit} onDelete={onDelete} />
                         <div className="border border-info p-1 mb-3" data-editable="" style={{display: 'none'}}>
                             <AddOn data={allow}/>
                             <div className="d-flex align-items-center justify-content-end my-2">
@@ -157,3 +143,4 @@ export const Allowances = () =>{
         </div>
     )
 }
+

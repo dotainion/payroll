@@ -53,7 +53,11 @@ class DeductionRepository extends Repository{
     }
     
     public function listDeductions(array $where=[]):Collector{
-        $this->select('reportDeduction');
+        $this->select('reportDeduction')
+            ->leftJoin('report', 'reportId', 'reportDeduction', 'rDReportId')
+            ->leftJoin('user', 'id', 'report', 'userId')
+            ->leftJoin('reportAllowanceDeductionIdLink', 'reportLinkId', 'reportDeduction', 'rDId')
+            ->leftJoin('allowanceDeductionIdLink', 'linkId', 'reportAllowanceDeductionIdLink', 'linkId'); 
         if(isset($where['from']) && isset($where['to'])){
             $this->between('rDDate', $where['from'], $where['to']);
         }

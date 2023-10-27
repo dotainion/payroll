@@ -627,6 +627,30 @@ input[type=date]::-webkit-calendar-picker-indicator {
   box-shadow: none !important;
 }
 
+.spin{
+  animation: 1s linear infinite spinner;
+}
+
+.move-hv-top-left{
+  animation: 1.5s infinite tt1;
+}
+
+.move-hv-top-right{
+  animation: 1.5s infinite tt2;
+}
+
+.move-hv-bottom-left{
+  animation: 1.5s infinite tt3;
+}
+
+.move-hv-bottom-right{
+  animation: 1.5s infinite tt4;
+}
+
+.z-index-1{
+  z-index: 99999999999999 !important;
+}
+
 @media screen and (max-width:1100px){
   .employee-set{
     width: 100% !important;
@@ -645,3 +669,27 @@ input[type=date]::-webkit-calendar-picker-indicator {
   }
 }
 
+@keyframes tt1 {
+  from{transform: translate3d(0%, 0%, 0);}
+  to{transform: translate3d(100%, 100%, 0);}
+}
+
+@keyframes tt2 {
+  from{transform: translate3d(0%, 0%, 0);}
+  to{transform: translate3d(-100%, 100%, 0);}
+}
+
+@keyframes tt3 {
+  from{transform: translate3d(0%, 0%, 0);}
+  to{transform: translate3d(100%, -100%, 0);}
+}
+
+@keyframes tt4 {
+  from{transform: translate3d(0%, 0%, 0);}
+  to{transform: translate3d(-100%, -100%, 0);}
+}
+
+@keyframes spinner {
+  0% {transform: translate3d(-50%, -50%, 0) rotate(0deg);}
+  100% {transform: translate3d(-50%, -50%, 0) rotate(360deg);}
+}

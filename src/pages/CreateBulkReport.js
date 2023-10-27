@@ -84,11 +84,14 @@ export const CreateBulkReport = () =>{
     }, [selectAll]);
     
     useEffect(()=>{
+        setLoading(true);
         api.report.listBulkReports().then((response)=>{
             console.log(response);
             setReports(response.data.data);
         }).catch((error)=>{
             console.log(error);
+        }).finally(()=>{
+            setLoading(false);
         });
     }, []);
 

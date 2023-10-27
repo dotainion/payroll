@@ -17,11 +17,13 @@ import { Settings } from "./Settings";
 import { Notification } from "./Notification";
 import { Tax } from "./Tax";
 import { v4 as uuidv4 } from 'uuid';
+import { AllowanceDeductionIdLink } from "./AllowanceDeductionIdLink";
 
 const reAuth = new ReAuthenticate();
 export class Api{
     //'https://www.caribbeancodingacademygrenada.com/gdservice'
     baseURL = '/gdservice';
+    pendingRequests = [];
 
     constructor(){
         this.axios = axios.create({baseURL: this.baseURL});
@@ -40,6 +42,19 @@ export class Api{
         this.settings = new Settings(this);
         this.notification = new Notification(this);
         this.tax = new Tax(this);
+        this.allowanceDeductionIdLink = new AllowanceDeductionIdLink(this);
+    }
+
+    hasPendingRequest(){
+        return !!this.pendingRequests.length;
+    }
+
+    addPendingRequest(key){
+        this.pendingRequests.push(key);
+    }
+
+    popPendingRequest(key){
+        this.pendingRequests = this.pendingRequests.filter((k)=>key !== k);
     }
 
     handler(error, option){
@@ -61,18 +76,28 @@ export class Api{
     }
 
     async post(route, data, option){
+        const requestId = uuidv4();
         try{
-            return await this.axios.post(route, data);
+            this.addPendingRequest(requestId);
+            const response = await this.axios.post(route, data);
+            this.popPendingRequest(requestId);
+            return response;
         }catch(error){
+            this.popPendingRequest(requestId);
             return this.handler(error, option);
         }
     }
 
     async get(route, data, option){
         //return await this.axios.get(route, {params: {}}, data);
+        const requestId = uuidv4();
         try{
-            return await this.axios.post(route, data);
+            this.addPendingRequest(requestId);
+            const response = await this.axios.post(route, data);
+            this.popPendingRequest(requestId);
+            return response;
         }catch(error){
+            this.popPendingRequest(requestId);
             return this.handler(error, option);
         }
     }

@@ -10,4 +10,8 @@ export class Documents{
     async rateTypes(){
         return await this.api.get('/fetch/rate/types', null);
     }
+
+    async allowanceDeductionIdLink(){
+        return await this.api.get('/list/allowance/deduction/doc/id/link', null);
+    }
 }

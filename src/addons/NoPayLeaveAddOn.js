@@ -79,6 +79,7 @@ export const NoPayLeaveAddOn = ({data}) =>{
                 <div className="p-3 bg-light"></div>
             </div>
             <input ref={idRef} hidden value={data?.id} name="id" onChange={()=>{}} />
+            <input hidden value={data?.linkId} name="linkId" onChange={()=>{}} />
         </div>
     )
 }

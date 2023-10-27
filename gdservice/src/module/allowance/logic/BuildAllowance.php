@@ -12,7 +12,8 @@ class BuildAllowance{
         $this->factory = new AllowanceFactory();
     }
     
-    public function toFactory($allowances){
+    public function toFactory(&$allowances){
+        $index = 0;
         foreach($allowances as $a){
             $id = new Id();
             $handler = new HandleCostAndRates($a['name'], $a['type'], $a['rate'], $a['amount'], $a['rateAmount'], 'Allowance');
@@ -26,6 +27,8 @@ class BuildAllowance{
                 'amount' => $handler->amount(),
                 'rateAmount' => $handler->rateAmount()
             ]);
+            $allowances[$index]['id'] = $handler->id()->toString();
+            $index ++;
             $this->factory->add($allowance);
         }
         return $this->factory;
