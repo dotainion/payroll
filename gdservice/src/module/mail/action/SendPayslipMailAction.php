@@ -18,7 +18,8 @@ class SendPayslipMailAction extends Request implements IAction{
             $this->get('userId'),
             $this->get('reportId'),
             $this->get('subject'),
-            $this->get('body')
+            $this->get('body'),
+            $this->get('attatchments')
         );
     }
 }

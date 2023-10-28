@@ -13,12 +13,13 @@ class SendBulkPayslipMailService extends Service{
     }
     
     public function process($payslips){
-        foreach($payslips as $payslip){
+        foreach($payslips ?? [] as $payslip){
             $service = (new SendPayslipMailService())->process(
                 $payslip['userId'], 
                 $payslip['reportId'], 
                 $payslip['subject'], 
-                $payslip['body']
+                $payslip['body'],
+                $payslip['attatchments']
             );
             $this->mergeOutput($service);
         }

@@ -3,20 +3,20 @@ namespace src\module\mail\factory;
 
 use src\infrastructure\Collector;
 use src\infrastructure\Factory;
-use src\module\mail\objects\Recipient;
+use src\module\mail\objects\Attatchment;
 
-class RecipientFactory extends Collector{
+class AttatchmentFactory extends Collector{
     use Factory;
 
     public function __construct(){
     }
     
-    public function mapResult($record):Recipient{
-        $bank = new Recipient();
+    public function mapResult($record):Attatchment{
+        $bank = new Attatchment();
         $bank->setId($this->uuid($record['id']));
         $bank->setMailId($this->uuid($record['mailId']));
-        $bank->setUserId($this->uuid($record['userId']));
-        $bank->setRecipient($record['recipient']);
+        $bank->setImage($record['image'] ?? $record['img']);
+        $bank->setContentKey($record['contentKey'] ?? $record['contentId']);
         return $bank;
     }
 }

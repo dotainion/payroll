@@ -14,7 +14,7 @@ class SendPayslipMailService extends Service{
         $this->user = new FetchUser();
     }
     
-    public function process($userId, $reportId, $subject, $body){
+    public function process($userId, $reportId, $subject, $body, $attatchments){
         Assert::validUuid($userId, 'User not found.');
 
         $collector = $this->user->user((new Id())->set($userId));
@@ -23,7 +23,7 @@ class SendPayslipMailService extends Service{
         $service = (new SendMailService())->process($subject, $body, [[
             'userId' => $user->id()->toString(),
             'recipient' => $user->email(),
-        ]]);
+        ]], $attatchments);
 
         $this->mergeOutput($service);
         return $this;

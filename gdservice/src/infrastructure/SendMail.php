@@ -6,14 +6,18 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use src\module\login\logic\FetchNotificationSetup;
+use src\module\mail\objects\Attatchment;
 use src\module\mail\objects\Mail;
 use Throwable;
 
 class SendMail{
     protected PHPMailer $mail;
+    protected ImageHelper $img;
 
     public function __construct(){
+        $this->img = new ImageHelper();
         $fetchSetup = new FetchNotificationSetup();
+
         $setup = $fetchSetup->fetchSetup();
 
         if(!$setup->hasItem()){
@@ -53,6 +57,11 @@ class SendMail{
         $this->mail->Body    = $mail->body();
         foreach($mail->recipients()->list() as $recip){
             $this->mail->addAddress($recip->recipient());
+        }
+        $this->img->setAssertionMessage('Invalid embedded image. Unable to send email.');
+        foreach($mail->attatchments()->list() as $attatch){
+            $this->img->initAndSaveBase64TempImage($attatch);
+            $this->mail->addEmbeddedImage($this->img->file(), $attatch->contentKey());
         }
         return $this;
     }

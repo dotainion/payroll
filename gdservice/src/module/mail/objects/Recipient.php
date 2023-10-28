@@ -8,16 +8,22 @@ use src\infrastructure\IObjects;
 
 class Recipient implements IObjects{
     protected Id $id;
+    protected Id $mailId;
     protected Id $userId;
     protected string $recipient;
 
     public function __construct(){
         $this->id = new Id();
+        $this->mailId = new Id();
         $this->userId = new Id();
     }
         
     public function id():IId{
         return $this->id;
+    }
+
+    public function mailId():IId{
+        return $this->mailId;
     }
 
     public function userId():IId{
@@ -30,6 +36,10 @@ class Recipient implements IObjects{
 
     public function setId(string $id):void{
         $this->id->set($id);
+    }
+
+    public function setMailId(string $id):void{
+        $this->mailId->set($id);
     }
 
     public function setUserId(string $userId):void{

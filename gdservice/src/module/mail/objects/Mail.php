@@ -12,6 +12,7 @@ class Mail implements IObjects{
     protected string $subject;
     protected string $body;
     protected Collector $recipients;
+    protected Collector $attatchments;
 
     public function __construct(){
         $this->id = new Id();
@@ -33,6 +34,10 @@ class Mail implements IObjects{
         return $this->recipients;
     }
 
+    public function attatchments():Collector{
+        return $this->attatchments;
+    }
+
     public function setId(string $id):void{
         $this->id->set($id);
     }
@@ -48,6 +53,10 @@ class Mail implements IObjects{
 
     public function setRecipients(Collector $recipients):void{
         $this->recipients = $recipients;
+    }
+
+    public function setAttatchments(Collector $attatchments):void{
+        $this->attatchments = $attatchments;
     }
 }
 

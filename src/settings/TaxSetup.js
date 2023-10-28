@@ -35,7 +35,7 @@ export const TaxSetup = ({data}) =>{
             api.tax.set(data).then((response)=>{
                 idRef.current = response.data.data[0].id;
             }).catch((error)=>{
-                toast.warning('Tax Settings', error);
+                toast.error('Tax Settings', error);
                 activeRef.current.checked = false;
                 onTurnOn({target: activeRef.current});
             });

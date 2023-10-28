@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { api } from "../request/Api";
+import { toast } from "../utils/Toast";
 import { PasswordInput } from "../widgets/PasswordInput";
 
 export const EmailSetup = () =>{
@@ -17,7 +18,7 @@ export const EmailSetup = () =>{
         api.notification.setSetup(data).then((response)=>{
             idRef.current = response?.data?.data[0]?.id;
         }).catch((error)=>{
-
+            toast.error('Email Setup', error);
         });
     }
 
