@@ -30,7 +30,6 @@ use src\module\user\logic\FetchUser;
 class SetReportService extends Service{
     protected AllowanceFactory $allowanceFactory;
     protected DeductionFactory $deductionFactory;
-    protected FetchReportService $fetch;
     protected SetReport $report;
     protected FetchUser $user;
 
@@ -38,7 +37,6 @@ class SetReportService extends Service{
         parent::__construct();
         $this->allowanceFactory = new AllowanceFactory();
         $this->deductionFactory = new DeductionFactory();
-        $this->fetch = new FetchReportService();
         $this->report = new SetReport();
         $this->user = new FetchUser();
     }
@@ -121,8 +119,7 @@ class SetReportService extends Service{
             $notified
         );
 
-        $service = $this->fetch->process($report->id()->toString());
-        $this->mergeOutput($service);
+        $this->setOutput($report);
 
         return $this;
     }

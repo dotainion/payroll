@@ -1,9 +1,10 @@
 <?php
 namespace src\module\report\logic;
 
-use InvalidArgumentException;
 use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
+use src\infrastructure\ErrorMetaData;
+use src\infrastructure\exeptions\InvalidRequirementException;
 use src\infrastructure\Id;
 use src\module\report\factory\TaxFactory;
 use src\module\report\objects\Tax;
@@ -81,8 +82,15 @@ class TaxReportToFactory{
 
     public function assertTaxDeduction():bool{
         if($this->hasTaxDeduction()){
+            ErrorMetaData::set('active', $this->setting->active());
+            ErrorMetaData::set('auto', $this->setting->auto());
+            ErrorMetaData::set('notify', $this->setting->notify());
+            ErrorMetaData::set('notifyAndAuto', $this->setting->notifyAndAuto());
+            ErrorMetaData::set('percentage', $this->setting->percentage());
+            ErrorMetaData::set('hasTaxDeduction', true);
             if($this->setting->notify() && !$this->notified){
-                throw new InvalidArgumentException('Tax deduction is required for ('.$this->user->name().').');
+                ErrorMetaData::set('required', true);
+                throw new InvalidRequirementException('Tax deduction is required for ('.$this->user->name().').');
             }
         }
         return true;

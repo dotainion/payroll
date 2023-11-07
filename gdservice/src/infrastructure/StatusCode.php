@@ -3,6 +3,7 @@ namespace src\infrastructure;
 
 use Exception;
 use InvalidArgumentException;
+use src\infrastructure\exeptions\InvalidRequirementException;
 use src\infrastructure\exeptions\NoResultsException;
 use src\infrastructure\exeptions\NotAuthenticatedException;
 use src\infrastructure\exeptions\TokenExpiredException;
@@ -50,7 +51,12 @@ class StatusCode{
     }
 
     public function buildResponse():string{
-        $response = ['error' => ['message' => $this->message()]];
+        $response = [
+            'error' => [
+                'message' => $this->message(), 
+                'meta' => ErrorMetaData::get()
+            ]
+        ];
         return json_encode($response);
     }
 
@@ -68,6 +74,9 @@ class StatusCode{
             $this->setCode($this->SERVICE_UNAVAILABLE);
             $this->setMessage($ex->getMessage());
         }catch (InvalidArgumentException $ex){
+            $this->setCode($this->NOT_FOUND);
+            $this->setMessage($ex->getMessage());
+        }catch (InvalidRequirementException $ex){
             $this->setCode($this->NOT_FOUND);
             $this->setMessage($ex->getMessage());
         }catch (TokenExpiredException $ex){

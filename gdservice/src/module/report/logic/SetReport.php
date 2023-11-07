@@ -1,6 +1,7 @@
 <?php
 namespace src\module\report\logic;
 
+use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\module\report\factory\ReportFactory;
@@ -99,14 +100,12 @@ class SetReport{
         //add allowance before tax deduction is subtracted if any.
         $total = $salary  + $this->biMonthly->biMonthlyNetSalary();
 
-        if(!$this->execution()){
-            $this->taxReport->initializeTaxDeduction($user, $reportId, $total, $notified);
-            $this->taxReport->assertTaxDeduction();
-            if($this->taxReport->hasTaxDeduction()){
-                $taxDeductionTotal = (float)$this->taxReport->taxDeduction()->amount();
-                $totalDeduction = $totalDeduction + $taxDeductionTotal;
-                ///$total = $total - $taxDeductionTotal;
-            }
+        $this->taxReport->initializeTaxDeduction($user, $reportId, $total, $notified);
+        $this->taxReport->assertTaxDeduction();
+        if($this->taxReport->hasTaxDeduction()){
+            $taxDeductionTotal = (float)$this->taxReport->taxDeduction()->amount();
+            $totalDeduction = $totalDeduction + $taxDeductionTotal;
+            ///$total = $total - $taxDeductionTotal;
         }
 
         //add deduction after tax deduction was subtracted if any.
@@ -186,6 +185,57 @@ class SetReport{
             }
         }
         $report->setUser($user);
+
+        $this->addDependencies(
+            $report,
+            $rAllowance,
+            $rDeduction,
+            $reportLoanAllowance,
+            $reportLoanDeduction,
+            $reportNoPayLeaveAllowances,
+            $reportNoPayLeaveDeductions,
+            $reportSickLeaves,
+            $reportOVertime
+        );
+        
         return $report;
+    }
+
+    public function addDependencies(
+        $report,
+        $rAllowance,
+        $rDeduction,
+        $reportLoanAllowance,
+        $reportLoanDeduction,
+        $reportNoPayLeaveAllowances,
+        $reportNoPayLeaveDeductions,
+        $reportSickLeaves,
+        $reportOVertime
+    ):void{
+        foreach($rAllowance->reportAllowances()->list() as $allowance){
+            $report->setToAllAllowancesCollection($allowance);
+        }
+        foreach($rDeduction->reportDeductions()->list() as $deduction){
+            $report->setToAllDeductionsCollection($deduction);
+        }
+        foreach($reportLoanAllowance->reportLoanAllowances()->list() as $loanAllowance){
+            $report->setToAllAllowancesCollection($loanAllowance);
+        }
+        foreach($reportLoanDeduction->reporLoanDeductions()->list() as $loadDeduction){
+            $report->setToAllDeductionsCollection($loadDeduction);
+        }
+        
+        foreach($reportNoPayLeaveAllowances->noPayLeaveAllowances()->list() as $noPayLeaveAllowance){
+            $report->setToAllAllowancesCollection($noPayLeaveAllowance);
+        }
+        foreach($reportNoPayLeaveDeductions->noPayLeaveDeductions()->list() as $noPayLeaveDeduction){
+            $report->setToAllDeductionsCollection($noPayLeaveDeduction);
+        }
+        foreach($reportSickLeaves->sickLeaves()->list() as $sickLeave){
+            $report->setToAllAllowancesCollection($sickLeave);
+        }
+        foreach($reportOVertime->reportOvertimes()->list() as $overtime){
+            $report->setToAllAllowancesCollection($overtime);
+        }
     }
 }

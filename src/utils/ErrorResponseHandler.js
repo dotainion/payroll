@@ -19,4 +19,11 @@ export class ErrorResponseHandler{
             return err.message;
         }
     }
+
+    meta(error){
+        if(error?.response?.data?.error?.meta){
+            return error.response.data.error.meta;
+        }
+        return null;
+    }
 }

@@ -23,7 +23,6 @@ export const EditEmployeeReport = () =>{
         }
         console.log(data);
         api.report.edit(data).then((response)=>{
-            setReport(response.data.data[0]);
             toast.success(user?.attributes?.name + ' Report', 'Edited');
         }).catch((error)=>{
             console.log(error);

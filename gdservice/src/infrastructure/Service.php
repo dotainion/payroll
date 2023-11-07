@@ -8,6 +8,7 @@ use Throwable;
 
 class Service extends Request{
     protected SecurityManager $securityManager;
+    protected Collector $meta;
     protected Collector $collector;
     protected Collector $relationships;
     protected array $_excluded = [
@@ -17,6 +18,7 @@ class Service extends Request{
     public function __construct(bool $authCheck=true){
         $this->__REQUEST__();
         $this->securityManager = new SecurityManager();
+        $this->meta = new Collector();
         $this->collector = new Collector();
         $this->relationships = new Collector();
         if($authCheck){
@@ -60,6 +62,18 @@ class Service extends Request{
         }
     }
 
+    public function setMeta($data){
+        if($data instanceof Collector){
+            foreach($data->list() as $object){
+                $this->meta->add($this->toJson($object));
+            }
+        }else if ($data instanceof IObjects){
+            $this->meta->add($this->toJson($data));
+        }else{
+            throw new Exception('Service response receive a object and dont know what to do with it.');
+        }
+    }
+
     public function relationship():Collector{
         return $this->relationships;
     }
@@ -68,9 +82,19 @@ class Service extends Request{
         return $this->collector;
     }
 
+    public function meta():Collector{
+        return $this->meta;
+    }
+
     public function mergeOutput(Service $service):void{
         foreach($service->output()->list() as $output){
             $this->collector->add($output);
+        }
+    }
+
+    public function mergeMeta(Service $service):void{
+        foreach($service->relationship()->list() as $meta){
+            $this->meta->add($meta);
         }
     }
 
@@ -85,6 +109,9 @@ class Service extends Request{
         $data = ['data' => $this->output()->list()];
         if($this->relationship()->hasItem()){
             $data['included'] = $this->relationship()->list();
+        }
+        if($this->meta()->hasItem()){
+            $data['meta'] = $this->meta()->list();
         }
         echo json_encode($data);
     }

@@ -18,6 +18,7 @@ class TaxFactory extends Collector{
         $tax->setReportId($this->uuid($record['taxDReportId'] ?? $record['reportId']));
         $tax->setName($record['taxDName'] ?? $record['name']);
         $tax->setAmount($record['taxDAmount'] ?? $record['amount']);
+        $tax->setNumber($record['taxId'] ?? null);
         $tax->setDate($record['taxDDate'] ?? $record['date']);
         $tax->setHide($record['taxDHide'] ?? $record['hide']);
         return $tax;

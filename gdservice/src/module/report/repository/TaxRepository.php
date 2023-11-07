@@ -45,9 +45,12 @@ class TaxRepository extends Repository{
             ->where('taxDId', $this->uuid($id));
         $this->execute();
     }
-    
-    public function listTaxDedution(array $where=[]):Collector{
-        $this->select('taxDeduction');
+
+    public function listTaxDedution(array $where=[]):Collector{ 
+        $this->select('taxDeduction')
+            ->leftJoin('user', 'id', 'taxDeduction', 'userId')
+            ->alias('user', 'taxId')
+            ->alias('taxDeduction', 'userId', 'taxDName', 'taxDDate', 'taxDAmount', 'taxDHide', 'taxDReportId', 'taxDId');
         if(isset($where['from']) && isset($where['to'])){
             $this->between('taxDDate', $where['from'], $where['to']);
         }

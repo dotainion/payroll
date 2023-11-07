@@ -4,7 +4,6 @@ namespace src\module\report\action;
 use src\infrastructure\IAction;
 use src\infrastructure\Request;
 use src\module\report\service\CalculateReportService;
-use src\module\report\service\CreateReportService;
 
 class CalculateReportAction extends Request implements IAction{
     protected $service;

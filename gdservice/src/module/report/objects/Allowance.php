@@ -103,7 +103,7 @@ class Allowance implements IObjects{
         $this->reportId->set($reportId);
     }
 
-    public function setNumber(string $number):void{
+    public function setNumber(?string $number):void{
         $this->number = $number;
     }
 

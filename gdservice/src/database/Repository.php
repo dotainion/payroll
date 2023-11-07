@@ -11,6 +11,7 @@ class Repository{
 	protected array $add;
 	protected string $where;
 	protected string $limit;
+	protected string $alias;
 	protected string $column;
 	protected string $statement;
 	protected ?string $parentTableName;
@@ -24,6 +25,7 @@ class Repository{
 		$this->add = ['key'=>[], 'value'=>[]];
 		$this->where = '';
 		$this->limit = '';
+		$this->alias = '';
 		$this->column = '';
 		$this->statement = '';
 		$this->parentTableName = null;
@@ -40,48 +42,67 @@ class Repository{
 		}
 	}
 
+	private function parseAlias(string $column):string{
+		if(str_contains($column, ' as ')){
+			$col = explode(' as ', $column)[0];
+			$alias = explode(' as ', $column)[1];
+			return '`'.$col.'` as `'.$alias.'`';
+		}
+		return '`'.$column.'`';
+	}
+
 	public function query($statement){
 		$this->db->query($statement);
 		$this->db->commit();
 		$this->db->close();
 	}
 
-	public function select($tableName){
+	public function alias($tableName, ...$columns):self{
+		foreach($columns as $column){
+			if(!empty($this->alias)){
+				$this->alias .= ', ';
+			}
+			$this->alias .= '`'.$tableName.'`.'.$this->parseAlias($column);
+		}
+		return $this;
+	}
+
+	public function select($tableName):self{
 		$this->connect();
 		$this->setParentTableName($tableName);
 		$this->statement = 'SELECT * FROM `'.$tableName.'` ';
 		return $this;
 	}
 
-	public function insert($tableName){
+	public function insert($tableName):self{
 		$this->connect();
 		$this->setParentTableName($tableName);
 		$this->statement = 'INSERT INTO `'.$tableName.'` ';
 		return $this;
 	}
 
-	public function update($tableName){
+	public function update($tableName):self{
 		$this->connect();
 		$this->setParentTableName($tableName);
 		$this->statement = 'UPDATE `'.$tableName.'` SET ';
 		return $this;
 	}
 
-	public function delete($tableName){
+	public function delete($tableName):self{
 		$this->connect();
 		$this->setParentTableName($tableName);
 		$this->statement = 'DELETE FROM `'.$tableName.'` ';
 		return $this;
 	}
 
-	public function rowCount($tableName){
+	public function rowCount($tableName):self{
 		$this->connect();
 		$this->setParentTableName($tableName);
 		$this->statement = 'SELECT COUNT(*) FROM `'.$tableName.'` ';
 		return $this;
 	}
 
-	public function add($column, $value){
+	public function add($column, $value):self{
 		if(strpos($this->statement, 'INSERT') === false){
 			throw new Exception('add must only work with insert');
 		}
@@ -90,7 +111,7 @@ class Repository{
 		return $this;
 	}
 
-	public function set($column, $value){
+	public function set($column, $value):self{
 		if(strpos($this->statement, 'UPDATE') === false){
 			throw new Exception('set must only work with update');
 		}
@@ -101,17 +122,17 @@ class Repository{
 		return $this;
 	}
 
-	public function leftJoin($tableName, $column, $joinTableName, $joinColumn){
+	public function leftJoin($tableName, $column, $joinTableName, $joinColumn):self{
 		$this->statement .= ' LEFT JOIN `'.$tableName.'` ON `'.$joinTableName.'`.`'.$joinColumn.'` = `'.$tableName.'`.`'.$column.'`';
 		return $this;
 	}
 
-	public function innerJoin($tableName, $column, $joinTableName, $joinColumn){
-		$this->statement .= ' INNER JOIN '.$tableName.' ON '.$joinTableName.'.'.$joinColumn.' = '.$tableName.'.'.$column;
+	public function innerJoin($tableName, $column, $joinTableName, $joinColumn):self{
+		$this->statement .= ' INNER JOIN `'.$tableName.'` ON `'.$joinTableName.'`.`'.$joinColumn.'` = `'.$tableName.'`.`'.$column.'`';
 		return $this;
 	}
 
-	public function orderByDesc($column, $tableName = null){
+	public function orderByDesc($column, $tableName = null):self{
 		if(!$tableName){
 			$tableName = $this->parentTableName;
 		}
@@ -119,7 +140,7 @@ class Repository{
 		return $this;
 	}
 
-	public function orderByAsc($column, $tableName = null){
+	public function orderByAsc($column, $tableName = null):self{
 		if(!$tableName){
 			$tableName = $this->parentTableName;
 		}
@@ -127,7 +148,7 @@ class Repository{
 		return $this;
 	}
 
-	public function where($column, $value, $tableName = null){
+	public function where($column, $value, $tableName = null):self{
 		if(! $this->where){
 			$this->where = ' WHERE ';
 		}else{
@@ -167,10 +188,13 @@ class Repository{
 		$this->limit = ' LIMIT '.$limit;
 	}
 
-	public function execute(){
+	public function execute():self{
 		if(!empty($this->add['key'])){
 			$this->statement .= '('.implode(', ', $this->add['key']).') ';
 			$this->statement .= 'VALUES ('.implode(', ', $this->add['value']).') ';
+		}
+		if(!empty($this->alias)){
+			$this->statement = str_replace('*', $this->alias, $this->statement);
 		}
 		$this->statement .= $this->set . $this->where . $this->limit.';';
 		$this->query($this->statement);

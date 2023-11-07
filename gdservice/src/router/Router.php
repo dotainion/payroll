@@ -2,7 +2,6 @@
 namespace src\router;
 
 use src\database\Table;
-use src\infrastructure\DateHelper;
 use src\infrastructure\Https;
 use src\module\allowance\action\CreateAllowanceAction;
 use src\module\allowance\action\DeleteAllowanceAction;
@@ -62,6 +61,7 @@ use src\module\report\action\ListLoanDeductionReportByUserAction;
 use src\module\report\action\ListReportPeriodsAction;
 use src\module\report\action\ListUserReportAction;
 use src\module\report\action\SearchBulkReportByDateAction;
+use src\module\report\repository\TaxRepository;
 use src\module\settings\action\FetchSickLeaveSettingsAction;
 use src\module\settings\action\SetSickLeaveSettingsAction;
 use src\module\tax\action\DeleteTaxSettingsAction;
@@ -97,9 +97,7 @@ class Router{
         });*/
 
         $this->request->route('/test', function ($req){
-            $number = 1;
-            var_dump(number_format((float)$number, 2, '.', ''));
-            var_dump(number_format((float)$number, 2, '.', ''));
+            
         });
 
         $this->request->route('/signin', function ($req){

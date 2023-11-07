@@ -12,6 +12,7 @@ class Tax implements IObjects{
     protected Id $reportId;
     protected string $name;
     protected string $amount;
+    protected ?string $number;
     protected ?float $ytd = null;
     protected DateHelper $date;
     protected bool $hide;
@@ -45,6 +46,10 @@ class Tax implements IObjects{
 
     public function name(){
         return $this->name;
+    }
+
+    public function number(){
+        return $this->number;
     }
         
     public function date():DateHelper{
@@ -83,6 +88,10 @@ class Tax implements IObjects{
         $this->name = $name;
     }
     
+    public function setNumber(?string $number):void{
+        $this->number = $number;
+    }
+
     public function setAmount(string $amount):void{
         $this->amount = $amount;
     }
