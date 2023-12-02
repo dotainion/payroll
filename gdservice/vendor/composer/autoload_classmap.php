@@ -428,6 +428,7 @@ return array(
     'src\\module\\report\\logic\\DeleteReportLoanAllowance' => $baseDir . '/src/module/report/logic/DeleteReportLoanAllowance.php',
     'src\\module\\report\\logic\\DeleteReportLoanDeduction' => $baseDir . '/src/module/report/logic/DeleteReportLoanDeduction.php',
     'src\\module\\report\\logic\\DeleteReportOvertime' => $baseDir . '/src/module/report/logic/DeleteReportOvertime.php',
+    'src\\module\\report\\logic\\DeleteReportTaxDeduction' => $baseDir . '/src/module/report/logic/DeleteReportTaxDeduction.php',
     'src\\module\\report\\logic\\DeleteSickLeaveReport' => $baseDir . '/src/module/report/logic/DeleteSickLeaveReport.php',
     'src\\module\\report\\logic\\FetchAllowanceReport' => $baseDir . '/src/module/report/logic/FetchAllowanceReport.php',
     'src\\module\\report\\logic\\FetchDeductionReport' => $baseDir . '/src/module/report/logic/FetchDeductionReport.php',

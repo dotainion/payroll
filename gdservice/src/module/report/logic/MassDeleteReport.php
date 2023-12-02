@@ -13,6 +13,7 @@ class MassDeleteReport{
     protected ListNoPayLeaveAllowance $listNoPayLeaveAllowance;
     protected ListNoPayLeaveDeduction $listNoPayLeaveDeduction;
     protected ListReportOvertime $listOvertime;
+    protected FetchTaxDeductionReport $listTaxDedution;
 
     public function __construct(){
         $this->listAllowance = new ListReportAllowances();
@@ -23,6 +24,7 @@ class MassDeleteReport{
         $this->listNoPayLeaveAllowance = new ListNoPayLeaveAllowance();
         $this->listNoPayLeaveDeduction = new ListNoPayLeaveDeduction();
         $this->listOvertime = new ListReportOvertime();
+        $this->listTaxDedution = new FetchTaxDeductionReport();
     }
 
     public function massDeleteIfNotIncluded(
@@ -34,7 +36,8 @@ class MassDeleteReport{
         Collector $reportSickLeaves,
         Collector $reportNoPayLeaveAllowances,
         Collector $reportNoPayLeaveDeductions,
-        Collector $reportOvertime
+        Collector $reportOvertime,
+        TaxReportToFactory $taxDeduction
     ):void{
         $allowanceCollector = $this->listAllowance->allowancesByReport($reportId);
         $deductionCollector = $this->listDeduction->deductionsByReport($reportId);
@@ -44,6 +47,7 @@ class MassDeleteReport{
         $noPayLeaveAllowanceCollector = $this->listNoPayLeaveAllowance->payLeaves($reportId);
         $noPayLeaveDeductionCollector = $this->listNoPayLeaveDeduction->noPayLeaves($reportId);
         $overtimeCollector = $this->listOvertime->overtimeByReport($reportId);
+        $taxDeductionCollector = $this->listTaxDedution->taxDeductionByReportId($reportId);
 
         $allowanceArray = $this->toIdArray($rAllowance);
         foreach($allowanceCollector->list() as $item){
@@ -93,6 +97,12 @@ class MassDeleteReport{
                 (new DeleteReportOvertime())->delete($item->id());
             }
         }
+        if(!$taxDeduction->hasTaxDeduction()){
+            foreach($taxDeductionCollector->list() as $item){
+                (new DeleteReportTaxDeduction())->delete($item->id());
+            }
+        }
+        
     }
 
     public function toIdArray(Collector $collector):array{

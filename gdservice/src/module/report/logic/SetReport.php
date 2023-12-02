@@ -158,7 +158,8 @@ class SetReport{
                     $reportSickLeaves->sickLeaves(),
                     $reportNoPayLeaveAllowances->noPayLeaveAllowances(),
                     $reportNoPayLeaveDeductions->noPayLeaveDeductions(),
-                    $reportOVertime->reportOvertimes()
+                    $reportOVertime->reportOvertimes(),
+                    $this->taxReport
                 );
             }else{
                 $this->setAllowance->massCreate($rAllowance->reportAllowances());

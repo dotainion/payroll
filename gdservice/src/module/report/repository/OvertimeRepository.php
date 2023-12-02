@@ -33,7 +33,7 @@ class OvertimeRepository extends Repository{
         $this->update('reportOvertime')
             ->set('userId', $this->uuid($overtime->userId()))
             ->set('otReportId', $this->uuid($overtime->reportId()))
-            ->add('otFormularId', $this->uuid($overtime->formularId()))
+            ->set('otFormularId', $this->uuid($overtime->formularId()))
             ->set('otName', $overtime->name())
             ->set('otHours', $overtime->hours())
             ->set('otAmount', $overtime->amount())
@@ -46,7 +46,7 @@ class OvertimeRepository extends Repository{
     public function deleteOvertime(Id $id):void{
         $this->update('reportOvertime')
             ->set('otHide', 1)
-            ->where('rAId', $this->uuid($id));
+            ->where('otId', $this->uuid($id));
         $this->execute();
     }
     

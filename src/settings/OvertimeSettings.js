@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FcCalendar, FcMoneyTransfer } from "react-icons/fc";
+import { FaQuestionCircle } from 'react-icons/fa';
 import $ from 'jquery';
 import { api } from "../request/Api";
 import { ErrorResponseHandler } from "../utils/ErrorResponseHandler";
 import { Loading } from "../components/Loading";
+import { Tooltip } from "../container/Tooltip";
 
 export const OvertimeSettings = ({settings}) =>{
     const [showDeleting, setShowDeleting] = useState(false);
@@ -91,8 +93,8 @@ export const OvertimeSettings = ({settings}) =>{
 
     const optionSelected = (e) =>{
         $(targetInputRef.current).focus();
-        const title = $(e.currentTarget).find('span').text();
-        const clone = $(e.currentTarget).find('svg').clone();
+        const title = $(e.currentTarget).find('span[data-value]').text();
+        const clone = $(e.currentTarget).find('svg[data-icon]').clone();
         const value = $(e.currentTarget).find('span').attr('data-value');
         const container = $(`<div class="d-flex align-items-center"><input value="${value}" hidden/></div>`);
         const option = container.append(clone, $('<small class="ms-2"/>').text(title));
@@ -101,10 +103,11 @@ export const OvertimeSettings = ({settings}) =>{
 
     const onKeyDown = (e) =>{
         tempHtmlRef.current = $(e.currentTarget).children();
-        const hasSvg = !!$(e.currentTarget).find('svg').length;
+        const hasSvg = !!$(e.currentTarget).find('svg[data-icon]').length;
         if(e.key === 'Backspace' && hasSvg) return $(e.currentTarget).empty();
         if(e.key === 'Backspace') return;
-        hasSvg || e.key.toUpperCase() != e.key.toLowerCase() && e.preventDefault();
+        if(hasSvg) return e.preventDefault();
+        if(e.key.toUpperCase() != e.key.toLowerCase()) return e.preventDefault();
     }
 
     const calculate = () =>{
@@ -143,6 +146,11 @@ export const OvertimeSettings = ({settings}) =>{
 
     const close = () =>{
         $(overtimePageRef.current).hide('fast').promise().then((self)=>self.remove());
+    }
+
+    const tooltipClick = (e) =>{
+        e.stopPropagation();
+        $(targetInputRef.current).focus();
     }
 
     useEffect(()=>{
@@ -186,10 +194,15 @@ export const OvertimeSettings = ({settings}) =>{
             {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             <div ref={optionContainerRef} onClick={(e)=>e.stopPropagation()} className="bg-light py-3">
                 {options.map((opt, key)=>(
-                    <div onClick={optionSelected} className="bg-white border d-inline-block rounded pointer px-3 py-1 me-2 opacity-25" title={opt.tooltip} key={key}>
-                        <span className="me-2" data-value={opt.value}>{opt.display}</span>
-                        <opt.icon/>
-                    </div>
+                        <div onClick={optionSelected} className="bg-white border d-inline-block rounded pointer px-3 py-1 me-2 opacity-25" key={key}>
+                            <span className="me-2" data-value={opt.value}>{opt.display}</span>
+                            <opt.icon data-icon=""/>
+                            <span onClick={tooltipClick} data-tooltip="">
+                                <Tooltip title={opt.tooltip}>
+                                    <FaQuestionCircle className="ms-2"/>
+                                </Tooltip>
+                            </span>
+                        </div>
                 ))}
             </div>
             <div className="border-bottom my-3"></div>

@@ -5,11 +5,9 @@ import { MdOutlineStart } from "react-icons/md";
 import $ from 'jquery';
 
 export const OvertimeAddOn = ({user, data, otSettings}) =>{   
-    const [defaultFormularValue, setDefaultFormularValue]  = useState();
-
-
     const addOnRef = useRef();
     const rateRef = useRef();
+    const timeoutRef = useRef();
 
     const idRef = useRef();
     const nameRef = useRef();
@@ -24,6 +22,7 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
     const onCalculate = () =>{
         if(!otSettings) return;
         const formular = otSettings.find((ot)=>ot.id === formularRef.current.value);
+        if(!formular) return;
         const formularVal = parseFloat(formular.attributes.value || 0);
         const hours = parseFloat(hoursRef.current.value || 0);
         amountRef.current.value = hours * formularVal;
@@ -31,18 +30,23 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
     }
 
     useEffect(()=>{
-        if(!data) return;
+        if(!data || !otSettings) return;
         nameRef.current.value = data?.attributes?.name || 'Overtime';
         hoursRef.current.value = data?.attributes?.hours || 1;
         amountRef.current.value = data?.attributes?.amount;
         if(data?.attributes?.formularId){
-            setDefaultFormularValue(data.attributes.formularId);
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(() => {
+                const formular = otSettings.find((ot)=>ot.id === data.attributes.formularId);
+                if(!formular) return;
+                $(formularRef.current).find('option').each((i, option)=>{
+                    if($(option).attr('value') === data.attributes.formularId) $(option).attr('selected', 'selected');
+                    else $(option).removeAttr('selected');
+                });
+                onCalculate();
+            }, 100);
         }
-    }, [data]);
-
-    useEffect(()=>{
-        onCalculate();
-    }, [user, data, otSettings]);
+    }, [data, otSettings]);
 
     return(
         <div ref={addOnRef} onChange={onCalculate} className="w-100" data-overtime="">
@@ -51,9 +55,9 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
                 <div className="d-flex align-items-center mt-2">
                     <div className="input-group">
                         <span className="input-group-text"><MdOutlineStart/></span>
-                        <select ref={formularRef} className="form-control shadow-none" name="formular" defaultValue={defaultFormularValue}>
-                            {otSettings?.map?.((ot)=>(
-                                <option value={ot.id}>{ot.attributes.name}</option>
+                        <select ref={formularRef} className="form-control shadow-none" name="formular">
+                            {otSettings?.map?.((ot, key)=>(
+                                <option value={ot.id} key={key}>{ot.attributes.name}</option>
                             ))}
                         </select>
                         <span className="input-group-text w-25">Formular</span>
@@ -82,11 +86,11 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
 }
 
 
-export const ExistingOvertimeAddOn = ({user, data}) =>{
+export const ExistingOvertimeAddOn = ({user, data, otSettings}) =>{
     useEffect(()=>{
         
     }, []);
     return(
-        <OvertimeAddOn data={data} user={user}/>
+        <OvertimeAddOn data={data} otSettings={otSettings} user={user}/>
     )
 }

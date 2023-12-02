@@ -497,6 +497,7 @@ class ComposerStaticInitc02910e64e28811ca35985ce949d1102
         'src\\module\\report\\logic\\DeleteReportLoanAllowance' => __DIR__ . '/../..' . '/src/module/report/logic/DeleteReportLoanAllowance.php',
         'src\\module\\report\\logic\\DeleteReportLoanDeduction' => __DIR__ . '/../..' . '/src/module/report/logic/DeleteReportLoanDeduction.php',
         'src\\module\\report\\logic\\DeleteReportOvertime' => __DIR__ . '/../..' . '/src/module/report/logic/DeleteReportOvertime.php',
+        'src\\module\\report\\logic\\DeleteReportTaxDeduction' => __DIR__ . '/../..' . '/src/module/report/logic/DeleteReportTaxDeduction.php',
         'src\\module\\report\\logic\\DeleteSickLeaveReport' => __DIR__ . '/../..' . '/src/module/report/logic/DeleteSickLeaveReport.php',
         'src\\module\\report\\logic\\FetchAllowanceReport' => __DIR__ . '/../..' . '/src/module/report/logic/FetchAllowanceReport.php',
         'src\\module\\report\\logic\\FetchDeductionReport' => __DIR__ . '/../..' . '/src/module/report/logic/FetchDeductionReport.php',

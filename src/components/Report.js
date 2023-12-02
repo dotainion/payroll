@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AllowanceGenerator } from "../widgets/AllowanceGenerator";
 import { DeductionGenerator } from "../widgets/DeductionGenerator";
-import $ from "jquery";
 import { FaDollarSign } from "react-icons/fa";
 import { api } from "../request/Api";
 import { SickLeaveGenerator } from "../widgets/SickLeaveGenerator";
 import { TaxAlert } from "./TaxAlert";
 import { BiCalendar } from "./BiCalendar";
 import { TaxDeductionReadOnly } from "../widgets/TaxDeductionReadOnly";
-import { useDocument } from "../contents/DocumentProvider";
 
 export const Report = ({period, title, userId, reportId, onUser, propUser, netSalary, existingTaxDeduction, existingAllowances, existingDeductions, sickLeaves, children}) =>{    
     const [user, setUser] = useState();
