@@ -14,6 +14,10 @@
 /.gdbuild
 .gdbuild
 gdbuild
+gdservice.zip
+gdbuild.zip
+.gdservice.zip
+.gdbuild.zip
 
 # misc
 .DS_Store
