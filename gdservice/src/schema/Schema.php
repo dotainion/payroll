@@ -24,6 +24,17 @@ class Schema{
         return $this->sql->execute();
     }
 
+    public function overtimeSettings(){
+        $this->sql->create('overtimeSettings')
+            ->column('id')->bindary()
+            ->column('name')->string()
+            ->column('active')->bool()
+            ->column('prefix')->string()
+            ->column('suffix')->string()
+            ->column('operator')->string();
+        return $this->sql->execute();
+    }
+
     public function business(){
         $this->sql->create('business')
             ->column('id')->bindary()
@@ -229,10 +240,9 @@ class Schema{
             ->column('userId')->bindary()
             ->column('otReportId')->bindary()
             ->column('otName')->string()
-            ->column('otRate')->string()
             ->column('otHours')->string()
             ->column('otAmount')->string()
-            ->column('otTotalAmount')->string()
+            ->column('otFormularId')->bindary()
             ->column('otDate')->timestamp()
             ->column('otHide')->bool();
         return $this->sql->execute();

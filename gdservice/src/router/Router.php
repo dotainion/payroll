@@ -62,7 +62,11 @@ use src\module\report\action\ListReportPeriodsAction;
 use src\module\report\action\ListUserReportAction;
 use src\module\report\action\SearchBulkReportByDateAction;
 use src\module\report\repository\TaxRepository;
+use src\module\settings\action\DeleteOvertimeSettingsAction;
+use src\module\settings\action\FetchOvertimeSettingsAction;
 use src\module\settings\action\FetchSickLeaveSettingsAction;
+use src\module\settings\action\ListOvertimeSettingsAction;
+use src\module\settings\action\SetOvertimeSettingsAction;
 use src\module\settings\action\SetSickLeaveSettingsAction;
 use src\module\tax\action\DeleteTaxSettingsAction;
 use src\module\tax\action\ListTaxSettingsAction;
@@ -366,6 +370,22 @@ class Router{
 
         $this->request->route('/delete/allowance/deduction/id/link', function ($req){
             return new DeleteAllowanceDeductionIdLinkAction();
+        });
+
+        $this->request->route('/set/overtime/settings', function ($req){
+            return new SetOvertimeSettingsAction();
+        });
+
+        $this->request->route('/fetch/overtime/settings', function ($req){
+            return new FetchOvertimeSettingsAction();
+        });
+
+        $this->request->route('/delete/overtime/settings', function ($req){
+            return new DeleteOvertimeSettingsAction();
+        });
+
+        $this->request->route('/list/overtime/settings', function ($req){
+            return new ListOvertimeSettingsAction();
         });
     }
 

@@ -23,7 +23,7 @@ class SendMailService extends Service{
         $this->attatchmentFactory = new AttatchmentFactory();
     }
     
-    public function process($subject, $body, $recipients, $attatchments){
+    public function process($subject, $body, $recipients, $attatchments=null){
         Assert::stringNotEmpty($subject, 'Mail subject is required.');
         Assert::stringNotEmpty($body, 'Mail body is required.');
         Assert::isArray($recipients, 'Recipients must be an array.');

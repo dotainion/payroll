@@ -31,6 +31,10 @@ import { PasswordInput } from "../widgets/PasswordInput";
 import { EmailSetup } from "../pages/EmailSetup";
 import { BiCalendar } from "../components/BiCalendar";
 import { TaxDeductionReadOnly } from "../widgets/TaxDeductionReadOnly";
+import { OvertimeAddOn } from "../addons/OvertimeAddOn";
+import { FcCalendar, FcMoneyTransfer } from "react-icons/fc";
+import { OvertimeSettings } from "../settings/OvertimeSettings";
+import { Loading } from "../components/Loading";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
@@ -42,7 +46,8 @@ export const Testing = () =>{
     const pageRef = useRef();
     const rouetRef = useRef();
 
-    const testRef = useRef();
+    const salarayRef = useRef();
+    const calendarRef = useRef();
 
     const onRemove = (e) =>{
         $(e.currentTarget).parent().remove();
@@ -72,9 +77,10 @@ export const Testing = () =>{
 
     }, []);
 
+
     return (
-        <div className="w-50">
-            <TaxDeductionReadOnly/>
+        <div className="position-relative" style={{height: '500px'}}>
+            <OvertimeAddOn/>
         </div>
     )
 

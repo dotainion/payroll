@@ -25,6 +25,7 @@ export const SickLeaves = () =>{
     const percentageOfSalaryRef = useRef();
     const editableRef = useRef();
     const daysRef = useRef();
+    const sickleavePageRef = useRef();
 
     const onSaveSickLeave = () =>{
         clearTimeout(timeoutRef.current);
@@ -74,6 +75,7 @@ export const SickLeaves = () =>{
     }, [days, availableAllowances, availableDeductions]);
 
     useEffect(()=>{
+        $(sickleavePageRef.current).show('slow');
         api.allowance.list().then((response)=>{
             setAllowances(response.data.data);
         }).catch((error)=>{
@@ -95,7 +97,7 @@ export const SickLeaves = () =>{
     }, []);
 
     return(
-        <div>
+        <div ref={sickleavePageRef} style={{display: 'none'}}>
             <ul className="list-group mt-4">
                 <li className="list-group-item bg-light">
                     <div className="fw-bold">Sick leave settings</div>

@@ -11,13 +11,12 @@ class Overtime implements IObjects{
     protected Id $userId;
     protected Id $reportId;
     protected string $name;
-    protected string $rate;
     protected string $hours;
     protected string $amount;
     protected DateHelper $date;
-    protected string $totalAmount;
     protected ?float $ytd = null;
     protected bool $hide;
+    protected string $formularId;
 
     public function __construct(){
         $this->id = new Id();
@@ -46,8 +45,8 @@ class Overtime implements IObjects{
         return $this->name;
     }
     
-    public function rate(){
-        return $this->rate;
+    public function formularId(){
+        return $this->formularId;
     }
     
     public function hours(){
@@ -63,15 +62,11 @@ class Overtime implements IObjects{
     }
         
     public function net(){
-        return $this->totalAmount();
+        return $this->amount();
     }
     
     public function amount(){
         return $this->amount;
-    }
-    
-    public function totalAmount(){
-        return $this->totalAmount;
     }
 
     public function setId(string $id):void{
@@ -98,8 +93,8 @@ class Overtime implements IObjects{
         $this->name = $name;
     }
     
-    public function setRate(string $rate):void{
-        $this->rate = $rate;
+    public function setFormularId(string $formularId):void{
+        $this->formularId = $formularId;
     }
     
     public function setHours(string $hours):void{
@@ -108,10 +103,6 @@ class Overtime implements IObjects{
     
     public function setAmount(string $amount):void{
         $this->amount = $amount;
-    }
-    
-    public function setTotalAmount(string $totalAmount):void{
-        $this->totalAmount = $totalAmount;
     }
 
     public function setHide(bool $hide):void{

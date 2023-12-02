@@ -20,13 +20,12 @@ class OvertimeRepository extends Repository{
             ->add('otId', $this->uuid($overtime->id()))
             ->add('userId', $this->uuid($overtime->userId()))
             ->add('otReportId', $this->uuid($overtime->reportId()))
+            ->add('otFormularId', $this->uuid($overtime->formularId()))
             ->add('otName', $overtime->name())
-            ->add('otRate', $overtime->rate())
             ->add('otHours', $overtime->hours())
             ->add('otAmount', $overtime->amount())
             ->add('otDate', $overtime->date())
-            ->add('otHide', (int)$overtime->hide())
-            ->add('otTotalAmount', $overtime->totalAmount());
+            ->add('otHide', (int)$overtime->hide());
         $this->execute();
     }
     
@@ -34,13 +33,12 @@ class OvertimeRepository extends Repository{
         $this->update('reportOvertime')
             ->set('userId', $this->uuid($overtime->userId()))
             ->set('otReportId', $this->uuid($overtime->reportId()))
+            ->add('otFormularId', $this->uuid($overtime->formularId()))
             ->set('otName', $overtime->name())
-            ->set('otRate', $overtime->rate())
             ->set('otHours', $overtime->hours())
             ->set('otAmount', $overtime->amount())
             //->set('otDate', $overtime->date())
             ->set('otHide', $overtime->hide())
-            ->set('otTotalAmount', $overtime->totalAmount())
             ->where('otId', $this->uuid($overtime->id()));
         $this->execute();
     }

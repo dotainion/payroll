@@ -6,6 +6,7 @@ import { SwitchRouter } from './router/SwitchRouter';
 import { DocumentProvider } from './contents/DocumentProvider';
 import { routes } from './router/routes';
 import { AssignPassword } from './accounts/AssignPassword';
+import { Testing } from './test/Testing';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <DocumentProvider>
           <Routes>
             <Route path={routes.updateCredentialByToken()} element={<AssignPassword/>}/>
+            <Route path={'/test'} element={<Testing/>}/>
             <Route path={'*'} element={<SwitchRouter/>}/>
           </Routes>
         </DocumentProvider>

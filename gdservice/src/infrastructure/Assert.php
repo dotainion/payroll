@@ -26,6 +26,13 @@ class Assert extends Repository{
         return true;
     }
 
+    public static function isDigits($digits, string $message = 'Must be digits.'):bool{
+        if(!ctype_digit($digits)){
+            throw new InvalidArgumentException($message);
+        }
+        return true;
+    }
+
     public static function positiveNumber($number, string $message = 'Must be a positive number.'):bool{
         if(((float)$number??0) <= 0){
             throw new InvalidArgumentException($message);

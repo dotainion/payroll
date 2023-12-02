@@ -16,11 +16,10 @@ class OvertimeFactory extends Collector{
         $overtime->setId($this->uuid($record['otId'] ?? $record['id']));
         $overtime->setUserId($this->uuid($record['userId']));
         $overtime->setReportId($this->uuid($record['otReportId'] ?? $record['reportId']));
+        $overtime->setFormularId($this->uuid($record['otFormularId'] ?? $record['formularId']));
         $overtime->setName($record['otName'] ?? $record['name']);
-        $overtime->setRate($record['otRate'] ?? $record['rate']);
         $overtime->setHours($record['otHours'] ?? $record['hours']);
         $overtime->setAmount((string)($record['otAmount'] ?? $record['amount']));
-        $overtime->setTotalAmount(($record['otTotalAmount'] ?? $record['totalAmount']));
         $overtime->setDate($record['otDate'] ?? $record['date']);
         $overtime->setHide($record['otHide'] ?? $record['hide']);
         return $overtime;

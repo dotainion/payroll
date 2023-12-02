@@ -9,7 +9,7 @@ import { MdAdd } from 'react-icons/md';
 import { toast } from "../utils/Toast";
 import { ExistingOvertimeAddOn, OvertimeAddOn } from "../addons/OvertimeAddOn";
 
-export const AllowanceGenerator = ({user, loanAllowances, banks, existingAllowances}) =>{
+export const AllowanceGenerator = ({user, loanAllowances, banks, otSettings, existingAllowances}) =>{
     const [allowance, setAllowance] = useState([]);
     const [avilableAllowance, setAvailableAllowance] = useState([]);
 
@@ -71,7 +71,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, existingAllowan
             <div className="d-inline-block">
                 <div data-report-allowances="">
                     {allowance.map((card, key)=>(
-                        <card.component data={card.data} banks={banks} user={user} key={key} />
+                        <card.component data={card.data} banks={banks} otSettings={otSettings} user={user} key={key} />
                     ))}
                 </div>
                 <div className="text-end p-3">

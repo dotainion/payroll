@@ -53,6 +53,13 @@ class Collector{
         return true;
     }
 
+    public function assertHasItemForUi(string $message='No results'):bool{
+        if(!$this->hasItem()){
+            throw new InvalidArgumentException($message);
+        }
+        return true;
+    }
+
     public function assertItemNotExist(string $message='Already exist'):bool{
         if($this->hasItem()){
             throw new InvalidArgumentException($message);

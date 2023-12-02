@@ -8,7 +8,7 @@ import { MdAdd } from 'react-icons/md';
 import { NoPayLeaveAddOn, NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAddOn";
 import { toast } from "../utils/Toast";
 
-export const DeductionGenerator = ({loanDeductions, loans, banks, existingDeductions}) =>{
+export const DeductionGenerator = ({loanDeductions, loans, banks, otSettings, existingDeductions}) =>{
     const [deduction, setDeduction] = useState([]);
     const [availableDeduction, setAvailableDeduction] = useState([]);
 

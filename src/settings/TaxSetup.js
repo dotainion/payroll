@@ -20,7 +20,7 @@ export const TaxSetup = ({data}) =>{
     const notifyAndAutoRef = useRef();
 
     const onUpdate = () =>{
-        const data = {
+        const record = {
             id: idRef.current, 
             active: activeRef.current.checked, 
             percentage: percentageRef.current.value, 
@@ -32,7 +32,7 @@ export const TaxSetup = ({data}) =>{
 
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
-            api.tax.set(data).then((response)=>{
+            api.tax.set(record).then((response)=>{
                 idRef.current = response.data.data[0].id;
             }).catch((error)=>{
                 toast.error('Tax Settings', error);
@@ -64,7 +64,10 @@ export const TaxSetup = ({data}) =>{
 
     useEffect(()=>{
         $(taxPageRef.current).show('slow');
-        if(!data) return idRef.current = uuidv4();
+        if(!data){ 
+            idRef.current = uuidv4();
+            return;
+        }
         idRef.current = data?.id;
         activeRef.current.checked = data?.attributes?.active;
         percentageRef.current.value = data?.attributes?.percentage;

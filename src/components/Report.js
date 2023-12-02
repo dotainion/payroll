@@ -13,6 +13,7 @@ import { useDocument } from "../contents/DocumentProvider";
 export const Report = ({period, title, userId, reportId, onUser, propUser, netSalary, existingTaxDeduction, existingAllowances, existingDeductions, sickLeaves, children}) =>{    
     const [user, setUser] = useState();
     const [banks, setBanks] = useState([]);
+    const [otSettings, setOtSettings] = useState([]);
     const [loanAllowances, setLoanAllowances] = useState([]);
     const [loanDeductions, setLoanDeductions] = useState([]);
     const [biMonthlySalary, setBiMonthlySalary] = useState();
@@ -45,6 +46,13 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
             setBanks(response.data.data);
         }).catch((error)=>{
             console.log(error);
+        });
+
+        api.overtime.listOTSettingsAndPassUserId(userId).then((response)=>{
+            console.log(response.data.data);
+            setOtSettings(response.data.data);
+        }).catch((error)=>{
+
         });
 
         if(propUser) return;
@@ -84,12 +92,12 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                 <div className="px-3 bg-lightergray py-3">
                     <div className="fw-bold">Allowances</div>
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
-                    <AllowanceGenerator loanAllowances={loanAllowances} banks={banks} existingAllowances={existingAllowances} user={propUser || user} />
+                    <AllowanceGenerator loanAllowances={loanAllowances} banks={banks} otSettings={otSettings} existingAllowances={existingAllowances} user={propUser || user} />
                 </div>
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Deductions</div>
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
-                    <DeductionGenerator loanDeductions={loanDeductions} banks={banks} existingDeductions={existingDeductions} />
+                    <DeductionGenerator loanDeductions={loanDeductions} banks={banks} otSettings={otSettings} existingDeductions={existingDeductions} />
                 </div>
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Sick Leave</div>

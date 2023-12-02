@@ -3,6 +3,7 @@ import { SickLeaves } from "../settings/SickLeaves";
 import { TaxSetupContainer } from "../settings/TaxSetupContainer";
 import { routes } from "../router/routes";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { OvertimeContainer } from "../settings/OvertimeContainer";
 
 export const Settings = () =>{
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ export const Settings = () =>{
     const tabs = [
         {title: 'Tax Setting', route: routes.settings().tax()},
         {title: 'Sick Leave', route: routes.settings().sickLeave()},
+        {title: 'Overtime', route: routes.settings().overtime()},
     ]
 
     return(
@@ -30,6 +32,7 @@ export const Settings = () =>{
                     <Routes>
                         <Route path={routes.settings().tax()} element={<TaxSetupContainer/>}/>
                         <Route path={routes.settings().sickLeave()} element={<SickLeaves/>}/>
+                        <Route path={routes.settings().overtime()} element={<OvertimeContainer/>}/>
                         <Route path={'*'} element={<TaxSetupContainer/>}/>
                     </Routes>
                 </div>

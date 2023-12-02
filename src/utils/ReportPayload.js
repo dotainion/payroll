@@ -152,10 +152,10 @@ class ReportPayload{
             let json = {};
             json['id'] = $(addon).find('[name=id]').val();
             json['name'] = $(addon).find('[name=name]').val();
-            json['rate'] = $(addon).find('[name=rate]').val();
             json['hours'] = $(addon).find('[name=hours]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
             json['linkId'] = $(addon).find('[name=linkId]').val();
+            json['formularId'] = $(addon).find('[name=formular]').val();
             data.push(json);
         });
         return data;

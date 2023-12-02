@@ -146,7 +146,7 @@ class Service extends Request{
             }
         }
         if(!isset($json['id'])){
-            throw new Exception('Each object just have a id when converting into json response.');
+            throw new Exception('Each object must have an id when converting into json response.');
         }
         $id = $json['id'];
         unset($json['id']);

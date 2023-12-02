@@ -651,6 +651,10 @@ input[type=date]::-webkit-calendar-picker-indicator {
   z-index: 99999999999999 !important;
 }
 
+.overtime-editable-div{
+  width: 150px;
+}
+
 @media screen and (max-width:1100px){
   .employee-set{
     width: 100% !important;
@@ -661,6 +665,9 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 
 @media screen and (max-width:767px){
+  .overtime-editable-div{
+    width: auto;
+  }
 }
 
 @media screen and (max-width:575px){
