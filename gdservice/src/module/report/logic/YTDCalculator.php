@@ -189,7 +189,7 @@ class YTDCalculator{
             ]);
             $ytd = 0;
             foreach($collector->list() as $overtime){
-                $ytd = $ytd + (float)$overtime->totalAmount();
+                $ytd = $ytd + (float)$overtime->amount();
             }
             $item->setYtd($ytd);
         }

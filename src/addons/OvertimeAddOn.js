@@ -7,10 +7,11 @@ import $ from 'jquery';
 export const OvertimeAddOn = ({user, data, otSettings}) =>{   
     const [defaultFormularValue, setDefaultFormularValue]  = useState();
 
-    const idRef = useRef();
 
     const addOnRef = useRef();
+    const rateRef = useRef();
 
+    const idRef = useRef();
     const nameRef = useRef();
     const hoursRef = useRef();
     const amountRef = useRef();
@@ -22,9 +23,11 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
     
     const onCalculate = () =>{
         if(!otSettings) return;
-        const formular = parseFloat(otSettings.find((ot)=>ot.id === formularRef.current.value));
-        const hours = parseFloat(hoursRef.current.value);
-        amountRef.current.value = hours * formular;
+        const formular = otSettings.find((ot)=>ot.id === formularRef.current.value);
+        const formularVal = parseFloat(formular.attributes.value || 0);
+        const hours = parseFloat(hoursRef.current.value || 0);
+        amountRef.current.value = hours * formularVal;
+        $(rateRef.current).text(formularVal);
     }
 
     useEffect(()=>{
@@ -36,6 +39,10 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
             setDefaultFormularValue(data.attributes.formularId);
         }
     }, [data]);
+
+    useEffect(()=>{
+        onCalculate();
+    }, [user, data, otSettings]);
 
     return(
         <div ref={addOnRef} onChange={onCalculate} className="w-100" data-overtime="">
@@ -52,11 +59,11 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
                         <span className="input-group-text w-25">Formular</span>
                     </div>
                 </div>
-                <div className="text-end"><b className="me-1">Rate:</b>2254</div>
+                <div className="text-end"><b className="me-1">Rate:</b><span ref={rateRef}></span></div>
                 <div className="d-flex align-items-center mt-2">
                     <div className="input-group">
                         <span className="input-group-text"><FaRegClock/></span>
-                        <input ref={hoursRef} className="form-control shadow-none" name="hours" placeholder="1 Hours" type="number" min={1}/>
+                        <input ref={hoursRef} className="form-control shadow-none" name="hours" placeholder="1 Hours" type="number" min={1} defaultValue={1}/>
                         <span className="input-group-text w-25">Hours</span>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ class OvertimeRepository extends Repository{
             ->add('active', (int)$overtime->active())
             ->add('prefix', $overtime->prefix()->value())
             ->add('suffix', $overtime->suffix()->value())
-            ->add('operator', $overtime->operator());
+            ->add('operator', $overtime->operator()->value());
         $this->execute();
     }
     
@@ -32,7 +32,7 @@ class OvertimeRepository extends Repository{
             ->set('active', (int)$overtime->active())
             ->set('prefix', $overtime->prefix()->value())
             ->set('suffix', $overtime->suffix()->value())
-            ->set('operator', $overtime->operator())
+            ->set('operator', $overtime->operator()->value())
             ->where('id', $this->uuid($overtime->id()));
         $this->execute();
     }

@@ -14,7 +14,7 @@ class CalculateReportOvertime{
         $this->collector = $overtimeCollector;
 
         foreach($overtimeCollector->list() as $overtime){
-            $this->totalOvertime = $this->totalOvertime + (float)$overtime->totalAmount();
+            $this->totalOvertime = $this->totalOvertime + (float)$overtime->amount();
         }
         return $this;
     }
