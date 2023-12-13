@@ -1,7 +1,6 @@
 <?php
 namespace src\module\report\logic;
 
-use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\module\report\factory\ReportFactory;
@@ -9,6 +8,7 @@ use src\module\report\objects\Report;
 use src\module\report\repository\ReportRepository;
 use src\module\settings\logic\FetchSickLeave;
 use src\module\user\objects\User;
+use Throwable;
 
 class SetReport{
     protected bool $stopExecution = false;
@@ -48,7 +48,7 @@ class SetReport{
         $this->biMonthly = new BiMonthlySalary();
     }
 
-    public function execution():bool{
+    public function stopExecute():bool{
         return $this->stopExecution;
     }
 
@@ -71,7 +71,7 @@ class SetReport{
         HandleAllowanceDeductionIdLinkToFactory $allowanceOptionLink,
         HandleAllowanceDeductionIdLinkToFactory $deductionOptionLink,
         Id $reportId,
-        ?bool $notified
+        array $notified
     ):Report{
         $totalAllowance = $rAllowance->totalAllowance();
         $totalDeduction = $rDeduction->totalDeduction();
@@ -98,14 +98,16 @@ class SetReport{
         }
 
         //add allowance before tax deduction is subtracted if any.
-        $total = $salary  + $this->biMonthly->biMonthlyNetSalary();
+        $total = $salary  + $this->biMonthly->biMonthlyAllowance();
 
-        $this->taxReport->initializeTaxDeduction($user, $reportId, $total, $notified);
+        $this->taxReport->initializeTaxDeduction($this->stopExecute(), $user, $reportId, $total, $notified);
         $this->taxReport->assertTaxDeduction();
         if($this->taxReport->hasTaxDeduction()){
-            $taxDeductionTotal = (float)$this->taxReport->taxDeduction()->amount();
-            $totalDeduction = $totalDeduction + $taxDeductionTotal;
-            ///$total = $total - $taxDeductionTotal;
+            foreach($this->taxReport->taxDeductions()->list() as $tax){
+                $taxDeductionTotal = (float)$tax->amount();
+                $totalDeduction = $totalDeduction + $taxDeductionTotal;
+                ///$total = $total - $taxDeductionTotal;
+            }
         }
 
         //add deduction after tax deduction was subtracted if any.
@@ -117,14 +119,14 @@ class SetReport{
             'date' => (new DateHelper())->new()->toString(),
             'allowance' => $totalAllowance,
             'deduction' => $totalDeduction,
-            'salary' => $this->biMonthly->biMonthlyNetSalary(),
+            'salary' => $this->biMonthly->biMonthlySalary(),
             'hide' => $user->hide(),
             'from' => $periodFrom->toString(),
             'to' => $periodTo->toString(),
             'net' => $total
         ]);
 
-        if(!$this->execution()){
+        if(!$this->stopExecute()){
             $reportCollector = (new FetchReport())->report($report->id());
             if($reportCollector->hasItem()){
                 $this->setAllowance->massEdit($rAllowance->reportAllowances(), true);
@@ -144,7 +146,7 @@ class SetReport{
                 $this->setOptionLink->setOptionLink($deductionOptionLink->optionLinks());
 
                 if($this->taxReport->hasTaxDeduction()){
-                    $this->setTaxDeduction->edit($this->taxReport->taxDeduction());
+                    $this->setTaxDeduction->edit($this->taxReport->taxDeductions());
                 }
 
                 $this->repo->edit($report);
@@ -159,7 +161,7 @@ class SetReport{
                     $reportNoPayLeaveAllowances->noPayLeaveAllowances(),
                     $reportNoPayLeaveDeductions->noPayLeaveDeductions(),
                     $reportOVertime->reportOvertimes(),
-                    $this->taxReport
+                    $this->taxReport->taxDeductions()
                 );
             }else{
                 $this->setAllowance->massCreate($rAllowance->reportAllowances());
@@ -179,7 +181,7 @@ class SetReport{
                 //$this->setOptionLink->setOptionLink($deductionOptionLink->optionLinks());
 
                 if($this->taxReport->hasTaxDeduction()){
-                    $this->setTaxDeduction->create($this->taxReport->taxDeduction());
+                    $this->setTaxDeduction->create($this->taxReport->taxDeductions());
                 }
 
                 $this->repo->create($report);

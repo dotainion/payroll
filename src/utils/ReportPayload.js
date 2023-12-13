@@ -173,7 +173,14 @@ class ReportPayload{
     }
 
     notified(instance){
-        return $(instance).find('[name=notify]').val() === 'notified';
+        let data = [];
+        $(instance).find('[data-alert-container]').find('[data-tax-alert]').each((i, taxAlert)=>{
+            let json = {};
+            json['id'] = $(taxAlert).find('[name=id]').val();
+            json['notify'] = $(taxAlert).find('[name=notify]').val() === 'notified';
+            data.push(json);
+        });
+        return data;
     }
 
     payload(){

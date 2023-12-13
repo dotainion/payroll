@@ -37,7 +37,7 @@ class MassDeleteReport{
         Collector $reportNoPayLeaveAllowances,
         Collector $reportNoPayLeaveDeductions,
         Collector $reportOvertime,
-        TaxReportToFactory $taxDeduction
+        Collector $taxDeduction
     ):void{
         $allowanceCollector = $this->listAllowance->allowancesByReport($reportId);
         $deductionCollector = $this->listDeduction->deductionsByReport($reportId);
@@ -97,8 +97,9 @@ class MassDeleteReport{
                 (new DeleteReportOvertime())->delete($item->id());
             }
         }
-        if(!$taxDeduction->hasTaxDeduction()){
-            foreach($taxDeductionCollector->list() as $item){
+        $taxDeductionArray = $this->toIdArray($taxDeduction);
+        foreach($taxDeductionCollector->list() as $item){
+            if(!in_array($item->id()->toString(), $taxDeductionArray)){
                 (new DeleteReportTaxDeduction())->delete($item->id());
             }
         }

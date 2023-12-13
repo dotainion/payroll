@@ -1,6 +1,7 @@
 <?php
 namespace src\module\report\logic;
 
+use src\infrastructure\Collector;
 use src\module\report\objects\Tax;
 use src\module\report\repository\TaxRepository;
 
@@ -13,17 +14,21 @@ class SetReportTaxDeduction{
         $this->fetch = new FetchTaxDeductionReport();
     }
 
-    public function create(Tax $tax):void{
-        $this->repo->create($tax);
+    public function create(Collector $collector):void{
+        foreach($collector->list() as $tax){
+            $this->repo->create($tax);
+        }
     }
 
-    public function edit(Tax $tax):void{
-        $collector = $this->fetch->taxDeductionByReportId($tax->reportId());
-        if($collector->hasItem()){
-            $tax->setId($collector->first()->id()->toString());
-            $this->repo->edit($tax);
-        }else{
-            $this->create($tax);
+    public function edit(Collector $collector):void{
+        foreach($collector->list() as $tax){
+            $collector = $this->fetch->taxDeductionByReportId($tax->reportId());
+            if($collector->hasItem()){
+                $tax->setId($collector->first()->id()->toString());
+                $this->repo->edit($tax);
+            }else{
+                $this->create($tax);
+            }
         }
     }
 }

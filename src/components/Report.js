@@ -4,11 +4,11 @@ import { DeductionGenerator } from "../widgets/DeductionGenerator";
 import { FaDollarSign } from "react-icons/fa";
 import { api } from "../request/Api";
 import { SickLeaveGenerator } from "../widgets/SickLeaveGenerator";
-import { TaxAlert } from "./TaxAlert";
 import { BiCalendar } from "./BiCalendar";
 import { TaxDeductionReadOnly } from "../widgets/TaxDeductionReadOnly";
+import { TaxAlertContainer } from "./TaxAlertContainer";
 
-export const Report = ({period, title, userId, reportId, onUser, propUser, netSalary, existingTaxDeduction, existingAllowances, existingDeductions, sickLeaves, children}) =>{    
+export const Report = ({period, title, userId, reportId, onUser, propUser, netSalary, existingTaxDeductions, existingAllowances, existingDeductions, sickLeaves, children}) =>{    
     const [user, setUser] = useState();
     const [banks, setBanks] = useState([]);
     const [otSettings, setOtSettings] = useState([]);
@@ -68,7 +68,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                 {title && <div className="d-flex align-items-center p-2 border-bottom">
                     <div className="fw-bold fs-5 my-3 w-100">{title}</div>
                 </div>}
-                <TaxAlert onSalaryChange={setBiMonthlySalary} taxDeduction={existingTaxDeduction} />
+                <TaxAlertContainer onSalaryChange={setBiMonthlySalary} existingTaxDeduction={existingTaxDeductions} />
                 <div className="p-3">
                     <div className="bg-light p-2">
                         <div className="fw-bold">{user?.attributes?.name}</div>
@@ -102,7 +102,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
                     <SickLeaveGenerator user={propUser || user} data={sickLeaves}/>
                 </div>
-                <TaxDeductionReadOnly data={existingTaxDeduction} />
+                <TaxDeductionReadOnly TaxDeductions={existingTaxDeductions} />
                 <div className="p-3 text-center">
                     {children}
                 </div>

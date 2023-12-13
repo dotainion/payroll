@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import $ from 'jquery';
 import { TbPercentage } from "react-icons/tb";
 import { BsCurrencyDollar } from "react-icons/bs";
@@ -7,6 +7,8 @@ import { toast } from "../utils/Toast";
 import { v4 as uuidv4 } from 'uuid';
 
 export const TaxSetup = ({data}) =>{
+    const [radioName, setRadioName] = useState();
+
     const taxPageRef = useRef();
     const onOffRef = useRef();
     const timeoutRef = useRef();
@@ -63,6 +65,7 @@ export const TaxSetup = ({data}) =>{
     }
 
     useEffect(()=>{
+        setRadioName(uuidv4());
         $(taxPageRef.current).show('slow');
         if(!data){ 
             idRef.current = uuidv4();
@@ -105,15 +108,15 @@ export const TaxSetup = ({data}) =>{
                 </li>
                 <li className="small list-group-item">
                     <label className="d-flex align-items-center pointer p-0">
-                        <input ref={notifyRef} className="form-check-input bg-info bg-lightgray p-2 me-2" name="notify" type="radio"/>
+                        <input ref={notifyRef} className="form-check-input bg-info bg-lightgray p-2 me-2" name={radioName} type="radio"/>
                         <div className="p-2">Notify when tax deduction is required</div>
                     </label>
                     <label className="d-flex align-items-center pointer p-0">
-                        <input ref={autoRef} className="form-check-input bg-info bg-lightgray p-2 me-2" name="notify" type="radio"/>
+                        <input ref={autoRef} className="form-check-input bg-info bg-lightgray p-2 me-2" name={radioName} type="radio"/>
                         <div className="p-2">Automatically add tax deduction</div>
                     </label>
                     <label className="d-flex align-items-center pointer p-0">
-                        <input ref={notifyAndAutoRef} className="form-check-input bg-info bg-lightgray p-2 me-2" name="notify" type="radio"/>
+                        <input ref={notifyAndAutoRef} className="form-check-input bg-info bg-lightgray p-2 me-2" name={radioName} type="radio"/>
                         <div className="p-2">Notify and automatically add tax deduction</div>
                     </label>
                 </li>

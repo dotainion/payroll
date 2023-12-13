@@ -35,6 +35,7 @@ import { OvertimeAddOn } from "../addons/OvertimeAddOn";
 import { FcCalendar, FcMoneyTransfer } from "react-icons/fc";
 import { OvertimeSettings } from "../settings/OvertimeSettings";
 import { Loading } from "../components/Loading";
+import { TaxAlertContainer } from "../components/TaxAlertContainer";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
@@ -80,7 +81,7 @@ export const Testing = () =>{
 
     return (
         <div className="position-relative" style={{height: '500px'}}>
-            <OvertimeAddOn/>
+            <TaxAlertContainer existingTaxDeduction={[1,2,2,3]}/>
         </div>
     )
 

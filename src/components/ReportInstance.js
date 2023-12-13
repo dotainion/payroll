@@ -11,7 +11,7 @@ const typeHandler = new CostTypeAndRateHandler();
 export const ReportInstance = ({title, report,  onUser, children}) =>{
     const [sickLeaves, setSickLeaves] = useState();
     const [period, setPeriod] = useState();
-    const [taxDeduction, setTaxDeduction] = useState();
+    const [taxDeductions, setTaxDeductions] = useState([]);
     const [existingAllowances, setExistingAllowances] = useState([]);
     const [existingDeductions, setExistingDeductions] = useState([]);
 
@@ -52,7 +52,7 @@ export const ReportInstance = ({title, report,  onUser, children}) =>{
             }else if (item.type === 'sickLeave'){
                 existSickLeaves.push({component: ExistingSickLeaveAddOn, data: item});
             }else if (item.type === 'tax'){
-                setTaxDeduction(item);
+                setTaxDeductions((taxs)=>[...taxs, item]);
             }
         });
         setSickLeaves(existSickLeaves);
@@ -71,7 +71,7 @@ export const ReportInstance = ({title, report,  onUser, children}) =>{
             sickLeaves={sickLeaves}
             existingAllowances={existingAllowances} 
             existingDeductions={existingDeductions}
-            existingTaxDeduction={taxDeduction}
+            existingTaxDeductions={taxDeductions}
         >
             {children}
         </Report>

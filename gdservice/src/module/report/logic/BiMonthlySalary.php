@@ -9,7 +9,7 @@ class BiMonthlySalary{
     protected DateHelper $startDate;
     protected DateHelper $endDate;
     protected float $biMonthlySalary;
-    protected float $biMonthlyNetSalary;
+    protected float $biMonthlyAllowance;
     protected float $totalAllowance;
 
     public function __construct(){
@@ -33,7 +33,7 @@ class BiMonthlySalary{
 
     public function calculate():self{
         $this->biMonthlySalary = $this->runCalculation((float)$this->user->salary());
-        $this->biMonthlyNetSalary = $this->runCalculation($this->totalAllowance);
+        $this->biMonthlyAllowance = $this->runCalculation($this->totalAllowance);
         return $this;
     }
 
@@ -41,7 +41,7 @@ class BiMonthlySalary{
         return $this->biMonthlySalary;
     }
 
-    public function biMonthlyNetSalary():float{
-        return $this->biMonthlyNetSalary;
+    public function biMonthlyAllowance():float{
+        return $this->biMonthlyAllowance;
     }
 }
