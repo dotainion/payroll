@@ -68,7 +68,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                 {title && <div className="d-flex align-items-center p-2 border-bottom">
                     <div className="fw-bold fs-5 my-3 w-100">{title}</div>
                 </div>}
-                <TaxAlertContainer onSalaryChange={setBiMonthlySalary} existingTaxDeduction={existingTaxDeductions} />
+                <TaxAlertContainer onSalaryChange={setBiMonthlySalary} existingTaxDeductions={existingTaxDeductions} />
                 <div className="p-3">
                     <div className="bg-light p-2">
                         <div className="fw-bold">{user?.attributes?.name}</div>

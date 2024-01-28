@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
 
-export const TaxAlert = ({netSalary, meta}) =>{
+export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
     const [message, setMessage] = useState();
     const [applied, setApplied] = useState();
     const [userAction, setUserAction] = useState();
 
     const idRef = useRef();
     const taxRef = useRef();
+    const timeoutRef = useRef();
 
     const appy = () =>{
         setApplied(true);
@@ -18,6 +19,18 @@ export const TaxAlert = ({netSalary, meta}) =>{
         setApplied(false);
         $(taxRef.current).val('');
     }
+
+    useEffect(()=>{
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            if(!meta || !existingTaxDeductions?.length) return;
+            const existingTax = existingTaxDeductions.find((tax)=>tax.id === meta.id);
+            if(existingTax){
+                appy();
+                setUserAction(false);
+            }
+        }, 500);
+    }, [meta, existingTaxDeductions]);
 
     useEffect(()=>{
         if(!meta) return;
@@ -32,7 +45,7 @@ export const TaxAlert = ({netSalary, meta}) =>{
         }else if(meta.notifyAndAuto){
             appy();
             setUserAction(false);
-            setMessage(`Tax deduction of ${meta.percentage}% has will be applied to this report.`);
+            setMessage(`Tax deduction of ${meta.percentage}% has or will be applied to this report.`);
         }
         idRef.current.value = meta.id;
     }, [meta]);

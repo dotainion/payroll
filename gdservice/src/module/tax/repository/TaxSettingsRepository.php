@@ -46,6 +46,9 @@ class TaxSettingsRepository extends Repository{
         if(isset($where['id'])){
             $this->where('id', $this->uuid($where['id']));
         }
+        if(isset($where['active'])){
+            $this->where('active', (int)$where['active']);
+        }
         $this->execute();
         return $this->factory->map(
             $this->results()

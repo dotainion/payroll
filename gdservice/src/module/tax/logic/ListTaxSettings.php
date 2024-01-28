@@ -12,6 +12,8 @@ class ListTaxSettings{
     }
 
     public function list():Collector{
-        return $this->repo->listTaxSettings();
+        return $this->repo->listTaxSettings([
+            'active' => true
+        ]);
     }
 }

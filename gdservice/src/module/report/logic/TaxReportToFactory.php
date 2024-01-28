@@ -16,10 +16,10 @@ class TaxReportToFactory{
     protected ListTaxSettings $settings;
     protected Collector $taxDeductions;
     protected array $notified;
-    protected ?TaxSettings $setting = null;
     protected User $user;
     protected Collector $matchingSetting;
     protected bool $stopExecution;
+    protected float $net;
 
     public function __construct(){
         $this->factory = new TaxFactory();
@@ -40,10 +40,7 @@ class TaxReportToFactory{
                 if((float)$setting->limitAmount() !== $limit){
                     continue;
                 }
-                if(!$setting->limitAmount() || !$setting->percentage()){
-                    continue;
-                }
-                if(!$setting->active()){
+                if(!$setting->active() || !$setting->limitAmount() || !$setting->percentage()){
                     continue;
                 }
                 $this->matchingSetting->add($setting);
@@ -54,41 +51,50 @@ class TaxReportToFactory{
     public function toFactory():void{
         
     }
+    
+    public function toValueAmount(float $net, TaxSettings $setting):float{
+        //get difference from net agains limit about and take out the percentage from the diffrence.
+        $difference = (float)$net - (float)$setting->limitAmount();
+        return ($difference / 100) * ((float)$setting->percentage());
+    }
 
     public function initializeTaxDeduction(bool $stopExecution, User $user, Id $reportId, float $net, array $notified):void{
+        $this->net = $net;
         $this->user = $user;
         $this->notified = $notified;
         $this->stopExecution = $stopExecution;
 
         $this->_initializeValidSetting_($this->settings->list());
 
-        foreach($this->matchingSetting->list() as $settings){
-            if((float)$net < (float)$settings->limitAmount()){
+        $tempNet = $this->net;
+
+        foreach($this->matchingSetting->list() as $setting){
+            if($tempNet < (float)$setting->limitAmount()){
                 continue;
             }
-
-            //get difference from net agains limit about and take out the percentage from the diffrence.
-            $difference = (float)$net - (float)$settings->limitAmount();
-
-            $percentageAmount = ($difference / 100) * ((float)$settings->percentage());
 
             $tax = $this->factory->mapResult([
                 'id' => (new Id())->new()->toString(),
                 'userId' => $user->id()->toString(),
                 'reportId' => $reportId->toString(),
                 'name' => 'Tax deduction',
-                'amount' => $percentageAmount,
+                'amount' => $this->toValueAmount($tempNet, $setting),
                 'date' => (new DateHelper())->new()->toString(),
                 'hide' => false,
             ]);
             $this->taxDeductions->add($tax);
+            $tempNet = $tempNet - (float)$tax->amount();
         }
     }
 
     public function assertTaxDeduction():bool{
         $errors = [];
         if($this->hasTaxDeduction()){
+            $tempNet = $this->net;
             foreach($this->matchingSetting->list() as $setting){
+                if($tempNet < (float)$setting->limitAmount()){
+                    continue;
+                }
                 if($setting->notify() && !$this->notified || $setting->notifyAndAuto() && !$this->notified){
                     $errors[] = [
                         'id' => $setting->id()->toString(),
@@ -99,6 +105,7 @@ class TaxReportToFactory{
                         'percentage' => $setting->percentage(),
                         'hasTaxDeduction' => true,
                     ];
+                    $tempNet = $tempNet - $this->toValueAmount($tempNet, $setting);
                 }
             }
             if(!empty($errors) && $this->stopExecution || !$this->stopExecution && $this->notNotified()){

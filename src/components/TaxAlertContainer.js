@@ -5,10 +5,11 @@ import { reportPayload } from '../utils/ReportPayload';
 import { ErrorResponseHandler } from '../utils/ErrorResponseHandler';
 import { TaxAlert } from './TaxAlert';
 
-export const TaxAlertContainer = ({onSalaryChange, existingTaxDeduction}) =>{
+export const TaxAlertContainer = ({onSalaryChange, existingTaxDeductions}) =>{
     const [taxDeductions, setTaxDedutions] = useState([]);
     const [netSalary, setNetSalary] = useState();
 
+    const timeoutRef = useRef();
     const taxContainerRef = useRef();
 
     const apiTrigger = () =>{
@@ -21,7 +22,6 @@ export const TaxAlertContainer = ({onSalaryChange, existingTaxDeduction}) =>{
             const metaData = new ErrorResponseHandler().meta(error);
             setTaxDedutions(metaData?.data || []);
         });
-        console.log('hello world...')
     };
 
     useEffect(()=>{
@@ -33,10 +33,16 @@ export const TaxAlertContainer = ({onSalaryChange, existingTaxDeduction}) =>{
         element.on('change', ()=>apiTrigger()).trigger('change');
     }, []);
 
+    useEffect(()=>{
+        if(!existingTaxDeductions?.length) return;
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(()=>apiTrigger(), 500);
+    }, [existingTaxDeductions]);
+
     return(
         <div ref={taxContainerRef} className="mx-3" data-alert-container="">
             {taxDeductions.map((meta, key)=>(
-                <TaxAlert netSalary={netSalary} meta={meta} key={key} />
+                <TaxAlert existingTaxDeductions={existingTaxDeductions} netSalary={netSalary} meta={meta} key={key} />
             ))}
         </div>
     )
