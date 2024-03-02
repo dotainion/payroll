@@ -13,12 +13,6 @@ export const PayslipHead = ({report}) =>{
                 <div className="w-100">
                     <img src={logo} alt=""/>
                 </div>
-                <div className="w-100 fs-3 fw-bold">
-                    <div>PAYSLIP</div>
-                </div>
-                <div className="w-100">
-                    <img src={logo} alt=""/>
-                </div>
                 <div className="w-100">
                     <div className="text-end">{business?.attributes?.state}</div>
                     <div className="text-end">{business?.attributes?.city}</div>

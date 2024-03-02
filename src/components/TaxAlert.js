@@ -38,7 +38,7 @@ export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
         if(meta.auto){
             appy();
             setUserAction(false);
-            setMessage(`Tax deduction of ${meta.percentage}% will automatically added to this report.`);
+            setMessage(`Tax deduction of ${meta.percentage}% will be automatically added to this report.`);
         }else if(meta.notify){
             setUserAction(true);
             setMessage(`Tax deduction of ${meta.percentage}% is required to complete this report.`);

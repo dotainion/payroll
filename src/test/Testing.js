@@ -36,6 +36,8 @@ import { FcCalendar, FcMoneyTransfer } from "react-icons/fc";
 import { OvertimeSettings } from "../settings/OvertimeSettings";
 import { Loading } from "../components/Loading";
 import { TaxAlertContainer } from "../components/TaxAlertContainer";
+import { PayslipHead } from "../invoices/components/PayslipHead";
+import { TaxAlert } from "../components/TaxAlert";
 
 export const Testing = () =>{
     const [row, setRow] = useState([]);
@@ -80,8 +82,8 @@ export const Testing = () =>{
 
 
     return (
-        <div className="position-relative" style={{height: '500px'}}>
-            <TaxAlertContainer existingTaxDeduction={[1,2,2,3]}/>
+        <div className="position-relative">
+            <TaxAlert/>
         </div>
     )
 

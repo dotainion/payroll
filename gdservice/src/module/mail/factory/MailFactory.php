@@ -3,7 +3,6 @@ namespace src\module\mail\factory;
 
 use src\infrastructure\Collector;
 use src\infrastructure\Factory;
-use src\module\bank\objects\Bank;
 use src\module\mail\objects\Mail;
 
 class MailFactory extends Collector{

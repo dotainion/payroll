@@ -198,7 +198,8 @@ class SetReport{
             $reportNoPayLeaveAllowances,
             $reportNoPayLeaveDeductions,
             $reportSickLeaves,
-            $reportOVertime
+            $reportOVertime,
+            $this->taxReport
         );
         
         return $report;
@@ -213,7 +214,8 @@ class SetReport{
         $reportNoPayLeaveAllowances,
         $reportNoPayLeaveDeductions,
         $reportSickLeaves,
-        $reportOVertime
+        $reportOVertime,
+        $taxReport
     ):void{
         foreach($rAllowance->reportAllowances()->list() as $allowance){
             $report->setToAllAllowancesCollection($allowance);
@@ -227,7 +229,6 @@ class SetReport{
         foreach($reportLoanDeduction->reporLoanDeductions()->list() as $loadDeduction){
             $report->setToAllDeductionsCollection($loadDeduction);
         }
-        
         foreach($reportNoPayLeaveAllowances->noPayLeaveAllowances()->list() as $noPayLeaveAllowance){
             $report->setToAllAllowancesCollection($noPayLeaveAllowance);
         }
@@ -239,6 +240,9 @@ class SetReport{
         }
         foreach($reportOVertime->reportOvertimes()->list() as $overtime){
             $report->setToAllAllowancesCollection($overtime);
+        }
+        foreach($taxReport->taxDeductions()->list() as $tax){
+            $report->setToAllDeductionsCollection($tax);
         }
     }
 }

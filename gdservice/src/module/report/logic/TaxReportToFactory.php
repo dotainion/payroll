@@ -90,23 +90,16 @@ class TaxReportToFactory{
     public function assertTaxDeduction():bool{
         $errors = [];
         if($this->hasTaxDeduction()){
-            $tempNet = $this->net;
             foreach($this->matchingSetting->list() as $setting){
-                if($tempNet < (float)$setting->limitAmount()){
-                    continue;
-                }
-                if($setting->notify() && !$this->notified || $setting->notifyAndAuto() && !$this->notified){
-                    $errors[] = [
-                        'id' => $setting->id()->toString(),
-                        'active' => $setting->active(),
-                        'auto' => $setting->auto(),
-                        'notify' => $setting->notify(),
-                        'notifyAndAuto' => $setting->notifyAndAuto(),
-                        'percentage' => $setting->percentage(),
-                        'hasTaxDeduction' => true,
-                    ];
-                    $tempNet = $tempNet - $this->toValueAmount($tempNet, $setting);
-                }
+                $errors[] = [
+                    'id' => $setting->id()->toString(),
+                    'active' => $setting->active(),
+                    'auto' => $setting->auto(),
+                    'notify' => $setting->notify(),
+                    'notifyAndAuto' => $setting->notifyAndAuto(),
+                    'percentage' => $setting->percentage(),
+                    'hasTaxDeduction' => true,
+                ];
             }
             if(!empty($errors) && $this->stopExecution || !$this->stopExecution && $this->notNotified()){
                 ErrorMetaData::set('data', $errors);
