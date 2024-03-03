@@ -1,32 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { Signin } from "../accounts/Signin";
 import $ from 'jquery';
-import { useLocation } from "react-router-dom";
-import { routes } from "../router/routes";
 import { useAuth } from "../auth/AuthProvider";
 
-export const NotAuthenticated = () =>{
+export const NotAuthenticated = memo(() =>{
     const { onAuthStateChange } = useAuth();
-
-    const location = useLocation();
 
     const warningRef = useRef();
     const loginRef = useRef();
 
-    const onShowLogin = () =>{
+    const onShowLogin = useCallback(() =>{
         $(loginRef.current).show('fast');
         $(warningRef.current).hide('fast');
-    }
+    });
 
     useEffect(()=>{
-        onAuthStateChange(() =>{
+        const unSubscribe = onAuthStateChange(() =>{
             $('[data-re-authenticated]').hide('fast');
             $(loginRef.current).hide('fast');
             $(warningRef.current).show('fast');
             window.location.reload();
-        }, () =>{
-        
+        }, (error) =>{
+            
         });
+        return ()=>unSubscribe();
     }, []);
 
     return(
@@ -40,4 +37,4 @@ export const NotAuthenticated = () =>{
             </div>
         </div>
     )
-}
+});

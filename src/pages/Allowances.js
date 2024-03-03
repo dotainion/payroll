@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import $ from 'jquery';
@@ -19,7 +19,7 @@ export const Allowances = () =>{
     const buttonRef = useRef();
     const inputContainerRef = useRef();
 
-    const onSave = () =>{
+    const onSave = useCallback(() =>{
         const data = payload.addon.build(inputContainerRef.current)[0];
         api.allowance.create(data).then((response)=>{
             setAllowances((allows)=>[response.data.data[0], ...allows]);
@@ -34,7 +34,7 @@ export const Allowances = () =>{
             console.log(error);
             toast.error('Allowance', error);
         });
-    }
+    });
 
     const onEdit = (e) =>{
         const parent = $(e.currentTarget).parent().parent().parent();
@@ -55,7 +55,7 @@ export const Allowances = () =>{
             console.log(error);
             toast.error('Allowance', error);
         });
-    }
+    };
 
     const onDelete = (e) =>{
         const parent = $(e.currentTarget).parent().parent().parent().parent();

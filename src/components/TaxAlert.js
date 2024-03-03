@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
+import { toast } from '../utils/Toast';
+import { useParams } from 'react-router-dom';
 
 export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
     const [message, setMessage] = useState();
     const [applied, setApplied] = useState();
     const [userAction, setUserAction] = useState();
+
+    const params = useParams();
 
     const idRef = useRef();
     const taxRef = useRef();
@@ -18,6 +22,25 @@ export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
     const undo = () =>{
         setApplied(false);
         $(taxRef.current).val('');
+    }
+
+    const parseMessage = (type, percentage) =>{
+        const messages = {
+            auto: {
+                create: 'Tax deduction of $% will automatically be added to this report.',
+                edit: 'Tax deduction of $% is applied.'
+            },
+            notify: {
+                create: 'Tax deduction of $% is required to complete this report.',
+                edit: 'Tax deduction of $% is applied on this report.'
+            },
+            notifyAndAuto: {
+                create: 'Tax deduction of $% will be applied to this report.',
+                edit: 'Tax deduction of $% has been applied.'
+            },
+        }
+        const editing = params?.reportId ? 'edit' : 'create';
+        return messages[type][editing].replace('$', percentage);
     }
 
     useEffect(()=>{
@@ -38,17 +61,22 @@ export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
         if(meta.auto){
             appy();
             setUserAction(false);
-            setMessage(`Tax deduction of ${meta.percentage}% will be automatically added to this report.`);
+            setMessage(parseMessage('auto', meta.percentage));
         }else if(meta.notify){
             setUserAction(true);
-            setMessage(`Tax deduction of ${meta.percentage}% is required to complete this report.`);
+            setMessage(parseMessage('notify', meta.percentage));
         }else if(meta.notifyAndAuto){
             appy();
             setUserAction(false);
-            setMessage(`Tax deduction of ${meta.percentage}% has or will be applied to this report.`);
+            setMessage(parseMessage('notifyAndAuto', meta.percentage));
         }
         idRef.current.value = meta.id;
     }, [meta]);
+
+    useEffect(()=>{
+        if(!message) return;
+        toast.notify('Tax deduction', message);
+    }, [message]);
 
     return(
         <div data-tax-alert-salery={netSalary} data-tax-alert="">

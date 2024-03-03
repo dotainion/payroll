@@ -109,7 +109,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
 
     return(
         <div className="mobile-inputes">
-            <div className="employee-set">
+            <div className="employee-set bg-white pb-2 mb-3">
                 <div className="bg-white p-2 m-3 mb-0 border-bottom">
                     <div className="fw-bold fs-3 p-1">{title}</div>
                 </div>

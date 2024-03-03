@@ -76,6 +76,13 @@ export const Testing = () =>{
         });
     }
 
+    const onMeClik = () =>{
+        toast.success();
+        toast.warning();
+        toast.error();
+        toast.notify();
+    }
+
     useEffect(()=>{
 
     }, []);
@@ -83,7 +90,7 @@ export const Testing = () =>{
 
     return (
         <div className="position-relative">
-            <TaxAlert/>
+            <button onClick={onMeClik}>Click Me</button>
         </div>
     )
 

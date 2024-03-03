@@ -37,6 +37,10 @@ export class Toast{
         return toast.append(header, body);
     }
 
+    notify(title, message, interval=5000){
+        this._buildToast(title, message, 'text-primary', interval).appendTo(this._parent);
+    }
+
     success(title, message, interval=5000){
         this._buildToast(title, message, 'text-success', interval).appendTo(this._parent);
     }
