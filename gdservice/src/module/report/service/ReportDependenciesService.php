@@ -16,7 +16,6 @@ use src\module\report\logic\YTDCalculator;
 use src\module\user\logic\FetchUser;
 
 class ReportDependenciesService{
-    protected ListUserReport $report;
     protected ListReportAllowances $allowance;
     protected ListReportDeductions $deduction;
     protected ListLoanAllowanceByUserReport $loanAllowance;
@@ -30,7 +29,6 @@ class ReportDependenciesService{
     protected FetchUser $user;
 
     public function __construct(){
-        $this->report = new ListUserReport();
         $this->allowance = new ListReportAllowances();
         $this->deduction = new ListReportDeductions();
         $this->loanAllowance = new ListLoanAllowanceByUserReport();
@@ -56,13 +54,13 @@ class ReportDependenciesService{
             $this->ytd->calculateDeductionYTD($deductionCollector, $report->userId());
             $report->setToAllDeductionsCollection($deductionCollector);
 
-            $allowanceCollector = $this->loanAllowance->allowancesByReport($report->id());
-            $this->ytd->calculateLoanAllowanceYTD($allowanceCollector, $report->userId());
-            $report->setToAllAllowancesCollection($allowanceCollector);
+            $loanAllowanceCollector = $this->loanAllowance->allowancesByReport($report->id());
+            $this->ytd->calculateLoanAllowanceYTD($loanAllowanceCollector, $report->userId());
+            $report->setToAllAllowancesCollection($loanAllowanceCollector);
 
-            $deductionCollector = $this->loanDeduction->deductionsByReport($report->id());
-            $this->ytd->calculateLoanDeductionYTD($deductionCollector, $report->userId());
-            $report->setToAllDeductionsCollection($deductionCollector);
+            $loanDeductionCollector = $this->loanDeduction->deductionsByReport($report->id());
+            $this->ytd->calculateLoanDeductionYTD($loanDeductionCollector, $report->userId());
+            $report->setToAllDeductionsCollection($loanDeductionCollector);
 
             $sickLeaveCollector = $this->sickLeave->sickLeaves($report->id());
             $this->ytd->calculateSickLeaveYTD($sickLeaveCollector, $report->userId());

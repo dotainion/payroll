@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
 import { toast } from '../utils/Toast';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { routes } from '../router/routes';
 
 export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
     const [message, setMessage] = useState();
@@ -9,6 +10,7 @@ export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
     const [userAction, setUserAction] = useState();
 
     const params = useParams();
+    const location = useLocation();
 
     const idRef = useRef();
     const taxRef = useRef();
@@ -39,7 +41,7 @@ export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
                 edit: 'Tax deduction of $% has been applied.'
             },
         }
-        const editing = params?.reportId ? 'edit' : 'create';
+        const editing = location.pathname.includes(routes.workspace().bulkReport()) || params?.reportId ? 'edit' : 'create';
         return messages[type][editing].replace('$', percentage);
     }
 

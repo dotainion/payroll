@@ -21,7 +21,7 @@ class LoginService extends Service{
         if(filter_var($email, FILTER_VALIDATE_EMAIL) === false){
             throw new NotAuthenticatedException('Invalid email');
         }
-        if(empty($string)){
+        if(empty($password)){
             throw new NotAuthenticatedException('Invalid password');
         }
         $validate = new ValidatePassword();

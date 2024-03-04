@@ -1,6 +1,8 @@
 <?php
 namespace src\module\report\logic;
 
+use src\database\Repository;
+use src\database\Transaction;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\module\report\factory\ReportFactory;
@@ -187,6 +189,7 @@ class SetReport{
                 $this->repo->create($report);
             }
         }
+        
         $report->setUser($user);
 
         $this->addDependencies(

@@ -20,7 +20,7 @@ export const AuthProvider = ({children}) =>{
     const [business, setBusiness] = useState(true);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const timeoutRef = useRef();
     const authStateChangeRef = useRef([]);

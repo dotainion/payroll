@@ -17,7 +17,7 @@ class Repository{
 	protected ?string $parentTableName;
 
 	public function __construct(){
-		$this->db = new Connection();
+		$this->db = Connection::instance();
 	}
 
 	private function reset():void{
@@ -51,7 +51,8 @@ class Repository{
 		return '`'.$column.'`';
 	}
 
-	public function query($statement){
+	public function query($statement):void{
+		$this->forceSemicolon($statement);
 		$this->db->query($statement);
 		$this->db->commit();
 		$this->db->close();
@@ -211,13 +212,22 @@ class Repository{
 
 	public function uuid($uuid){
 		if(is_array($uuid)){
-			$ids =[];
+			$ids = [];
 			foreach($uuid as $id){
 				$ids[] = (new Id())->toBytes((string)$id);
 			}
 			return $ids;
 		}
 		return (new Id())->toBytes((string)$uuid);
+	}
+
+	private function forceSemicolon(&$statement){
+		$statement = trim($statement, ' ');
+		$semicolon = substr($statement, strlen($statement) -1);
+		if($semicolon === ';'){
+			return $statement;
+		}
+		$statement.=' ;';
 	}
 }
 

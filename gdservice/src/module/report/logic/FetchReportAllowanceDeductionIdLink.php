@@ -17,4 +17,13 @@ class FetchReportAllowanceDeductionIdLink{
             'reportLinkId' => $reportLinkId
         ]);
     }
+
+    public function reportOptionByReportLinkIdArray(Array $reportLinkId):Collector{
+        if(empty($reportLinkId)){
+            return new Collector();
+        }
+        return $this->repo->listOptions([
+            'reportLinkId' => $reportLinkId
+        ]);
+    }
 }

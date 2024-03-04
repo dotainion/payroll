@@ -66,4 +66,12 @@ class Collector{
         }
         return true;
     }
+
+    public function toIdArray():array{
+        $idArray = [];
+        foreach($this->list() as $item){
+            $idArray[] = $item->id();
+        }
+        return $idArray;
+    }
 }

@@ -48,6 +48,7 @@ use src\module\notification\action\FetchUserNotificationSettingAction;
 use src\module\notification\action\SetNotificationSetupAction;
 use src\module\notification\action\SetUserNotificationSettingAction;
 use src\module\report\action\CalculateReportAction;
+use src\module\report\action\CloneBulkReportAction;
 use src\module\report\action\CreateBulkReportAction;
 use src\module\report\action\CreateReportAction;
 use src\module\report\action\DeleteAllowanceReportAction;
@@ -61,7 +62,6 @@ use src\module\report\action\ListLoanDeductionReportByUserAction;
 use src\module\report\action\ListReportPeriodsAction;
 use src\module\report\action\ListUserReportAction;
 use src\module\report\action\SearchBulkReportByDateAction;
-use src\module\report\repository\TaxRepository;
 use src\module\settings\action\DeleteOvertimeSettingsAction;
 use src\module\settings\action\FetchOvertimeSettingsAction;
 use src\module\settings\action\FetchSickLeaveSettingsAction;
@@ -386,6 +386,10 @@ class Router{
 
         $this->request->route('/list/overtime/settings', function ($req){
             return new ListOvertimeSettingsAction();
+        });
+
+        $this->request->route('/clone/bulk/reports', function ($req){
+            return new CloneBulkReportAction();
         });
     }
 

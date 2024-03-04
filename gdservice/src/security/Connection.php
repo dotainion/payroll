@@ -3,11 +3,22 @@ namespace src\security;
 
 use Exception;
 
+//https://www.tutorialspoint.com/php/php_function_mysqli_begin_transaction.htm
+//https://www.php.net/manual/en/mysqli.begin-transaction.php
+//https://www.linkedin.com/advice/3/what-common-causes-solutions-mysqli-rollback-working-innodb#:~:text=One%20of%20the%20most%20common,a%20transaction%20with%20mysqli_begin_transaction().
 class Connection extends DatabseSecurity{
 	protected $connection;
 	protected $statement;
 	protected $reference;
 	protected $results;
+	protected static $instance = null;
+
+	public static function instance():self{
+		if(self::$instance === null){
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
 	private function assertConnected():bool{
 		if (mysqli_connect_errno()) {
@@ -27,6 +38,7 @@ class Connection extends DatabseSecurity{
 	}
 
 	public function commit():void{
+		mysqli_commit($this->connection());
 		$this->results = mysqli_fetch_all($this->reference, MYSQLI_ASSOC);
 	}
 
@@ -35,6 +47,7 @@ class Connection extends DatabseSecurity{
 	}
 
 	public function connect(){
+		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 		$this->connection = mysqli_connect(
             $this->server(), 
             $this->username(), 

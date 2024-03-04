@@ -78,8 +78,10 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                         <label>Base Salary <span className="text-danger">*</span></label>
                         <div className="input-group">
                             <span className="input-group-text"><FaDollarSign/></span>
-                            <div className="form-control shadow-none">{user?.attributes?.salary}</div>
-                            <div className="form-control shadow-none"><small>Bi Monthly | </small>{biMonthlySalary || netSalary}</div>
+                            <div className="form-control shadow-none small">{user?.attributes?.salary}</div>
+                            <div className="form-control shadow-none small bi-month">Bi Monthly</div>
+                            <div className="form-control shadow-none small border-start-0 px-0 bi-divider user-select-none">|</div>
+                            <div className="form-control shadow-none small border-start-0 text-truncate">{biMonthlySalary || netSalary}</div>
                         </div>
                     </div>
                     <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>

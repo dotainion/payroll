@@ -247,6 +247,17 @@
   border: 1px solid dodgerblue;
 }
 
+.allowance-row .bi-month{
+  width: 100px;
+  max-width: 100px;
+}
+
+.allowance-row .bi-divider{
+  width: 5px;
+  max-width: 5px;
+  color: #dee2e6;
+}
+
 .inner-dropdown span{
   margin: 0 13px;
 }

@@ -2,7 +2,6 @@
 namespace src\module\report\logic;
 
 use src\infrastructure\Collector;
-use src\module\report\objects\Tax;
 use src\module\report\repository\TaxRepository;
 
 class SetReportTaxDeduction{
@@ -27,7 +26,7 @@ class SetReportTaxDeduction{
                 $tax->setId($collector->first()->id()->toString());
                 $this->repo->edit($tax);
             }else{
-                $this->create($tax);
+                $this->repo->create($tax);
             }
         }
     }

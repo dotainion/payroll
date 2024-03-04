@@ -55,6 +55,21 @@ class HandleAllowanceDeductionIdLinkToFactory{
         return $this;
     }
 
+    public function cloneToFactory(Collector $existingCollector, array $existingOptionReportLinkIdArray, array $newOptionReportLinkIdArray):self{
+        foreach($existingCollector->list() as $link){
+            foreach($existingOptionReportLinkIdArray as $i => $existingReportLinkId){
+                if($link->reportLinkId()->toString() === $existingReportLinkId){
+                    $option = $this->factory->mapResult([
+                        'linkId' => $link->linkId(),
+                        'reportLinkId' => $newOptionReportLinkIdArray[$i],
+                    ]);
+                    $this->factory->add($option);
+                }
+            }
+        }
+        return $this;
+    }
+
     public function optionLinks():Collector{
         return $this->factory;
     }
