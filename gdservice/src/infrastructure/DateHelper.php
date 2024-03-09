@@ -29,6 +29,10 @@ class DateHelper
         return $this;
     }
 
+    public function now():self{
+        return $this->new();
+    }
+
     public function year():string{
         return $this->modify('Y');
     }

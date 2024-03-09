@@ -3,7 +3,7 @@ import Litepicker from "litepicker";
 import $ from 'jquery';
 import { DateHelper } from "../utils/DateHelper";
 
-export const BiCalendar = ({onSelect, period, inlineMode}) =>{
+export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff}) =>{
     const containerRef = useRef();
     const triggerRef = useRef();
     const overlayRef = useRef();
@@ -118,7 +118,7 @@ export const BiCalendar = ({onSelect, period, inlineMode}) =>{
             }
         });
 
-        $(document).click((e)=>close(e));
+        $(window).click((e)=>close(e));
         $(triggerRef.current).click((e)=>open(e));
         $(closeBtnRef.current).click((e)=>close(e));
         $(overlayRef.current).click((e)=>e.stopPropagation());
@@ -172,23 +172,23 @@ export const BiCalendar = ({onSelect, period, inlineMode}) =>{
         <div ref={overlayRef} className={`${!inlineMode ? 'position-absolute' : ''} user-select-none`} style={{display: inlineMode ? '' : 'none', zIndex: '999999999'}}>
             <div className="d-inline-block shadow-sm border">
                 <div className="d-flex">
-                    <div className="d-flex align-items-center border-end bg-light">
+                    {!biMonthlyOff ? <div className="d-flex align-items-center border-end bg-light">
                         <div ref={defaultRef} className="text-nowrap">
                             <div className="btn d-block border-0 rounded-0 btn-outline-primary py-1 px-3" data-key="monthly">Monthly</div>
                             <div className="btn d-block border-0 rounded-0 btn-outline-primary py-1 px-3" data-key="byMonthlyStart">Bi Monthly Start</div>
                             <div className="btn d-block border-0 rounded-0 btn-outline-primary py-1 px-3" data-key="byMonthlyEnd">Bi Monthly End</div>
                         </div>
-                    </div>
+                    </div> : null}
                     <div>
                         <div className="position-relative">
                             <div ref={containerRef} />
-                            <div ref={lockOverlayRef} className="position-absolute start-0 bottom-0 w-100" style={{zIndex: '999999', height: '80%'}} />
+                           {!biMonthlyOff ? <div ref={lockOverlayRef} className="position-absolute start-0 bottom-0 w-100" style={{zIndex: '999999', height: '80%'}} /> : null}
                         </div>
-                        <div className="bg-light p-2 text-end">
+                        {!biMonthlyOff ? <div className="bg-light p-2 text-end">
                             <button ref={enableRangeRef} onClick={close} className="btn btn-link py-0 ms-2">Enable range select</button>
                             <button ref={disableRangeRef} onClick={close} className="btn btn-link py-0 ms-2" style={{display: 'none'}}>Disable range select</button>
                             <button ref={closeBtnRef} onClick={close} className={`btn btn-sm btn-secondary py-0 ms-2 ${inlineMode ? 'd-none' : ''}`}>Done</button>
-                        </div>
+                        </div> : null}
                     </div>
                 </div>
             </div>

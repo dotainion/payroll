@@ -12,7 +12,7 @@ export const Loading = ({show, text}) =>{
     return(
         <div ref={loaderRef} style={{display: 'none'}}>
             <div className="position-absolute translate-middle bg-dark opacity-25 top-50 start-50 w-100 h-100"/>
-            <div className="position-absolute translate-middle top-50 start-50" style={{zIndex: '9999'}}>
+            <div className="position-absolute translate-middle top-50 start-50" style={{zIndex: '9999999999999999999999999999'}}>
                 <div className="text-center">
                     <div className="spinner-border text-primary"/>
                 </div>

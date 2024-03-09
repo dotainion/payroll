@@ -5,6 +5,7 @@ use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
 use src\infrastructure\ErrorMetaData;
 use src\infrastructure\exeptions\InvalidRequirementException;
+use src\infrastructure\GlobalData;
 use src\infrastructure\Id;
 use src\module\report\factory\TaxFactory;
 use src\module\tax\logic\ListTaxSettings;
@@ -102,6 +103,9 @@ class TaxReportToFactory{
                 ];
             }
             if(!empty($errors) && $this->stopExecution || !$this->stopExecution && $this->notNotified()){
+                if(GlobalData::get('createBunkNotify') === 'on' && !$this->notNotified()){
+                    return true;
+                }
                 ErrorMetaData::set('data', $errors);
                 throw new InvalidRequirementException('Tax deduction is required for ('.$this->user->name().').');
             }

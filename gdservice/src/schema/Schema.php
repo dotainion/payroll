@@ -318,6 +318,20 @@ class Schema{
         return $this->sql->execute();
     }
 
+    public function todo(){
+        $this->sql->create('todo')
+            ->column('id')->bindary()
+            ->column('userId')->bindary()
+            ->column('assignToId')->nullableBindary()
+            ->column('title')->string()
+            ->column('description')->paragraph()
+            ->column('created')->timestamp()
+            ->column('due')->timestamp()
+            ->column('hide')->bool()
+            ->column('done')->bool();
+        return $this->sql->execute();
+    }
+
     public function run(){
         foreach(get_class_methods($this) as $method){
             if($method === '__construct' || $method === 'run') continue;

@@ -2,6 +2,7 @@
 namespace src\module\report\logic;
 
 use src\infrastructure\Collector;
+use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\module\report\repository\ReportRepository;
 
@@ -16,6 +17,15 @@ class ListUserReport{
         return $this->repo->listReports([
             'hide' => false,
             'userId' => $userId
+        ]);
+    }
+
+    public function reportsByDateRange(Id $userId, DateHelper $from, DateHelper $to):Collector{
+        return $this->repo->listReports([
+            'hide' => false,
+            'userId' => $userId,
+            'from'=> $from->toString(), 
+            'to'=> $to->toString()
         ]);
     }
 }

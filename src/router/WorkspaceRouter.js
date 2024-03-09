@@ -14,6 +14,8 @@ import { EmployeeSettings } from "../pages/EmployeeSettings";
 import { EmployeePayslip } from "../invoices/pages/EmployeePayslip";
 import { BulkPayslip } from "../invoices/pages/BulkPayslip";
 import { EeachEmployeePayslip } from "../invoices/pages/EeachEmployeePayslip";
+import { ViewReports } from "../pages/ViewReports";
+import { TodoList } from "../pages/TodoList";
 
 export const WorkspaceRouter = () =>{
     return(
@@ -30,6 +32,8 @@ export const WorkspaceRouter = () =>{
                 <Route path={routes.workspace().employeePayslip()} element={<EmployeePayslip/>}/>
                 <Route path={routes.workspace().bulkPayslip()} element={<BulkPayslip/>}/>
                 <Route path={routes.workspace().eachEmployeePayslip()} element={<EeachEmployeePayslip/>}/>
+                <Route path={routes.workspace().viewReports()} element={<ViewReports/>}/>
+                <Route path={routes.workspace().todoList()} element={<TodoList/>}/>
                 <Route path={routes.workspace().default()} element={<Navigate to={routes.workspace().default()}/>}/>
                 <Route path={'*'} element={<EmployeeDefault/>}/>
             </Routes>

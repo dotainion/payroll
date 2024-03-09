@@ -8,6 +8,8 @@ import { routes } from "../router/routes";
 import { FaClone } from "react-icons/fa";
 import { TbReportSearch } from 'react-icons/tb';
 import { useDocument } from "../contents/DocumentProvider";
+import { HiDocumentReport } from "react-icons/hi";
+import { RiTodoLine } from "react-icons/ri";
 
 export const WorkspaceSidebar = () =>{
     const { previousHistory, addPreviousHistory } = useDocument();
@@ -39,6 +41,16 @@ export const WorkspaceSidebar = () =>{
                     title: 'View Payslip',
                     active: location.pathname.includes(routes.workspace().bulkPayslip()),
                     onClick: ()=>navigate(routes.workspace().bulkPayslip())
+                },{
+                    icon: HiDocumentReport,
+                    title: 'View Reports',
+                    active: location.pathname.includes(routes.workspace().viewReports()),
+                    onClick: ()=>navigate(routes.workspace().viewReports())
+                },{
+                    icon: RiTodoLine,
+                    title: 'Todos',
+                    active: location.pathname.includes(routes.workspace().todoList()),
+                    onClick: ()=>navigate(routes.workspace().todoList())
                 }
             ]
         }

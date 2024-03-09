@@ -12,6 +12,8 @@ class Workspace{
     bulkPayslip = () => this._nested + 'invoice/bulk/payslip';
     employeePayslip = (reportId=':reportId') => this._nested + 'invoice/employee/payslip/' + reportId;
     eachEmployeePayslip = (eachReportId=':eachReportId') => this._nested + 'invoice/each/employee/payslip/' + eachReportId;
+    viewReports = () => this._nested + 'view/reports';
+    todoList = () => this._nested + 'todo/list';
     nested = () => {
         this._nested = this.default().replace('*', '');
         return this;

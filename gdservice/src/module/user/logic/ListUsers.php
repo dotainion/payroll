@@ -16,4 +16,14 @@ class ListUsers{
             'hide' => false
         ]);
     }
+
+    public function usersByIdArray(array $userId):Collector{
+        if(empty($userId)){
+            return new Collector();
+        }
+        return $this->repo->listUsers([
+            'id' => $userId,
+            'hide' => false
+        ]);
+    }
 }

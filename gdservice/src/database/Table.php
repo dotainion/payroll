@@ -63,6 +63,11 @@ class Table extends Connection{
 		return $this;
 	}
 
+	public function nullableBindary(){
+		$this->column.="binary(16) DEFAULT NULL";
+		return $this;
+	}
+
 	public function timestamp(){
 		$this->column.="timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP";
 		return $this;

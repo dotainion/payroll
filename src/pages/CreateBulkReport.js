@@ -166,6 +166,11 @@ const Generate = ({onGenerate, disabled}) =>{
         });
     }
 
+    const openOverlay = () =>{
+        $(overlayRef.current).show('fast');
+        $(errorRef.current).hide('fast');
+    }
+
     const onTriggerGenerate = () =>{
         if(disabled) return;
         if(!dateRange.from) return $(errorRef.current).show('fast').text('Invalid date (from)');
@@ -178,7 +183,7 @@ const Generate = ({onGenerate, disabled}) =>{
     return(
         <div className="d-flex align-items-center">
             <button onClick={()=>toggleCollapsAll(!isActive)} className="btn btn-sm btn-outline-primary px-2 py-1 me-2">{isActive? 'Expand': 'Collaps'} All <BsArrowsCollapse/></button>   
-            <button onClick={()=>$(overlayRef.current).show('fast')} className="btn btn-sm btn-outline-success px-2 py-1 me-2">Clone Reports <BiSolidReport/></button>      
+            <button onClick={openOverlay} className="btn btn-sm btn-outline-success px-2 py-1 me-2">Clone Reports <BiSolidReport/></button>      
             <button onClick={onSeeInvoices} className="btn btn-sm btn-outline-warning px-2 py-1">Invoices <FaFileInvoiceDollar/></button>
             <div ref={overlayRef} onClick={()=>$(overlayRef.current).hide('fast')} className="backdrop position-absolute top-0 start-0 vw-100 vh-100" style={{display: 'none'}}>
                 <div onClick={(e)=>e.stopPropagation()} className="position-absolute top-50 start-50 translate-middle text-end bg-light py-4 px-5 rounded-3 shadow-sm">

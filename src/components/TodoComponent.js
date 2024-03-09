@@ -2,8 +2,12 @@ import React from "react";
 import { IoMdAlert } from "react-icons/io";
 import { FiAlertTriangle } from "react-icons/fi";
 import { MdPending } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../router/routes";
 
 export const TodoComponent = () =>{
+    const navigate = useNavigate();
+
     const list = [
         {
             title: 'Overdue',
@@ -45,7 +49,7 @@ export const TodoComponent = () =>{
                 ))}
             </div>
             <div className="text-center pt-2">
-                <button className="btn link-primary">View all notification</button>
+                <button onClick={()=>navigate(routes.workspace().todoList())} className="btn link-primary">View all notification</button>
             </div>
         </div>
     )

@@ -62,6 +62,7 @@ use src\module\report\action\ListLoanDeductionReportByUserAction;
 use src\module\report\action\ListReportPeriodsAction;
 use src\module\report\action\ListUserReportAction;
 use src\module\report\action\SearchBulkReportByDateAction;
+use src\module\report\action\SearchReportByDateAndUserIdAction;
 use src\module\settings\action\DeleteOvertimeSettingsAction;
 use src\module\settings\action\FetchOvertimeSettingsAction;
 use src\module\settings\action\FetchSickLeaveSettingsAction;
@@ -71,6 +72,11 @@ use src\module\settings\action\SetSickLeaveSettingsAction;
 use src\module\tax\action\DeleteTaxSettingsAction;
 use src\module\tax\action\ListTaxSettingsAction;
 use src\module\tax\action\SetTaxSettingsAction;
+use src\module\todo\action\AssignToAction;
+use src\module\todo\action\CompleteTodoAction;
+use src\module\todo\action\DeleteTodoAction;
+use src\module\todo\action\ListTodoByUserAction;
+use src\module\todo\action\SetTodoAction;
 use src\module\user\action\CreateUserAction;
 use src\module\user\action\EditUserAction;
 use src\module\user\action\FetchUserAction;
@@ -390,6 +396,30 @@ class Router{
 
         $this->request->route('/clone/bulk/reports', function ($req){
             return new CloneBulkReportAction();
+        });
+
+        $this->request->route('/list/user/reports/by/date', function ($req){
+            return new SearchReportByDateAndUserIdAction();
+        });
+
+        $this->request->route('/complete/todo', function ($req){
+            return new CompleteTodoAction();
+        });
+
+        $this->request->route('/delete/todo', function ($req){
+            return new DeleteTodoAction();
+        });
+
+        $this->request->route('/set/todo', function ($req){
+            return new SetTodoAction();
+        });
+
+        $this->request->route('/assign/todo/to/user', function ($req){
+            return new AssignToAction();
+        });
+
+        $this->request->route('/list/todo/by/user', function ($req){
+            return new ListTodoByUserAction();
         });
     }
 

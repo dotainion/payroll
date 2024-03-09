@@ -6,6 +6,9 @@ import { BankGenerator } from "../widgets/BankGenerator";
 import { routes } from "../router/routes";
 import { useNavigate } from "react-router-dom";
 import { useDocument } from "../contents/DocumentProvider";
+import { BsPersonFillAdd } from "react-icons/bs";
+import { PiBankBold } from "react-icons/pi";
+import { IoPeopleSharp } from "react-icons/io5";
 
 export const CreateEmployee = () =>{
     const { setLoading } = useDocument();
@@ -25,8 +28,18 @@ export const CreateEmployee = () =>{
     }
 
     return(
-        <Employee onSubmit={onCreate} title="Create Employee" buttonTitle={'Create'}>
-            <BankGenerator disableApiRequest />
-        </Employee>
+        <div className="bg-white">
+            <div className="employee-header px-5">
+                <div>
+                    <button onClick={()=>navigate(routes.workspace().nested().employees())} className="btn mx-2 small">
+                        <IoPeopleSharp className="text-dark p-2 fs-1 rounded-circle bg-light"/>
+                        <div className="small text-light"><small><small>View employee list</small></small></div>
+                    </button>
+                </div>
+            </div>
+            <Employee onSubmit={onCreate} title="Create Employee Account">
+                <BankGenerator disableApiRequest />
+            </Employee>
+        </div>
     )
 }

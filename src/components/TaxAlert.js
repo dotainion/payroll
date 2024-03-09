@@ -49,8 +49,7 @@ export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
             if(!meta || !existingTaxDeductions?.length) return;
-            const existingTax = existingTaxDeductions.find((tax)=>tax.id === meta.id);
-            if(existingTax){
+            if(existingTaxDeductions.find((tax)=>tax.type === 'tax')){
                 appy();
                 setUserAction(false);
             }

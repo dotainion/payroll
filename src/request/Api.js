@@ -19,6 +19,7 @@ import { Tax } from "./Tax";
 import { v4 as uuidv4 } from 'uuid';
 import { AllowanceDeductionIdLink } from "./AllowanceDeductionIdLink";
 import { Overtime } from "./Overtime";
+import { Todo } from "./Todo";
 
 const reAuth = new ReAuthenticate();
 export class Api{
@@ -45,6 +46,7 @@ export class Api{
         this.tax = new Tax(this);
         this.allowanceDeductionIdLink = new AllowanceDeductionIdLink(this);
         this.overtime = new Overtime(this);
+        this.todo = new Todo(this);
     }
 
     hasPendingRequest(){

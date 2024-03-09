@@ -3,7 +3,7 @@ import { PieChart } from 'react-minimal-pie-chart';
 
 export const PieRoundChart = () =>{
     return(
-        <div className="rounded-circle shadow border p-2" style={{width: '400px', height: '400px'}}>
+        <div className="rounded-circle shadow bg-white border p-3" style={{width: '400px', height: '400px'}}>
             <PieChart
                 data={[
                     { title: 'One', value: 10, color: '#6c757d' },//#f8f9fa

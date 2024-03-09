@@ -1,11 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaPiedPiperAlt, FaRoute } from 'react-icons/fa';
-import { MdAddTask, MdDeleteForever, MdSend } from 'react-icons/md';
+import { FaPiedPiperAlt, FaRoute, FaUser } from 'react-icons/fa';
+import { MdAdd, MdAddTask, MdDeleteForever, MdFileDownloadDone, MdPending, MdSend } from 'react-icons/md';
+import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import $ from 'jquery';
 import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
 import { useLocation, useParams } from "react-router-dom";
 import { TodoComponent } from "../components/TodoComponent";
+import img from '../images/no-notific.png'
+import { BsPersonFillAdd } from "react-icons/bs";
+import { PiBankBold } from "react-icons/pi";
+import { Employee } from "../components/Employee";
+import { IoMdAlert } from "react-icons/io";
+import { FiAlertTriangle } from "react-icons/fi";
+import { FcTodoList } from "react-icons/fc";
+import { TodoList } from "../pages/TodoList";
+import { PayrollAdjustment } from "../components/PayrollAdjustment";
 
 //https://www.npmjs.com/package/react-minimal-pie-chart
 export const Testing = () =>{
@@ -58,12 +68,7 @@ export const Testing = () =>{
 
 
     return (
-        <div className="position-relative">
-            <button onClick={onMeClik}>Click Me</button>
-            <div className="d-flex justify-content-center">
-                <TodoComponent/>
-            </div>
-        </div>
+        <PayrollAdjustment/>
     )
 
     return(

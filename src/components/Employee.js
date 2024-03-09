@@ -12,7 +12,7 @@ import { api } from "../request/Api";
 import { useParams } from "react-router-dom";
 import { toast } from "../utils/Toast";
 
-export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
+export const Employee = ({onSubmit, title}) =>{
     const [genderIcon, setGenderIcon] = useState();
     const [departments, setDepartments] = useState([]);
 
@@ -109,29 +109,52 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
 
     return(
         <div className="mobile-inputes">
-            <div className="employee-set bg-white pb-2 mb-3">
-                <div className="bg-white p-2 m-3 mb-0 border-bottom">
-                    <div className="fw-bold fs-3 p-1">{title}</div>
+            <div className="d-flex justify-content-center p-2 border-bottom text-end my-3 shadow-sm">
+                <div className="fw-bold h4 me-3">{title}</div>
+                <div>
+                    <button onClick={onSubmitTrigger} className="btn btn-sm btn-success px-4">Save</button>
                 </div>
-                <div className="bg-white border border-5 m-3 p-3 mt-0">
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
+            </div>
+
+            <div className="container">
+                <div className="d-flex p-2">
+                    <div className="shadow rounded-3 p-5 m-2 w-100">
+                        <div className="w-100">
                             <label>Employee Name <span className="text-danger">*</span></label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaUser/></span>
                                 <input ref={nameRef} className="form-control shadow-none" placeholder="Name"/>
                             </div>
                         </div>
-                        <div className="w-100 px-3">
-                            <label>ID <span className="text-danger">*</span></label>
+                        <div className="w-100">
+                            <label>Email</label>
                             <div className="input-group">
-                                <span className="input-group-text"><FaUser/></span>
-                                <input ref={userIdRef} className="form-control shadow-none" placeholder="ID"/>
+                                <span className="input-group-text"><MdEmail/></span>
+                                <input ref={emailRef} className="form-control shadow-none" type="email" placeholder="example@example.com"/>
                             </div>
                         </div>
-                    </div>
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
+                        <div className="w-100">
+                            <label>Phone Number</label>
+                            <div className="input-group">
+                                <span className="input-group-text"><FaPhone/></span>
+                                <input ref={numberRef} className="form-control shadow-none" type="tel" placeholder="123 456 7890"/>
+                            </div>
+                        </div>
+                        <div className="w-100">
+                            <label>Emergency Number</label>
+                            <div className="input-group">
+                                <span className="input-group-text"><FaAmbulance/></span>
+                                <input ref={emergencyNumberRef} className="form-control shadow-none" type="tel" placeholder="123 456 7890"/>
+                            </div>
+                        </div>
+                        <div className="w-100">
+                            <label>DOB</label>
+                            <div className="input-group">
+                                <span className="input-group-text"><FaBirthdayCake/></span>
+                                <input ref={dobRef} className="form-control shadow-none" type="date"/>
+                            </div>
+                        </div>
+                        <div className="w-100">
                             <label>Gender</label>
                             <div className="input-group">
                                 <span className="input-group-text">
@@ -146,80 +169,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                                 </select>
                             </div>
                         </div>
-                        <div className="w-100 px-3">
-                            <label>DOB</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><FaBirthdayCake/></span>
-                                <input ref={dobRef} className="form-control shadow-none" type="date"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
-                            <label>Email</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><MdEmail/></span>
-                                <input ref={emailRef} className="form-control shadow-none" type="email" placeholder="example@example.com"/>
-                            </div>
-                        </div>
-                        <div className="w-100 px-3">
-                            <label>Phone Number</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><FaPhone/></span>
-                                <input ref={numberRef} className="form-control shadow-none" type="tel" placeholder="123 456 7890"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
-                            <label>Emergency Number</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><FaAmbulance/></span>
-                                <input ref={emergencyNumberRef} className="form-control shadow-none" type="tel" placeholder="123 456 7890"/>
-                            </div>
-                        </div>
-                        <div className="w-100 px-3">
-                            <label>Nis ID</label>
-                            <div className="input-group">
-                                <span className="input-group-text fw-bold"><small>NIS</small></span>
-                                <input ref={nisIdRef} className="form-control shadow-none"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
-                            <label>Base Salary</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><FaDollarSign/></span>
-                                <input ref={salaryRef} className="form-control shadow-none" type="number" placeholder="0.00"/>
-                            </div>
-                        </div>
-                        <div className="w-100 px-3">
-                            <label>Hourly Amount</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><GiReceiveMoney/></span>
-                                <input ref={otRateRef} className="form-control shadow-none" placeholder="0.00"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
-                            <label>Registration Date</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><MdUpdate/></span>
-                                <input ref={registrationDateRef} className="form-control shadow-none" type={'date'}/>
-                            </div>
-                        </div>
-                        <div className="w-100 px-3">
-                            <label>Tax ID</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><MdUpdate/></span>
-                                <input ref={taxIdRef} className="form-control shadow-none"/>
-                            </div>
-                        </div>
-                    </div>                    
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
+                        <div className="w-100">
                             <label>Country</label>
                             <div className="input-group">
                                 <span className="input-group-text"><GiIsland/></span>
@@ -228,7 +178,7 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                                 </select>
                             </div>
                         </div>
-                        <div className="w-100 px-3">
+                        <div className="w-100">
                             <label>City</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaCity/></span>
@@ -244,46 +194,84 @@ export const Employee = ({onSubmit, title, buttonTitle, children}) =>{
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
+                        <div className="w-100">
                             <label>Address</label>
                             <div className="input-group">
                                 <span className="input-group-text"><FaAddressCard/></span>
                                 <input ref={addressRef} className="form-control shadow-none" placeholder="Address"/>
                             </div>
                         </div>
-                        <div className="w-100 px-3">
-                        </div>
                     </div>
-                    <div className="d-flex w-100 bg-white py-3">
-                        <div className="w-100 px-3">
-                            <label>Department</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><HiMiniBuildingOffice2/></span>
-                                <select ref={departmentRef} className="form-control shadow-none" defaultValue={'Select Status'}>
-                                    {departments.map((dept)=>(
-                                        <option>{dept?.attributes?.name}</option>
-                                    ))}
-                                </select>
+
+                    <div className="w-100">
+                        <div className="shadow rounded-3 p-5 m-2 w-100">
+                            <div className="w-100">
+                                <label>Department</label>
+                                <div className="input-group">
+                                    <span className="input-group-text"><HiMiniBuildingOffice2/></span>
+                                    <select ref={departmentRef} className="form-control shadow-none" defaultValue={'Select Status'}>
+                                        {departments.map((dept)=>(
+                                            <option>{dept?.attributes?.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="w-100">
+                                <label>ID <span className="text-danger">*</span></label>
+                                <div className="input-group">
+                                    <span className="input-group-text"><FaUser/></span>
+                                    <input ref={userIdRef} className="form-control shadow-none" placeholder="ID"/>
+                                </div>
+                            </div>
+                            <div className="w-100">
+                                <label>Nis ID</label>
+                                <div className="input-group">
+                                    <span className="input-group-text fw-bold"><small>NIS</small></span>
+                                    <input ref={nisIdRef} className="form-control shadow-none"/>
+                                </div>
+                            </div>
+                            <div className="w-100">
+                                <label>Tax ID</label>
+                                <div className="input-group">
+                                    <span className="input-group-text"><MdUpdate/></span>
+                                    <input ref={taxIdRef} className="form-control shadow-none"/>
+                                </div>
+                            </div>
+                            <div className="w-100">
+                                <label>Registration Date</label>
+                                <div className="input-group">
+                                    <span className="input-group-text"><MdUpdate/></span>
+                                    <input ref={registrationDateRef} className="form-control shadow-none" type={'date'}/>
+                                </div>
                             </div>
                         </div>
-                        <div className="w-100 px-3">
-                            <label>Status</label>
-                            <div className="input-group">
-                                <span className="input-group-text"><VscLayersActive/></span>
-                                <select ref={hideRef} className="form-control shadow-none" defaultValue={'Active'}>
-                                    <option value={false}>Active</option>
-                                    <option value={true}>Terminated</option>
-                                </select>
+
+                        <div className="shadow rounded-3 p-5 m-2 w-100">
+                            <div className="w-100 px-3">
+                                <label>Base Salary</label>
+                                <div className="input-group">
+                                    <span className="input-group-text"><FaDollarSign/></span>
+                                    <input ref={salaryRef} className="form-control shadow-none" type="number" placeholder="0.00"/>
+                                </div>
+                            </div>
+                            <div className="w-100 px-3">
+                                <label>Hourly Amount</label>
+                                <div className="input-group">
+                                    <span className="input-group-text"><GiReceiveMoney/></span>
+                                    <input ref={otRateRef} className="form-control shadow-none" placeholder="0.00"/>
+                                </div>
+                            </div>
+                            <div className="w-100 px-3">
+                                <label>Status</label>
+                                <div className="input-group">
+                                    <span className="input-group-text"><VscLayersActive/></span>
+                                    <select ref={hideRef} className="form-control shadow-none" defaultValue={'Active'}>
+                                        <option value={false}>Active</option>
+                                        <option value={true}>Terminated</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="w-100 px-3 py-3">
-                        {children}
-                    </div>
-                    <div className="d-flex justify-content-center align-items-center text-nowrap p-3">
-                        <button onClick={onSubmitTrigger} className="btn btn-success px-5">{buttonTitle}</button>
                     </div>
                 </div>
             </div>

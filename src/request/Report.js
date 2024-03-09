@@ -15,6 +15,10 @@ export class Report{
         return await this.api.post('/create/bulk/reports', data);
     }
 
+    async bulkClone(){
+        return await this.api.post('/clone/bulk/reports', null);
+    }
+
     async report(id){
         return await this.api.get('/fetch/report', {id});
     }
@@ -33,6 +37,10 @@ export class Report{
 
     async searchByDate(from, to){
         return await this.api.get('/search/bulk/reports/by/date', {from, to});
+    }
+
+    async searchByDateAndUserId(from, to, id){
+        return await this.api.get('/list/user/reports/by/date', {from, to, id});
     }
 
     async listPeriods(){

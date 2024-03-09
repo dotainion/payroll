@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../router/routes";
+import { api } from "../request/Api";
+import { toast } from "../utils/Toast";
+import { Loading } from "./Loading";
+import { GeneratePayrollButton } from "./GeneratePayrollButton";
 
 export const UpcomingPayroll = () =>{
+
+    const navigate = useNavigate();
+
     return(
-        <div className="bg-white shadow rounded-3 p-3">
+        <div className="bg-white shadow rounded-3 p-3 w-100">
             <div className="border-2 border-bottom fw-bold pb-3 mb-2">Upcoming payroll</div>
             <div className="d-flex">
                 <div>
@@ -20,13 +29,14 @@ export const UpcomingPayroll = () =>{
                             <div className="fw-bold">11/13 - 11/19</div>
                         </div>
                     </div>
-                    <button className="btn btn-sm btn-dark w-100 shadow">Run payroll</button>
+                    <GeneratePayrollButton>
+                        <button className="btn btn-sm btn-dark w-100 shadow">Run payroll</button>
+                    </GeneratePayrollButton>
                 </div>
                 <div className="mx-3 border"></div>
                 <div className="text-nowrap">
                     <div className="mb-2 small fw-bold">Payroll actions</div>
-                    <button className="btn btn-sm btn-dark w-100 my-1 shadow d-block">New off cycle payroll</button>
-                    <button className="btn btn-sm btn-dark w-100 my-1 shadow d-block">Calculate paycheck</button>
+                    <button onClick={()=>navigate(routes.workspace().nested().bulkReport())} className="btn btn-sm btn-dark w-100 my-1 shadow d-block">New off cycle payroll</button>
                 </div>
             </div>
         </div>

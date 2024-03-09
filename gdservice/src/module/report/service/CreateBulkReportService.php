@@ -1,6 +1,7 @@
 <?php
 namespace src\module\report\service;
 
+use src\infrastructure\GlobalData;
 use src\infrastructure\Service;
 
 class CreateBulkReportService extends Service{
@@ -11,6 +12,7 @@ class CreateBulkReportService extends Service{
     }
     
     public function process($reports){
+        GlobalData::set('createBunkNotify', 'on');
         foreach($reports??[] as $report){
             $createReport = new CreateReportService();
             $createReport->stopExecution($this->stopExecution);
