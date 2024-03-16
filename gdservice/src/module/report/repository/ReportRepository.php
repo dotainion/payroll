@@ -25,7 +25,8 @@ class ReportRepository extends Repository{
             ->add('totalSalary', $report->totalSalary())
             ->add('netSalary', $report->netSalary())
             ->add('periodFrom', $report->periodFrom())
-            ->add('periodTo', $report->periodTo());
+            ->add('periodTo', $report->periodTo())
+            ->add('approved', $report->approved());
         $this->execute();
     }
     
@@ -40,7 +41,15 @@ class ReportRepository extends Repository{
             ->set('netSalary', $report->netSalary())
             ->set('periodFrom', $report->periodFrom())
             ->set('periodTo', $report->periodTo())
+            //->add('approved', $report->approved())
             ->where('reportId', $this->uuid($report->id()));
+        $this->execute();
+    }
+    
+    public function approveReport(Array $reportId):void{
+        $this->update('report')
+            ->set('approved', 1)
+            ->where('reportId', $this->uuid($reportId));
         $this->execute();
     }
     
@@ -60,6 +69,12 @@ class ReportRepository extends Repository{
         }
         if(isset($where['hide'])){
             $this->where('hide', (int)$where['hide']);
+        }
+        if(isset($where['approved'])){
+            $this->where('approved', (int)$where['approved']);
+        }
+        if(isset($where['desc'])){
+            $this->orderByDesc('date');
         }
         $this->execute();
         return $this->factory->map(

@@ -28,7 +28,8 @@ class ListReportPeriods{
         $collector = $this->repo->listReports([
             'hide' => false,
             'from' => (new DateHelper())->new()->subDays(365)->toString(), 
-            'to' => (new DateHelper())->new()->toString()
+            'to' => (new DateHelper())->new()->toString(),
+            'approved' => true
         ]);
 
         foreach($collector->list() as $report){

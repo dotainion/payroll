@@ -66,6 +66,7 @@ class Schema{
             ->column('city')->string()
             ->column('state')->string()
             ->column('address')->string()
+            ->column('inPayroll')->bool()
             ->column('department')->string()
             ->column('emergencyNumber')->string()
             ->column('registrationDate')->string();
@@ -259,7 +260,8 @@ class Schema{
             ->column('totalSalary')->string()
             ->column('netSalary')->string()
             ->column('periodFrom')->timestamp()
-            ->column('periodTo')->timestamp();
+            ->column('periodTo')->timestamp()
+            ->column('approved')->bool();
         return $this->sql->execute();
     }
 

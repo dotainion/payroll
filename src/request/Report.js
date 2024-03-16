@@ -19,8 +19,8 @@ export class Report{
         return await this.api.post('/clone/bulk/reports', null);
     }
 
-    async report(id){
-        return await this.api.get('/fetch/report', {id});
+    async report(id, approved=true){
+        return await this.api.get('/fetch/report', {id, approved});
     }
 
     async listByUser(id){
@@ -49,5 +49,17 @@ export class Report{
 
     async calculateReport(data){
         return await this.api.get('/calculate/report', data);
+    }
+
+    async approveReport(reportIdArray){
+        return await this.api.get('/approve/report', {id: reportIdArray});
+    }
+
+    async generateBulkReportByUserIdArray(userIdArray, period){
+        return await this.api.get('/generate/bulk/report/by/user/id', {userId: userIdArray, period});
+    }
+
+    async listPendingBulkReports(){
+        return await this.api.get('/list/pending/reports', null);
     }
 }

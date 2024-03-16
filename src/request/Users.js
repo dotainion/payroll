@@ -34,4 +34,12 @@ export class Users{
     async create(data){
         return await this.api.post('/create/user', data);
     }
+
+    async addInPayroll(id){
+        return await this.api.post('/add/to/user/collection', {id});
+    }
+
+    async removeFromPayroll(id){
+        return await this.api.post('/remove/from/user/collection', {id});
+    }
 }

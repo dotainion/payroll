@@ -31,11 +31,6 @@ class Repository{
 		$this->parentTableName = null;
 	}
 
-	private function connect():void{
-		$this->reset();
-		$this->db->connect();
-	}
-
 	private function setParentTableName($tableName){
 		if(!$this->parentTableName){
 			$this->parentTableName = $tableName;
@@ -49,6 +44,11 @@ class Repository{
 			return '`'.$col.'` as `'.$alias.'`';
 		}
 		return '`'.$column.'`';
+	}
+
+	public function connect():void{
+		$this->reset();
+		$this->db->connect();
 	}
 
 	public function query($statement):void{
@@ -137,7 +137,7 @@ class Repository{
 		if(!$tableName){
 			$tableName = $this->parentTableName;
 		}
-		$this->statement .= ' ORDER BY `'.$tableName.'`.`'.$column.'` DESC ';
+		$this->where .= ' ORDER BY `'.$tableName.'`.`'.$column.'` DESC ';
 		return $this;
 	}
 
@@ -145,7 +145,7 @@ class Repository{
 		if(!$tableName){
 			$tableName = $this->parentTableName;
 		}
-		$this->statement .= ' ORDER BY `'.$tableName.'`.`'.$column.'` ASC ';
+		$this->where .= ' ORDER BY `'.$tableName.'`.`'.$column.'` ASC ';
 		return $this;
 	}
 
@@ -183,6 +183,26 @@ class Repository{
 			$tableName = $this->parentTableName;
 		}
 		$this->where .= '`'.$tableName.'`.`'.$column.'` >= "'.$from.'" AND `'.$tableName.'`.`'.$column.'` <= "'.$to.'"';
+	}
+
+	public function lessThan($column, $value, $tableName = null){
+		$this->conditional($column, $value, '<', $tableName);
+	}
+
+	public function moreThan($column, $value, $tableName = null){
+		$this->conditional($column, $value, '>', $tableName);
+	}
+
+	public function conditional($column, $value, $operator, $tableName = null){
+		if(! $this->where){
+			$this->where = ' WHERE ';
+		}else{
+			$this->where .= ' AND ';
+		}
+		if(!$tableName){
+			$tableName = $this->parentTableName;
+		}
+		$this->where .= '`'.$tableName.'`.`'.$column.'` '.$operator.' "'.$value.'"';
 	}
 
 	public function limit(int $limit){

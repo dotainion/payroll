@@ -11,7 +11,6 @@ use src\module\report\logic\ListReportAllowances;
 use src\module\report\logic\ListReportDeductions;
 use src\module\report\logic\ListReportOvertime;
 use src\module\report\logic\ListSickLeave;
-use src\module\report\logic\ListUserReport;
 use src\module\report\logic\YTDCalculator;
 use src\module\user\logic\FetchUser;
 

@@ -20,7 +20,10 @@ class ListEachUserReport{
                 'hide' => false,
                 'userId' => $user->id(),
                 'from'=> $from->toString(), 
-                'to'=> $to->toString()
+                'to'=> $to->toString(),
+                'approved' => true,
+                'limit' => 1,
+                'desc' => true
             ]);
             if($collector->hasItem()){
                 $this->collector->add($collector->last());
@@ -42,7 +45,15 @@ class ListEachUserReport{
     public function eachByReportIdArray(array $reportIdArray):Collector{
         return $this->repo->listReports([
             'hide' => false,
-            'reportId'=> $reportIdArray, 
+            'reportId'=> $reportIdArray,
+            'approved' => true
+        ]);
+    }
+
+    public function pendingReports():Collector{
+        return $this->repo->listReports([
+            'hide' => false,
+            'approved' => false
         ]);
     }
 }

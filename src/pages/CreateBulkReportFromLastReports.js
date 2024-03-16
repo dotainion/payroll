@@ -18,7 +18,7 @@ import { DateHelper } from "../utils/DateHelper";
 import { useDocument } from "../contents/DocumentProvider";
 import { BiCalendar } from "../components/BiCalendar";
 
-export const CreateBulkReport = () =>{
+export const CreateBulkReportFromLastReports = () =>{
     const { loading, setLoading, addPreviousHistory } = useDocument();
 
     const [reports, setReports] = useState([]);

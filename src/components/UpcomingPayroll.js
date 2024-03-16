@@ -1,14 +1,40 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router/routes";
 import { api } from "../request/Api";
-import { toast } from "../utils/Toast";
-import { Loading } from "./Loading";
-import { GeneratePayrollButton } from "./GeneratePayrollButton";
 
 export const UpcomingPayroll = () =>{
+    const [periodFrom, setPeriodFrom]  = useState();
+    const [periodTo, setPeriodTo]  = useState();
+    const [net, setNet]  = useState(0);
+    const [pendingReport, setPendingReport]  = useState(0);
 
     const navigate = useNavigate();
+
+    const toPendingReport = () =>{
+        if(pendingReport <= 0) return;
+        navigate(routes.workspace().nested().approveBulkReport());
+    }
+
+    useEffect(()=>{
+        api.report.listBulkReports().then((response)=>{
+            const report = response.data.data[0];
+            setPeriodFrom(new Date(report.attributes.periodFrom).toDateString());
+            setPeriodTo(new Date(report.attributes.periodTo).toDateString());
+            let total = 0;
+            response.data.data.forEach((rep)=>{
+                total += parseFloat(rep.attributes.net);
+            });
+            setNet(total);
+        }).catch((error)=>{
+
+        });
+        api.report.listPendingBulkReports().then((response)=>{
+            setPendingReport(response.data.data.length);
+        }).catch((error)=>{
+
+        });
+    }, []);
 
     return(
         <div className="bg-white shadow rounded-3 p-3 w-100">
@@ -16,22 +42,20 @@ export const UpcomingPayroll = () =>{
             <div className="d-flex">
                 <div>
                     <div className="d-flex align-items-center">
-                        <div className="h4">Weekly</div>
-                        <div className="bg-light rounded-3 small ms-3 px-2 shadow-sm">Due in 5 days</div>
+                        <div className="h4">Pending report</div>
+                        <div onClick={toPendingReport} className="bg-light rounded-3 small ms-3 px-2 shadow-sm pointer"><b>{pendingReport}</b> Reports</div>
                     </div>
-                    <div className="d-flex my-3">
-                        <div className="me-1 rounded-3 bg-light p-2 shadow-sm">
-                            <div className="small">Check date</div>
-                            <div className="fw-bold">11/21/2024</div>
+                    <div className="bg-light rounded-3 shadow-sm my-3 p-2 text-nowrap">
+                        <div className="d-flex w-100">
+                            <div className="small">Last pay period</div>
+                            <div className="w-100 fw-bold text-end">${net}</div>
                         </div>
-                        <div className="ms-1 rounded-3 bg-light p-2 shadow-sm">
-                            <div className="small">Pay period</div>
-                            <div className="fw-bold">11/13 - 11/19</div>
+                        <div className="d-flex">
+                            <div className="fw-bold me-3">{periodFrom}</div>
+                            <div className="fw-bold">{periodTo}</div>
                         </div>
                     </div>
-                    <GeneratePayrollButton>
-                        <button className="btn btn-sm btn-dark w-100 shadow">Run payroll</button>
-                    </GeneratePayrollButton>
+                    <button onClick={()=>navigate(routes.workspace().nested().bulkReportOptions())} className="btn btn-sm btn-dark w-100 shadow">Run payroll</button>
                 </div>
                 <div className="mx-3 border"></div>
                 <div className="text-nowrap">

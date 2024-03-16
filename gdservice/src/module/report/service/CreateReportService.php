@@ -28,7 +28,8 @@ class CreateReportService extends Service{
         $noPayLeaveAllowances,
         $noPayLeaveDeductions,
         $period,
-        $notified
+        $notified,
+        $approved = true
     ){
         $reportId = (new Id())->new()->toString();
 
@@ -44,7 +45,8 @@ class CreateReportService extends Service{
             $noPayLeaveAllowances,
             $noPayLeaveDeductions,
             $period,
-            $notified
+            $notified,
+            $approved
         );
 
         $this->mergeOutput($service);

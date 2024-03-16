@@ -4,6 +4,7 @@ namespace src\module\user\repository;
 use src\database\Repository;
 use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
+use src\infrastructure\Id;
 use src\module\user\factory\UserFactory;
 use src\module\user\objects\User;
 
@@ -32,6 +33,7 @@ class UserRepository extends Repository{
             ->add('city', $user->city())
             ->add('state', $user->state())
             ->add('address', $user->address())
+            ->add('inPayroll', $user->inPayroll())
             ->add('department', $user->department())
             ->add('emergencyNumber', $user->emergencyNumber())
             ->add('registrationDate', $user->registrationDate());
@@ -54,11 +56,26 @@ class UserRepository extends Repository{
             ->set('city', $user->city())
             ->set('state', $user->state())
             ->set('address', $user->address())
+            //->set('inPayroll', $user->inPayroll())
             ->set('department', $user->department())
             ->set('emergencyNumber', $user->emergencyNumber())
             ->set('registrationDate', $user->registrationDate())
             ->where('id', $this->uuid($user->id()));
         $this->execute();
+    }
+
+    public function addToPayroll(Id $id):void{
+        $this->update('user')
+            ->set('inPayroll', 1)
+            ->where('id', $this->uuid($id));
+        $this->execute();
+    }
+
+    public function removeFromPayroll(Id $id):void{
+        $this->update('user')
+            ->set('inPayroll', 0)
+            ->where('id', $this->uuid($id));
+        $this->execute(); 
     }
     
     public function listUsers(array $where=[]):Collector{
@@ -77,6 +94,9 @@ class UserRepository extends Repository{
         }
         if(isset($where['dob'])){
             $this->where('dob', (int)$where['dob']);
+        }
+        if(isset($where['inPayroll'])){
+            $this->where('inPayroll', (int)$where['inPayroll']);
         }
         $this->execute();
         return $this->factory->map(

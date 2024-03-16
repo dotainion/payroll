@@ -14,14 +14,8 @@ import { IoMdAlert } from "react-icons/io";
 import { PageNavbar } from "../components/PageNavbar";
 
 export const EmployeeDefault = () =>{
-    const [showPayrollBtn, setShowPayrollBtn] = useState(false);
 
     const navigate = useNavigate();
-
-    const closePayrollBtn = (e) =>{
-        if(e.target !== e.currentTarget) return;
-        setShowPayrollBtn(false);
-    }
 
     useEffect(()=>{
         
@@ -68,8 +62,17 @@ export const EmployeeDefault = () =>{
                             <PieRoundChart/>
                         </div>
                         <div className="h-100 border mx-3"></div>
-                        <div className="ms-3 w-100 h-100">
+                        <div className="ms-3 w-100 h-100" style={{minWidth: '200px'}}>
                             <div className="border-2 border-bottom fw-bold pb-3 mb-3">Services</div>
+                            <div className="d-flex align-items-center my-3">
+                                <div className="me-2">
+                                    <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-secondary"/>
+                                </div>
+                                <div className="small">
+                                    <div className="fw-bold">Payroll</div>
+                                    <div>Generate and print reports</div>
+                                </div>
+                            </div>
                             <div className="d-flex align-items-center my-3">
                                 <div className="me-2">
                                     <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-secondary"/>
@@ -101,17 +104,6 @@ export const EmployeeDefault = () =>{
                     </div>
                     <div className="mx-1"></div>
                     <TodoComponent/>
-                </div>
-            </div>
-
-            <div className="backdrop top-0" hidden={!showPayrollBtn}>
-                <div onClick={closePayrollBtn} className="d-flex align-items-center justify-content-center w-100 h-100">
-                    <div className="bg-white text-start shadow rounded-3 p-4">
-                        <div className="h4 fw-bold">Generate payroll</div>
-                        <div>Payroll will be generated from last payroll for reach employee</div>
-                        <button className="btn btn-sm btn-dark mt-3">Generate payroll</button>
-                        <button onClick={()=>setShowPayrollBtn(false)} className="btn btn-sm btn-dark mt-3">Cancel</button>
-                    </div>
                 </div>
             </div>
         </div>

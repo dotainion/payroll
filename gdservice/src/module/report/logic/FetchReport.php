@@ -12,10 +12,11 @@ class FetchReport{
         $this->repo = new ReportRepository();
     }
 
-    public function report(Id $reportId):Collector{
+    public function report(Id $reportId, bool $approved = true):Collector{
         return $this->repo->listReports([
             'hide' => false,
-            'reportId' => $reportId
+            'reportId' => $reportId,
+            'approved' => $approved
         ]);
     }
 }

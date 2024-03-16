@@ -15,8 +15,8 @@ class SendMailService extends Service{
     protected RecipientFactory $recipientsFactory;
     protected AttatchmentFactory $attatchmentFactory;
 
-    public function __construct(){
-        parent::__construct();
+    public function __construct(bool $authCheck=true){
+        parent::__construct($authCheck);
         $this->mail = new SendMail();
         $this->factory = new MailFactory();
         $this->recipientsFactory = new RecipientFactory();

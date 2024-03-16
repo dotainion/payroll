@@ -46,7 +46,7 @@ class SendRecoverEmailService extends Service{
 
         $this->template->setToken($credential->refreshToken());
 
-        $service = (new SendMailService())->process('Credentials', $this->template->recovery(), [[
+        $service = (new SendMailService(false))->process('Credentials', $this->template->recovery(), [[
             'userId' => $user->first()->id()->toString(),
             'recipient' => $user->first()->email(),
         ]]);

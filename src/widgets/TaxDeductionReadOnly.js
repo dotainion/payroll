@@ -4,7 +4,7 @@ import $ from 'jquery';
 export const TaxDeductionReadOnly = ({TaxDeductions}) =>{
 
     useEffect(()=>{
-        
+
     }, []);
 
     return(
@@ -18,7 +18,7 @@ export const TaxDeductionReadOnly = ({TaxDeductions}) =>{
                             {TaxDeductions?.map?.((tax, key)=>(
                                 <div className="d-inline-block p-3 text-primary" key={key}>
                                     <div className="d-inline-block rounded-2 py-3 px-5 text-center user-select-none shadow-sm bg-primary text-white">
-                                        <div>Amount: <b>${tax?.attributes?.amount}</b></div>
+                                        <div>Amount: <b>${parseFloat(tax?.attributes?.amount || 0).toFixed(2)}</b></div>
                                         <div>Tax Number: <b>{tax?.attributes?.number}</b></div>
                                     </div>
                                 </div>

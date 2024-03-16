@@ -50,7 +50,8 @@ class YTDCalculator{
             'hide' => false,
             'userId' => $userId,
             'from' => $this->_startDateTime(),
-            'to' => $reportDate->toString()
+            'to' => $reportDate->toString(),
+            'approved' => true
         ]);
         $ytd = 0;
         foreach($collector->list() as $report){

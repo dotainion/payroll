@@ -20,6 +20,11 @@ class SetTodo{
             $this->repo->edit($todo);
             return;
         }
+        $collector = $this->repo->listTodo([
+            'title' => $todo->title(),
+            'hide' => false
+        ]);
+        $collector->assertItemNotExist('Todo title already exist.');
         $this->repo->create($todo);
     }
 }

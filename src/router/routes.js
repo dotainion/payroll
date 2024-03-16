@@ -4,10 +4,15 @@ class Workspace{
     employees = () => this._nested + 'employees';
     createReport = (userId=':userId') => this._nested + 'create/employee/report/' + userId;
     editReport = (reportId=':reportId') => this._nested + 'edit/employee/report/' + reportId;
+    editPendingReport = (reportId=':reportId') => this._nested + 'edit/employee/pre/report/' + reportId;
     createEmployee = () => this._nested + 'employee/create';
     editEmployee = (userId=':userId') => this._nested + 'employee/edit/' + userId;
     employeeReport = (userId=':userId') => this._nested + 'employee/report/' + userId;
     bulkReport = () => this._nested + 'bulk/report';
+    generateBulkReportForUsers = () => this._nested + 'generate/bulk/report/for/users';
+    approveBulkReport = () => this._nested + 'approve/bulk/report';
+    reportApprovalConformation = () => this._nested + 'report/conformation';
+    bulkReportOptions = () => this._nested + 'bulk/report/options';
     employeeSettings = (userId=':userId') => this._nested + 'employee/settings/' + userId;
     bulkPayslip = () => this._nested + 'invoice/bulk/payslip';
     employeePayslip = (reportId=':reportId') => this._nested + 'invoice/employee/payslip/' + reportId;

@@ -18,7 +18,7 @@ class UserFactory extends Collector{
         $user->setUserId($record['userId'] ?? '');
         $user->setName($record['name'] ?? '');
         $user->setEmail($record['email'] ?? '');
-        $user->setHide($record['hide'] ?? false);
+        $user->setHide(((bool)$record['hide']) ?? false);
         $user->setGender($record['gender'] ?? '');
         $user->setNumber($record['number'] ?? '');
         $user->setSalary($record['salary'] ?? '');
@@ -29,6 +29,7 @@ class UserFactory extends Collector{
         $user->setCity($record['city'] ?? '');
         $user->setState($record['state'] ?? '');
         $user->setAddress($record['address'] ?? '');
+        $user->setInPayroll(((bool)$record['inPayroll']) ?? false);
         $user->setDepartment($record['department'] ?? '');
         $user->setEmergencyNumber($record['emergencyNumber'] ?? '');
         $user->setRegistrationDate($record['registrationDate'] ?? '');

@@ -27,7 +27,7 @@ class CreateBulkReportService extends Service{
                 $report['noPayLeaveAllowances'],
                 $report['noPayLeaveDeductions'],
                 $report['period'],
-                $report['notified']
+                $report['notified'],
             );
         }
         if($this->stopExecution){

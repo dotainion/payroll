@@ -31,6 +31,7 @@ class User implements IObjects, IUser{
     protected string $city;
     protected string $state;
     protected string $address;
+    protected bool $inPayroll;
     protected string $department;
 
     public function __construct(){
@@ -87,6 +88,10 @@ class User implements IObjects, IUser{
     
     public function salary():string{
         return $this->salary;
+    }
+
+    public function inPayroll():bool{
+        return $this->inPayroll;
     }
 
     public function dob():DateHelper{
@@ -174,6 +179,10 @@ class User implements IObjects, IUser{
     public function setName(string $name):void{
         Assert::stringNotEmpty($name, 'Name is required');
         $this->name = $name;
+    }
+
+    public function setInPayroll(bool $inPayroll):void{
+        $this->inPayroll = $inPayroll;
     }
 
     public function setEmail(string $email):void{

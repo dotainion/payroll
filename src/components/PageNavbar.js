@@ -5,19 +5,16 @@ import { GrMoney } from "react-icons/gr";
 import { IoCalendarSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router/routes";
-import { GeneratePayrollButton } from "./GeneratePayrollButton";
 
 export const PageNavbar = () =>{
     const navigate = useNavigate();
 
     return(
         <div className="border-bottom mb-3 bg-dark text-center small">
-            <GeneratePayrollButton>
-                <button className="btn mx-2 small">
-                    <IoCalendarSharp className="text-dark p-2 display-5 rounded-circle bg-light"/>
-                    <div className="small text-light"><small><small>New payroll</small></small></div>
-                </button>
-            </GeneratePayrollButton>
+            <button onClick={()=>navigate(routes.workspace().nested().bulkReportOptions())} className="btn mx-2 small">
+                <IoCalendarSharp className="text-dark p-2 display-5 rounded-circle bg-light"/>
+                <div className="small text-light"><small><small>New payroll</small></small></div>
+            </button>
             <button onClick={()=>navigate(routes.workspace().nested().createEmployee())} className="btn mx-2 small">
                 <BsPersonFillAdd className="text-dark p-2 display-5 rounded-circle bg-light"/>
                 <div className="small text-light"><small><small>New employee</small></small></div>

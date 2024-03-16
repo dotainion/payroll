@@ -15,7 +15,8 @@ class FetchReportAction extends Request implements IAction{
 
     public function execute(){
         return $this->service->process(
-            $this->get('id')
+            $this->get('id'),
+            $this->get('approved')
         );
     }
 }

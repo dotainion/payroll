@@ -25,6 +25,7 @@ class Report implements IObjects{
     protected bool $hide;
     protected DateHelper $periodFrom;
     protected DateHelper $periodTo;
+    protected bool $approved;
 
     public function __construct(){
         $this->id = new Id();
@@ -46,6 +47,10 @@ class Report implements IObjects{
         
     public function userId():IId{
         return $this->userId;
+    }
+        
+    public function approved():bool{
+        return $this->approved;
     }
         
     public function user():?User{
@@ -166,5 +171,9 @@ class Report implements IObjects{
         }else{
             throw new Exception('setToAllDeductionsCollection property in report object can only be a Collector or IObject');
         }
+    }
+        
+    public function setApproved(bool $approved):void{
+        $this->approved = $approved;
     }
 }

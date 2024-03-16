@@ -22,7 +22,8 @@ export const Security = () =>{
                     <TbLockShare className="display-5"/>
                     <div className="ms-2">
                         <button onClick={creds.open} className="btn btn-sm border-0 p-0 small fw-bold">Change Password</button>
-                        <div className="small text-wrap">Set up a unique, strong password to protect your Fusioo Account.</div>
+                        <div className="small text-wrap">Set up a unique, strong password to protect your Account.</div>
+                        <div className="small">Password must be at least 7 digits, contain a capital letter, number (0-9) and a special character</div>
                     </div>
                 </li>
                 <li className="small list-group-item d-flex align-items-center py-4">

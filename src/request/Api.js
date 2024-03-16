@@ -28,6 +28,10 @@ export class Api{
     pendingRequests = [];
 
     constructor(){
+        this.authNotRequoredRoutes = [
+            routes.signin(),
+            routes.passRecovery(),
+        ];
         this.axios = axios.create({baseURL: this.baseURL});
         this.session = new FetchSession(this);
         this.auth = new Authenticate(this);
@@ -61,6 +65,13 @@ export class Api{
         this.pendingRequests = this.pendingRequests.filter((k)=>key !== k);
     }
 
+    hasRouteThatRequireAuthTrigger(){
+        for(let route of this.authNotRequoredRoutes){
+            if(window.location.hash.includes(route)) return true;
+        }
+        return false;
+    }
+
     handler(error, option){
         if(option?.stopReAuthentication === true){
             throw error;
@@ -71,7 +82,7 @@ export class Api{
         if(window.location.hash.includes('token')){
             throw error;
         }
-        if(error.response.status === 401 && !window.location.hash.includes(routes.signin())){
+        if(error.response.status === 401 && !this.hasRouteThatRequireAuthTrigger()){
             reAuth.open();
         }else{ 
             reAuth.close();

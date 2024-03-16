@@ -32,7 +32,7 @@ export const TodoList = () =>{
     const dropdownNameRef = useRef();
     const dropdownName2Ref = useRef();
 
-    const setTodo = useCallback(() =>{
+    const setTodo = () =>{
         if(!dueRef.current?.valueAsDate){
             return setErrorMessge('Due date is required.');
         }
@@ -68,7 +68,7 @@ export const TodoList = () =>{
         }).finally(()=>{
             setLoading(false);
         });
-    }, []);
+    }
 
     const deleteTodo = useCallback((e, todo) =>{
         setLoading(true);
@@ -204,39 +204,46 @@ export const TodoList = () =>{
 
     return(
         <div className="container">
-            <div className="h4 mt-3">Todo List</div>
+            <div className="h4 mt-3">Todos</div>
             <button onClick={showTodoCreate} className="btn btn-sm btn-dark mb-3">New Todo</button>
-            {todos.map((todo, key)=>(
-                <div className="d-flex align-items-center border-bottom py-2 shadow-sm my-2 px-4 rounded-5 bg-white" key={key}>
-                    <div className="me-2">
-                        {todo.attributes.isOverdue ? <IoMdAlert className="d-block text-danger fs-1"/> : null}
-                        {todo.attributes.isUpComming ? <FiAlertTriangle className="d-block text-warning fs-1"/> : null}
-                        {todo.attributes.isPending ? <MdPending className="d-block text-success fs-1"/> : null}
-                        {todo.attributes.isDone ? <MdFileDownloadDone className="d-block text-success fs-1"/> : null}
-                    </div>
-                    <div className="w-100">
-                        <div className={`d-flex align-items-center w-100 small ${todo.attributes.isPending || todo.attributes.isDone ? 'text-success' : ''} ${todo.attributes.isUpComming ? 'text-warning' : ''} ${todo.attributes.isOverdue ? 'text-danger' : ''} mb-1`}>
-                            {todo.attributes.isOverdue ? <small className="text-nowrap text-danger ms-2">Overdue</small> : null}
-                            {todo.attributes.isUpComming ? <small className="text-nowrap text-warning ms-2">Upcoming</small> : null}
-                            {todo.attributes.isDone ? <small className="text-nowrap text-success ms-2">Done</small> : null}
-                            {todo.attributes.isPending ? <small className="text-nowrap text-success ms-2">Pending</small> : null}
-                            <div className="text-end w-100">
-                                <button onClick={()=>showAssignTo(todo)} className="btn btn-sm link-primary border mx-1">Assign To {todo.attributes.userAssign?.attributes?.name}</button>
-                                {
-                                    todo.attributes.isDone ? 
-                                        <button onClick={()=>incompleteTodo(todo)} className="btn btn-sm link-warning border mx-1">Mark as incomplete</button>
-                                        : <button onClick={()=>completeTodo(todo)} className="btn btn-sm link-primary border mx-1">Mark as complete</button>
-                                }
-                                <button onClick={(e)=>deleteTodo(e, todo)} className="btn btn-sm link-danger border mx-1">Delete</button>
-                                <button onClick={()=>editTodo(todo)} className="btn btn-sm link-primary border mx-1">Edit</button>
-                            </div>
+            {
+                todos.length?
+                todos.map((todo, key)=>(
+                    <div className="d-flex align-items-center border-bottom py-2 shadow-sm my-2 px-4 rounded-5 bg-white" key={key}>
+                        <div className="me-2">
+                            {todo.attributes.isOverdue ? <IoMdAlert className="d-block text-danger fs-1"/> : null}
+                            {todo.attributes.isUpComming ? <FiAlertTriangle className="d-block text-warning fs-1"/> : null}
+                            {todo.attributes.isPending ? <MdPending className="d-block text-success fs-1"/> : null}
+                            {todo.attributes.isDone ? <MdFileDownloadDone className="d-block text-success fs-1"/> : null}
                         </div>
-                        <small className="fw-bold">{todo.attributes.title}</small>
-                        <div className="small">{todo.attributes.description}</div>
-                        <div className="small"><small>15 minutes ago</small></div>
+                        <div className="w-100">
+                            <div className={`d-flex align-items-center w-100 small ${todo.attributes.isPending || todo.attributes.isDone ? 'text-success' : ''} ${todo.attributes.isUpComming ? 'text-warning' : ''} ${todo.attributes.isOverdue ? 'text-danger' : ''} mb-1`}>
+                                {todo.attributes.isOverdue ? <small className="text-nowrap text-danger ms-2">Overdue</small> : null}
+                                {todo.attributes.isUpComming ? <small className="text-nowrap text-warning ms-2">Upcoming</small> : null}
+                                {todo.attributes.isDone ? <small className="text-nowrap text-success ms-2">Done</small> : null}
+                                {todo.attributes.isPending ? <small className="text-nowrap text-success ms-2">Pending</small> : null}
+                                <div className="text-end w-100">
+                                    <button onClick={()=>showAssignTo(todo)} className="btn btn-sm link-primary border mx-1">Assign To {todo.attributes.userAssign?.attributes?.name}</button>
+                                    {
+                                        todo.attributes.isDone ? 
+                                            <button onClick={()=>incompleteTodo(todo)} className="btn btn-sm link-warning border mx-1">Mark as incomplete</button>
+                                            : <button onClick={()=>completeTodo(todo)} className="btn btn-sm link-primary border mx-1">Mark as complete</button>
+                                    }
+                                    <button onClick={(e)=>deleteTodo(e, todo)} className="btn btn-sm link-danger border mx-1">Delete</button>
+                                    <button onClick={()=>editTodo(todo)} className="btn btn-sm link-primary border mx-1">Edit</button>
+                                </div>
+                            </div>
+                            <small className="fw-bold">{todo.attributes.title}</small>
+                            <div className="small">{todo.attributes.description}</div>
+                            <div className="small"><small>{new Date(todo.attributes.due).toDateString()}</small></div>
+                        </div>
                     </div>
+                )):
+                <div className="d-flex align-items-center">
+                    <FcTodoList className="display-5 me-3" />
+                    <div className="fw-bold">No records</div>
                 </div>
-            ))}
+            }
             <div className="position-absolute top-0 start-0 w-100 h-100" hidden={!openTodoCreate}>
                 <div onClick={closeTodoCreate} className="d-flex align-items-center justify-content-center w-100 h-100">
                     <div className="shadow rounded-3 bg-white p-4 set-todo-overlay-size">

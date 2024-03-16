@@ -55,7 +55,7 @@ class TaxReportToFactory{
     
     public function toValueAmount(float $net, TaxSettings $setting):float{
         //get difference from net agains limit about and take out the percentage from the diffrence.
-        $difference = (float)$net - (float)$setting->limitAmount();
+        $difference = $net - (float)$setting->limitAmount();
         return ($difference / 100) * ((float)$setting->percentage());
     }
 

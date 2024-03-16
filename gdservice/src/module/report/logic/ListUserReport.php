@@ -16,7 +16,8 @@ class ListUserReport{
     public function reports(Id $userId):Collector{
         return $this->repo->listReports([
             'hide' => false,
-            'userId' => $userId
+            'userId' => $userId,
+            'approved' => true
         ]);
     }
 
@@ -25,7 +26,8 @@ class ListUserReport{
             'hide' => false,
             'userId' => $userId,
             'from'=> $from->toString(), 
-            'to'=> $to->toString()
+            'to'=> $to->toString(),
+            'approved' => true
         ]);
     }
 }

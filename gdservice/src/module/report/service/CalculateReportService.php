@@ -23,7 +23,8 @@ class CalculateReportService extends Service{
         $noPayLeaveAllowances,
         $noPayLeaveDeductions,
         $period,
-        $notified
+        $notified,
+        $approved = true
     ){
         $reportId = (new Id())->new()->toString();
         
@@ -40,7 +41,8 @@ class CalculateReportService extends Service{
             $noPayLeaveAllowances,
             $noPayLeaveDeductions,
             $period,
-            $notified
+            $notified,
+            $approved
         );
 
         $this->mergeOutput($service);

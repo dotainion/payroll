@@ -34,8 +34,8 @@ export const WorkspaceSidebar = () =>{
                 },{
                     icon: FaClone,
                     title: 'Generate Bulk Report',
-                    active: location.pathname.includes(routes.workspace().bulkReport()),
-                    onClick: ()=>navigate(routes.workspace().bulkReport())
+                    active: location.pathname.includes(routes.workspace().bulkReportOptions()),
+                    onClick: ()=>navigate(routes.workspace().bulkReportOptions())
                 },{
                     icon: TbReportSearch,
                     title: 'View Payslip',

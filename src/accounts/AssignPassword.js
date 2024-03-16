@@ -15,7 +15,8 @@ export const AssignPassword = () =>{
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
 
-    const onSave = () =>{
+    const onSave = (e) =>{
+        e.preventDefault();
         if(passwordRef.current.value !== confirmPasswordRef.current.value){
             return toast.error('Credential', 'Password mismatch.');
         }
@@ -42,7 +43,7 @@ export const AssignPassword = () =>{
     }, []);
 
     return(
-        <form onSubmit={(e)=>e.preventDefault()} className="signin-page">
+        <form onSubmit={onSave} className="signin-page">
             {
                 !invalid?
                 <div className="signin">
@@ -56,7 +57,7 @@ export const AssignPassword = () =>{
                             <div>Create a strong password that will be associated with <span>{user?.attributes?.email}</span></div>
                             <input ref={passwordRef} className="form-control" placeholder="Password" type="password" required/>
                             <input ref={confirmPasswordRef} className="form-control" placeholder="Confirm Password" type="password" required/>
-                            <button onClick={onSave} className="btn btn-primary rounded-0 mt-3 w-100">Save</button>
+                            <button className="btn btn-primary rounded-0 mt-3 w-100" type="submit">Save</button>
                         </div>:
                         <div className="text-center mt-5">
                             <div className="spinner-border text-primary"></div>

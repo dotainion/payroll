@@ -1,6 +1,7 @@
 <?php
 namespace src\router;
 
+use src\database\Repository;
 use src\database\Table;
 use src\infrastructure\Https;
 use src\module\allowance\action\CreateAllowanceAction;
@@ -47,6 +48,7 @@ use src\module\notification\action\FetchNotificationSetupAction;
 use src\module\notification\action\FetchUserNotificationSettingAction;
 use src\module\notification\action\SetNotificationSetupAction;
 use src\module\notification\action\SetUserNotificationSettingAction;
+use src\module\report\action\ApproveReportAction;
 use src\module\report\action\CalculateReportAction;
 use src\module\report\action\CloneBulkReportAction;
 use src\module\report\action\CreateBulkReportAction;
@@ -55,10 +57,12 @@ use src\module\report\action\DeleteAllowanceReportAction;
 use src\module\report\action\DeleteDeductionReportAction;
 use src\module\report\action\EditReportAction;
 use src\module\report\action\FetchReportAction;
+use src\module\report\action\GenerateBulkReportByUserIdsAction;
 use src\module\report\action\ListBulkReportAction;
 use src\module\report\action\ListBulkReportBySpecifyReportIdsAction;
 use src\module\report\action\ListLoanAllowanceReportByUserAction;
 use src\module\report\action\ListLoanDeductionReportByUserAction;
+use src\module\report\action\ListPendingReportsAction;
 use src\module\report\action\ListReportPeriodsAction;
 use src\module\report\action\ListUserReportAction;
 use src\module\report\action\SearchBulkReportByDateAction;
@@ -75,12 +79,15 @@ use src\module\tax\action\SetTaxSettingsAction;
 use src\module\todo\action\AssignToAction;
 use src\module\todo\action\CompleteTodoAction;
 use src\module\todo\action\DeleteTodoAction;
+use src\module\todo\action\ListOverDueTodoByUserAction;
 use src\module\todo\action\ListTodoByUserAction;
 use src\module\todo\action\SetTodoAction;
+use src\module\user\action\AddToPayrollAction;
 use src\module\user\action\CreateUserAction;
 use src\module\user\action\EditUserAction;
 use src\module\user\action\FetchUserAction;
 use src\module\user\action\ListUsersAction;
+use src\module\user\action\RemoveFromPayrollAction;
 use src\schema\Schema;
 use src\schema\Truncate;
 
@@ -107,7 +114,11 @@ class Router{
         });*/
 
         $this->request->route('/test', function ($req){
-            
+            $repo = new Repository();
+            $repo->connect();
+            $repo->update('report');
+            $repo->set('approved', '1');
+            $repo->execute();
         });
 
         $this->request->route('/signin', function ($req){
@@ -420,6 +431,30 @@ class Router{
 
         $this->request->route('/list/todo/by/user', function ($req){
             return new ListTodoByUserAction();
+        });
+
+        $this->request->route('/list/overdue/todo', function ($req){
+            return new ListOverDueTodoByUserAction();
+        });
+
+        $this->request->route('/add/to/user/collection', function ($req){
+            return new AddToPayrollAction();
+        });
+
+        $this->request->route('/remove/from/user/collection', function ($req){
+            return new RemoveFromPayrollAction();
+        });
+
+        $this->request->route('/approve/report', function ($req){
+            return new ApproveReportAction();
+        });
+
+        $this->request->route('/generate/bulk/report/by/user/id', function ($req){
+            return new GenerateBulkReportByUserIdsAction();
+        });
+
+        $this->request->route('/list/pending/reports', function ($req){
+            return new ListPendingReportsAction();
         });
     }
 

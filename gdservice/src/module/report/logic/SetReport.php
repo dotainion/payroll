@@ -73,7 +73,8 @@ class SetReport{
         HandleAllowanceDeductionIdLinkToFactory $allowanceOptionLink,
         HandleAllowanceDeductionIdLinkToFactory $deductionOptionLink,
         Id $reportId,
-        array $notified
+        array $notified,
+        $approved
     ):Report{
         $totalAllowance = $rAllowance->totalAllowance();
         $totalDeduction = $rDeduction->totalDeduction();
@@ -100,7 +101,7 @@ class SetReport{
         }
 
         //add allowance before tax deduction is subtracted if any.
-        $total = $salary  + $this->biMonthly->biMonthlyAllowance();
+        $total = $salary + $this->biMonthly->biMonthlyAllowance();
 
         $this->taxReport->initializeTaxDeduction($this->stopExecute(), $user, $reportId, $total, $notified);
         $this->taxReport->assertTaxDeduction();
@@ -125,7 +126,8 @@ class SetReport{
             'hide' => $user->hide(),
             'from' => $periodFrom->toString(),
             'to' => $periodTo->toString(),
-            'net' => $total
+            'net' => $total,
+            'approved' => $approved
         ]);
 
         if(!$this->stopExecute()){

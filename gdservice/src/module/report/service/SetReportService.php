@@ -46,18 +46,19 @@ class SetReportService extends Service{
     }
     
     public function process(
-        $id,
-        $reportId,
-        $allowance,
-        $deduction,
-        $loanAllowances,
-        $loanDeductions,
-        $sickLeaves,
-        $overtime,
-        $noPayLeaveAllowances,
-        $noPayLeaveDeductions,
-        $period,
-        $notified
+        string $id,
+        ?string $reportId,
+        array $allowance,
+        array $deduction,
+        array $loanAllowances,
+        array $loanDeductions,
+        array $sickLeaves,
+        array $overtime,
+        array $noPayLeaveAllowances,
+        array $noPayLeaveDeductions,
+        array $period,
+        array $notified,
+        bool $approved
     ){
         Assert::validUuid($reportId, 'Report not found.');
         Assert::validDate($period['from'], 'Invlaid periord date.');
@@ -116,7 +117,8 @@ class SetReportService extends Service{
             $allowanceOptionLink,
             $deductionOptionLink,
             $reportId,
-            $notified
+            $notified,
+            $approved
         );
 
         $this->setOutput($report);

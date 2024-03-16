@@ -679,6 +679,19 @@ input[type=date]::-webkit-calendar-picker-indicator {
   width: 500px;
 }
 
+.bulk-report-option {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.bulk-report-option button{
+  width: 200px;
+  height: 200px;
+  min-width: 200px;
+  min-height: 200px;
+}
+
 @media screen and (max-width:1100px){
   .page{
     width: 100%;

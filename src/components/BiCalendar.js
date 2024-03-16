@@ -3,7 +3,7 @@ import Litepicker from "litepicker";
 import $ from 'jquery';
 import { DateHelper } from "../utils/DateHelper";
 
-export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff}) =>{
+export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff, fireOnLoad}) =>{
     const containerRef = useRef();
     const triggerRef = useRef();
     const overlayRef = useRef();
@@ -153,6 +153,12 @@ export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff}) =>{
         const date = new DateHelper();
         fromRef.current.value = date.sqlStringToInput(period?.from);
         toRef.current.value = date.sqlStringToInput(period?.to);
+
+        if(fireOnLoad) onSelect?.({
+            dateInstance: new Date(period?.from)
+        }, {
+            dateInstance: new Date(period?.to)
+        });
     }, [period]);
 
     return(

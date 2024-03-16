@@ -23,6 +23,7 @@ class ReportFactory extends Collector{
         $report->setPeriodFrom(($record['periodFrom'] ?? $record['from']));
         $report->setPeriodTo(($record['periodTo'] ?? $record['to']));
         $report->setHide($record['hide']);
+        $report->setApproved(((bool)$record['approved']) ?? true);
         return $report;
     }
 }

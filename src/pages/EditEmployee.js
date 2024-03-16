@@ -30,7 +30,7 @@ export const EditEmployee = () =>{
                     </button>
                     <button onClick={()=>navigate(routes.workspace().nested().employeeSettings(params?.userId))} className="btn mx-2 small">
                         <PiBankBold className="text-dark p-2 fs-1 rounded-circle bg-light"/>
-                        <div className="small text-light"><small><small>Banks and account</small></small></div>
+                        <div className="small text-light"><small><small>Banks and credential</small></small></div>
                     </button>
                 </div>
             </div>
