@@ -1,6 +1,6 @@
 import React from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { FaPeopleGroup, FaPerson } from 'react-icons/fa6';
+import { FaMoneyBillTrendUp, FaPeopleGroup, FaPerson } from 'react-icons/fa6';
 import logo from '../images/logo.png';
 import { MenuOption } from "../widgets/MenuOption";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,7 +10,6 @@ import { TbReportSearch } from 'react-icons/tb';
 import { useDocument } from "../contents/DocumentProvider";
 import { HiDocumentReport } from "react-icons/hi";
 import { RiTodoLine } from "react-icons/ri";
-import { GrMoney } from "react-icons/gr";
 import { MdDashboard } from "react-icons/md";
 
 export const WorkspaceSidebar = () =>{
@@ -54,7 +53,7 @@ export const WorkspaceSidebar = () =>{
                     active: location.pathname.includes(routes.workspace().todoList()),
                     onClick: ()=>navigate(routes.workspace().todoList())
                 },{
-                    icon: GrMoney,
+                    icon: FaMoneyBillTrendUp,
                     title: 'Review Tax',
                     active: location.pathname.includes(routes.workspace().viewTaxReports()),
                     onClick: ()=>navigate(routes.workspace().viewTaxReports())
