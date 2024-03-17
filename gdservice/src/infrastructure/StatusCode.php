@@ -25,6 +25,8 @@ class StatusCode{
     protected int $INTERNAL_SERVER_ERROR = 500;
     protected int $SERVICE_UNAVAILABLE = 503;
 
+    protected bool $isProduction = true;
+
     public function __construct(){
         session_start(); 
     }
@@ -84,10 +86,12 @@ class StatusCode{
             $this->setMessage($ex->getMessage());
         }catch (Exception $ex){
             $this->setCode($this->INTERNAL_SERVER_ERROR);
-            $this->setMessage($ex->getMessage() . PHP_EOL . $ex->getTraceAsString());
+            $this->isProduction === true && $this->setMessage('Something when wrong. Please try your action again in 5 minutes.');
+            $this->isProduction !== true && $this->setMessage($ex->getMessage() . PHP_EOL . $ex->getTraceAsString());
         }catch(Throwable $ex){
             $this->setCode($this->INTERNAL_SERVER_ERROR);
-            $this->setMessage($ex->getMessage() . PHP_EOL . $ex->getTraceAsString());
+            $this->isProduction === true && $this->setMessage('Something when wrong. Please try your action again in 5 minutes.');
+            $this->isProduction !== true && $this->setMessage($ex->getMessage() . PHP_EOL . $ex->getTraceAsString());
         }finally{
             if($this->code() !== $this->OK){
                 $this->executeStatus();
