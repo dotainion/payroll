@@ -19,7 +19,7 @@ export const PageNavbar = () =>{
                 <BsPersonFillAdd className="text-dark p-2 display-5 rounded-circle bg-light"/>
                 <div className="small text-light"><small><small>New employee</small></small></div>
             </button>
-            <button className="btn mx-2 small">
+            <button onClick={()=>navigate(routes.workspace().nested().viewTaxReports())} className="btn mx-2 small">
                 <GrMoney className="text-dark p-2 display-5 rounded-circle bg-light"/>
                 <div className="small text-light"><small><small>Review tax</small></small></div>
             </button>

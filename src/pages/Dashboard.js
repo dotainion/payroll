@@ -13,7 +13,7 @@ import { TodoComponent } from "../components/TodoComponent";
 import { IoMdAlert } from "react-icons/io";
 import { PageNavbar } from "../components/PageNavbar";
 
-export const EmployeeDefault = () =>{
+export const Dashboard = () =>{
 
     const navigate = useNavigate();
 
@@ -66,7 +66,7 @@ export const EmployeeDefault = () =>{
                             <div className="border-2 border-bottom fw-bold pb-3 mb-3">Services</div>
                             <div className="d-flex align-items-center my-3">
                                 <div className="me-2">
-                                    <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-secondary"/>
+                                    <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-success"/>
                                 </div>
                                 <div className="small">
                                     <div className="fw-bold">Payroll</div>

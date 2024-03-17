@@ -103,7 +103,7 @@ export const ApproveBulkReport = () =>{
                         <div>
                             <div className="h4">Pending Reports</div>
                             <div className="fw-bold text-muted mb-2">There is no pending report</div>
-                            <div className="d-flex align-items-center my-2"><MdDashboard className="text-primary me-2" /><span onClick={()=>navigate(routes.workspace().nested().default())} className="link-primary pointer">Go to dashboard</span></div>
+                            <div className="d-flex align-items-center my-2"><MdDashboard className="text-primary me-2" /><span onClick={()=>navigate(routes.workspace().nested().dashboard())} className="link-primary pointer">Go to dashboard</span></div>
                             <div className="d-flex align-items-center my-2"><BiSolidReport className="text-info me-2" /><span onClick={()=>navigate(routes.workspace().nested().viewReports())} className="link-primary pointer">Review reports</span></div>
                         </div>
                         <div className="ms-3">

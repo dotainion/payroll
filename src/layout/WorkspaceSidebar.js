@@ -10,6 +10,8 @@ import { TbReportSearch } from 'react-icons/tb';
 import { useDocument } from "../contents/DocumentProvider";
 import { HiDocumentReport } from "react-icons/hi";
 import { RiTodoLine } from "react-icons/ri";
+import { GrMoney } from "react-icons/gr";
+import { MdDashboard } from "react-icons/md";
 
 export const WorkspaceSidebar = () =>{
     const { previousHistory, addPreviousHistory } = useDocument();
@@ -51,6 +53,16 @@ export const WorkspaceSidebar = () =>{
                     title: 'Todos',
                     active: location.pathname.includes(routes.workspace().todoList()),
                     onClick: ()=>navigate(routes.workspace().todoList())
+                },{
+                    icon: GrMoney,
+                    title: 'Review Tax',
+                    active: location.pathname.includes(routes.workspace().viewTaxReports()),
+                    onClick: ()=>navigate(routes.workspace().viewTaxReports())
+                },{
+                    icon: MdDashboard,
+                    title: 'Dashboad',
+                    active: location.pathname.includes(routes.workspace().dashboard()),
+                    onClick: ()=>navigate(routes.workspace().dashboard())
                 }
             ]
         }

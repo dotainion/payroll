@@ -48,7 +48,7 @@ export const ReportApprovalConformation = () =>{
                             <BiSolidReport style={{fontSize: '100px'}} />
                         </div>
                     </div>
-                    <button onClick={()=>navigate(routes.workspace().nested().default())} className="btn btn-dark rounded-0 px-5 mt-4">Done</button>
+                    <button onClick={()=>navigate(routes.workspace().nested().dashboard())} className="btn btn-dark rounded-0 px-5 mt-4">Done</button>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@ import { EditEmployee } from "../pages/EditEmployee";
 import { CreateEmployee } from "../pages/CreateEmployee";
 import { Employees } from "../pages/Employees";
 import { EmployeeReports } from "../pages/EmployeeReports";
-import { EmployeeDefault } from "../pages/EmployeeDefault";
+import { Dashboard } from "../pages/Dashboard";
 import { CreateBulkReportFromLastReports } from "../pages/CreateBulkReportFromLastReports";
 import { EditEmployeeReport } from "../pages/EditEmployeeReport";
 import { EmployeeSettings } from "../pages/EmployeeSettings";
@@ -21,6 +21,7 @@ import { GenerateBulkReportForUsers } from "../pages/GenerateBulkReportForUsers"
 import { ApproveBulkReport } from "../pages/ApproveBulkReport";
 import { EditEmployeePendingReport } from "../pages/EditEmployeePendingReport";
 import { ReportApprovalConformation } from "../pages/ReportApprovalConformation";
+import { ViewTaxReports } from "../pages/ViewTaxReports";
 
 export const WorkspaceRouter = () =>{
     return(
@@ -44,8 +45,9 @@ export const WorkspaceRouter = () =>{
                 <Route path={routes.workspace().eachEmployeePayslip()} element={<EeachEmployeePayslip/>}/>
                 <Route path={routes.workspace().viewReports()} element={<ViewReports/>}/>
                 <Route path={routes.workspace().todoList()} element={<TodoList/>}/>
-                <Route path={routes.workspace().default()} element={<Navigate to={routes.workspace().default()}/>}/>
-                <Route path={'*'} element={<EmployeeDefault/>}/>
+                <Route path={routes.workspace().viewTaxReports()} element={<ViewTaxReports/>}/>
+                <Route path={routes.workspace().dashboard()} element={<Dashboard/>}/>
+                <Route path={'*'} element={<Navigate to={routes.workspace().dashboard()}/>}/>
             </Routes>
         </WorkspaceLayout>
     )

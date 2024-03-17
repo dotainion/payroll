@@ -2,9 +2,13 @@ import React, { memo, useCallback, useEffect, useRef } from "react";
 import { Signin } from "../accounts/Signin";
 import $ from 'jquery';
 import { useAuth } from "../auth/AuthProvider";
+import { useLocation } from "react-router-dom";
+import { routes } from "../router/routes";
 
 export const NotAuthenticated = memo(() =>{
     const { onAuthStateChange } = useAuth();
+
+    const location = useLocation();
 
     const warningRef = useRef();
     const loginRef = useRef();
@@ -19,6 +23,7 @@ export const NotAuthenticated = memo(() =>{
             $('[data-re-authenticated]').hide('fast');
             $(loginRef.current).hide('fast');
             $(warningRef.current).show('fast');
+            if(location.pathname.includes(routes.signin())) return;
             window.location.reload();
         }, (error) =>{
             

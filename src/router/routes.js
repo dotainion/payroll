@@ -1,6 +1,7 @@
 class Workspace{
     _nested = '';
     default = () => '/workspace/*';
+    dashboard = () => this._nested + 'dashboard';
     employees = () => this._nested + 'employees';
     createReport = (userId=':userId') => this._nested + 'create/employee/report/' + userId;
     editReport = (reportId=':reportId') => this._nested + 'edit/employee/report/' + reportId;
@@ -18,6 +19,7 @@ class Workspace{
     employeePayslip = (reportId=':reportId') => this._nested + 'invoice/employee/payslip/' + reportId;
     eachEmployeePayslip = (eachReportId=':eachReportId') => this._nested + 'invoice/each/employee/payslip/' + eachReportId;
     viewReports = () => this._nested + 'view/reports';
+    viewTaxReports = () => this._nested + 'view/tax/reports';
     todoList = () => this._nested + 'todo/list';
     nested = () => {
         this._nested = this.default().replace('*', '');

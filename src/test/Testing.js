@@ -16,6 +16,7 @@ import { FiAlertTriangle } from "react-icons/fi";
 import { FcTodoList } from "react-icons/fc";
 import { TodoList } from "../pages/TodoList";
 import { PayrollAdjustment } from "../components/PayrollAdjustment";
+import { ViewTaxReports } from "../pages/ViewTaxReports";
 
 //https://www.npmjs.com/package/react-minimal-pie-chart
 export const Testing = () =>{
@@ -68,7 +69,7 @@ export const Testing = () =>{
 
 
     return (
-        <PayrollAdjustment/>
+        <ViewTaxReports/>
     )
 
     return(

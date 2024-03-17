@@ -158,7 +158,7 @@ export const GenerateBulkReportForUsers = () =>{
                             <div className="h4">Existing Pending Reports</div>
                             <div className="fw-bold text-muted mb-2">There is existing reports pending</div>
                             <div className="d-flex align-items-center my-2"><FaCheck className="text-success" /><span onClick={()=>navigate(routes.workspace().nested().approveBulkReport())} className="link-primary pointer ms-2">Approve pending reports</span></div>
-                            <div className="d-flex align-items-center my-2"><MdDashboard className="text-primary" /><span onClick={()=>navigate(routes.workspace().nested().default())} className="link-primary pointer ms-2">Go to dashboard</span></div>
+                            <div className="d-flex align-items-center my-2"><MdDashboard className="text-primary" /><span onClick={()=>navigate(routes.workspace().nested().dashboard())} className="link-primary pointer ms-2">Go to dashboard</span></div>
                             <div className="d-flex align-items-center my-2"><BiSolidReport className="text-info" /><span onClick={()=>navigate(routes.workspace().nested().viewReports())} className="link-primary pointer ms-2">Review reports</span></div>
                         </div>
                         <div className="ms-3">

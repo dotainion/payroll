@@ -38,7 +38,7 @@ export const UpcomingPayroll = () =>{
 
     return(
         <div className="bg-white shadow rounded-3 p-3 w-100">
-            <div className="border-2 border-bottom fw-bold pb-3 mb-2">Upcoming payroll</div>
+            <div className="border-2 border-bottom fw-bold pb-3 mb-2">Payroll</div>
             <div className="d-flex">
                 <div>
                     <div className="d-flex align-items-center">
