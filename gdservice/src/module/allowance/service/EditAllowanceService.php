@@ -14,7 +14,7 @@ class EditAllowanceService extends Service{
     }
     
     public function process($id, $name, $type, $rate, $amount, $rateAmount){
-        $collector = (new BuildAllowance())->toFactory([[
+        $allowances = [[
             'id' => $id,
             'hide' => false,
             'name' => $name, 
@@ -22,7 +22,8 @@ class EditAllowanceService extends Service{
             'rate' => $rate, 
             'amount' => $amount, 
             'rateAmount' => $rateAmount
-        ]]);
+        ]];
+        $collector = (new BuildAllowance())->toFactory($allowances);
 
         $this->allowance->edit($collector->first());
 

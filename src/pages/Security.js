@@ -30,7 +30,7 @@ export const Security = () =>{
                     <FcSettings className="display-5"/>
                     <div className="ms-2">
                         <button className="btn btn-sm border-0 p-0 small fw-bold">Two-Factor Authentication</button>
-                        <div className="small text-wrap">Highly recommended. Set up Two-Factor Authentication to add an extra layer of security to your Account.</div>
+                        <div className="small">Highly recommended. Set up Two-Factor Authentication to add an extra layer of security to your Account.</div>
                     </div>
                 </li>
             </ul>

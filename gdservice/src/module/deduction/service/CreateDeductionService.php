@@ -14,14 +14,15 @@ class CreateDeductionService extends Service{
     }
     
     public function process($name, $type, $rate, $amount, $rateAmount){
-        $collector = (new BuildDeduction())->toFactory([[
+        $deductions = [[
             'name' => $name, 
             'type' => $type, 
             'rate' => $rate, 
             'hide' => false,
             'amount' => $amount, 
             'rateAmount' => $rateAmount
-        ]]);
+        ]];
+        $collector = (new BuildDeduction())->toFactory($deductions);
 
         $this->deduction->create($collector->first());
 

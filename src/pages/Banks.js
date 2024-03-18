@@ -17,7 +17,7 @@ export const Banks = () =>{
 
     const onSave = () =>{
         api.bank.create(nameRef.current.value).then((response)=>{
-            setBanks((allows)=>[response.data.data[0], ...allows]);
+            setBanks((allows)=>[...allows, response.data.data[0]]);
             toast.success('Bank', 'Created');
             nameRef.current.value = '';
         }).catch((error)=>{

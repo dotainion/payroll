@@ -86,11 +86,11 @@ class StatusCode{
             $this->setMessage($ex->getMessage());
         }catch (Exception $ex){
             $this->setCode($this->INTERNAL_SERVER_ERROR);
-            $this->isProduction === true && $this->setMessage('Something when wrong. Please try your action again in 5 minutes.');
+            $this->isProduction === true && $this->setMessage('Something when wrong. Please contact your software engineer with the action you were trying to perform.');
             $this->isProduction !== true && $this->setMessage($ex->getMessage() . PHP_EOL . $ex->getTraceAsString());
         }catch(Throwable $ex){
             $this->setCode($this->INTERNAL_SERVER_ERROR);
-            $this->isProduction === true && $this->setMessage('Something when wrong. Please try your action again in 5 minutes.');
+            $this->isProduction === true && $this->setMessage('Something when wrong. Please contact your software engineer with the action you were trying to perform.');
             $this->isProduction !== true && $this->setMessage($ex->getMessage() . PHP_EOL . $ex->getTraceAsString());
         }finally{
             if($this->code() !== $this->OK){

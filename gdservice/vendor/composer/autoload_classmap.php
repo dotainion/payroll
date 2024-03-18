@@ -267,6 +267,7 @@ return array(
     'src\\module\\bank\\logic\\DeleteBankLink' => $baseDir . '/src/module/bank/logic/DeleteBankLink.php',
     'src\\module\\bank\\logic\\EditBank' => $baseDir . '/src/module/bank/logic/EditBank.php',
     'src\\module\\bank\\logic\\EditBankLink' => $baseDir . '/src/module/bank/logic/EditBankLink.php',
+    'src\\module\\bank\\logic\\FetchBank' => $baseDir . '/src/module/bank/logic/FetchBank.php',
     'src\\module\\bank\\logic\\FetchBankLink' => $baseDir . '/src/module/bank/logic/FetchBankLink.php',
     'src\\module\\bank\\logic\\ListBankByUser' => $baseDir . '/src/module/bank/logic/ListBankByUser.php',
     'src\\module\\bank\\logic\\ListBanks' => $baseDir . '/src/module/bank/logic/ListBanks.php',

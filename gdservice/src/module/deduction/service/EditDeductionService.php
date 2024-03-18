@@ -14,7 +14,7 @@ class EditDeductionService extends Service{
     }
     
     public function process($id, $name, $type, $rate, $amount, $rateAmount){
-        $collector = (new BuildDeduction())->toFactory([[
+        $deductions = [[
             'id' => $id,
             'name' => $name, 
             'type' => $type, 
@@ -22,7 +22,8 @@ class EditDeductionService extends Service{
             'hide' => false,
             'amount' => $amount, 
             'rateAmount' => $rateAmount
-        ]]);
+        ]];
+        $collector = (new BuildDeduction())->toFactory($deductions);
 
         $this->deduction->edit($collector->first());
 

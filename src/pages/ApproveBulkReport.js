@@ -20,10 +20,12 @@ export const ApproveBulkReport = () =>{
         setLoading(true);
         const reportIdArray = reports.map((r)=>r.id);
         api.report.approveReport(reportIdArray).then((response)=>{
+            let total = 0;
             let totalTax = 0;
             let totalAllowance = 0;
             let totalDeduction = 0;
             response.data.data.forEach((r)=>{
+                total += parseFloat(r.attributes.net);
                 totalAllowance += parseFloat(r.attributes.totalAllowance);
                 totalDeduction += parseFloat(r.attributes.totalDeduction);
                 r.attributes.allDeductions.forEach((rr)=>{
@@ -33,9 +35,10 @@ export const ApproveBulkReport = () =>{
             navigate(routes.workspace().nested().reportApprovalConformation(), {
                 state: {
                     people: response.data.data.length,
-                    allowance: totalAllowance,
-                    deduction: totalDeduction,
-                    tax: totalTax
+                    allowance: totalAllowance.toFixed(2),
+                    deduction: totalDeduction.toFixed(2),
+                    total: total.toFixed(2),
+                    tax: totalTax.toFixed(2)
                 }
             });
         }).catch((error)=>{

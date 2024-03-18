@@ -4,13 +4,18 @@ import { useNavigate} from 'react-router-dom';
 import { routes } from "../router/routes";
 import { useAuth } from "../auth/AuthProvider";
 
-export const Signin = () =>{
+export const Signin = ({onBeforeForgetPasswordNavigate}) =>{
     const { signin, errorMessage } = useAuth();
 
     const navigate = useNavigate();
 
     const emailRef = useRef();
     const passwordRef = useRef();
+
+    const forgotPasswordClick = () =>{
+        onBeforeForgetPasswordNavigate?.();
+        navigate(routes.passRecovery());
+    }
 
     const onSignIn = (e) =>{
         e.preventDefault();
@@ -28,7 +33,7 @@ export const Signin = () =>{
                     {errorMessage ? <div className="text-danger text-center">{errorMessage}</div> : null}
                     <input ref={emailRef} className="form-control" placeholder="Email" type="email" required/>
                     <input ref={passwordRef} className="form-control" placeholder="Password" type="password" required/>
-                    <span onClick={()=>navigate(routes.passRecovery())} className="text-decoration-underline link-primary pointer">Forgot password?</span>
+                    <span onClick={forgotPasswordClick} className="text-decoration-underline link-primary pointer">Forgot password?</span>
                     <button className="btn btn-primary rounded-0 mt-3 w-100" type="submit">Sign in</button>
                 </div>
             </div>

@@ -48,7 +48,7 @@ export const UpcomingPayroll = () =>{
                     <div className="bg-light rounded-3 shadow-sm my-3 p-2 text-nowrap">
                         <div className="d-flex w-100">
                             <div className="small">Last pay period</div>
-                            <div className="w-100 fw-bold text-end">${net}</div>
+                            <div className="w-100 fw-bold text-end">${parseFloat(net).toFixed(2)}</div>
                         </div>
                         <div className="d-flex">
                             <div className="fw-bold me-3">{periodFrom}</div>

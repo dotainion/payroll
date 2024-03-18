@@ -17,6 +17,8 @@ import { FcTodoList } from "react-icons/fc";
 import { TodoList } from "../pages/TodoList";
 import { PayrollAdjustment } from "../components/PayrollAdjustment";
 import { ViewTaxReports } from "../pages/ViewTaxReports";
+import { ReportApprovalConformation } from "../pages/ReportApprovalConformation";
+import { NotAuthenticated } from "../other/NotAuthenticated";
 
 //https://www.npmjs.com/package/react-minimal-pie-chart
 export const Testing = () =>{
@@ -69,7 +71,7 @@ export const Testing = () =>{
 
 
     return (
-        <ViewTaxReports/>
+        <NotAuthenticated />
     )
 
     return(

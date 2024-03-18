@@ -17,7 +17,7 @@ export const Departments = () =>{
 
     const onSave = () =>{
         api.department.create(nameRef.current.value).then((response)=>{
-            setDepartments((allows)=>[response.data.data[0], ...allows]);
+            setDepartments((allows)=>[...allows, response.data.data[0]]);
             toast.success('Bank', 'Created');
             nameRef.current.value = '';
         }).catch((error)=>{

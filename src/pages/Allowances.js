@@ -8,9 +8,12 @@ import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
 import { CostTypeAndRateHandler } from "../utils/CostTypeAndRateHandler";
 import { AllowanceDeductionReadOnly } from "../components/AllowanceDeductionReadOnly";
+import { useDocument } from "../contents/DocumentProvider";
 
 const typeHandler = new CostTypeAndRateHandler();
 export const Allowances = () =>{
+    const { costTypes } = useDocument();
+
     const [allowances, setAllowances] = useState([]);
     const [availableData, setAvailableData] = useState([]);
 
@@ -19,10 +22,20 @@ export const Allowances = () =>{
     const buttonRef = useRef();
     const inputContainerRef = useRef();
 
+    const getTypeFqn = (typeValue) =>{
+        let fqo = null;
+        [...Object.keys(costTypes || {})].find((type)=>{
+            if(costTypes[type].value === typeValue) fqo = costTypes[type];
+        });
+        return fqo?.name || null;
+    }
+
     const onSave = useCallback(() =>{
         const data = payload.addon.build(inputContainerRef.current)[0];
         api.allowance.create(data).then((response)=>{
-            setAllowances((allows)=>[response.data.data[0], ...allows]);
+            let newAllowance = response.data.data[0];
+            newAllowance.attributes.type = getTypeFqn(newAllowance.attributes.type);
+            setAllowances((allows)=>[...allows, newAllowance]);
             const addOn = $(inputContainerRef.current).find('[data-addon]');
             addOn.find('input').val('');
             addOn.find('select').each((i, child)=>{
@@ -42,13 +55,14 @@ export const Allowances = () =>{
         api.allowance.edit(data).then((response)=>{
             console.log(response.data);
             onCloseAllEdit();
-            parent.find('[data-read-only]').each((i, child)=>{
-                console.log(child);
-                $(child).find('[data-name]').text(data.name);
-                $(child).find('[data-type]').text(typeHandler.costValueToDisplay(data.type));
-                $(child).find('[data-amount]').text(data.amount);
-                $(child).find('[data-rate]').text(data.rate);
-                $(child).find('[data-rate-amount]').text(data.rateAmount);
+            const newAllowance = response.data.data[0];
+            setAllowances((existingAllowances)=>{
+                let modifyAllowances = [];
+                existingAllowances.forEach((oldAllowance)=>{
+                    if(oldAllowance.id === newAllowance.id) modifyAllowances.push(newAllowance);
+                    else modifyAllowances.push(oldAllowance);
+                });
+                return modifyAllowances;
             });
             toast.success('Allowance', 'Edited');
         }).catch((error)=>{

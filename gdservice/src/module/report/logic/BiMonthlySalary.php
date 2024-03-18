@@ -10,17 +10,15 @@ class BiMonthlySalary{
     protected DateHelper $endDate;
     protected float $biMonthlySalary;
     protected float $biMonthlyAllowance;
-    protected float $totalAllowance;
 
     public function __construct(){
         
     }
 
-    public function set(User $user, DateHelper $periodFrom, DateHelper $periodTo, float $totalAllowance):self{
+    public function set(User $user, DateHelper $periodFrom, DateHelper $periodTo):self{
         $this->user = $user;
         $this->startDate = $periodFrom;
         $this->endDate = $periodTo;
-        $this->totalAllowance = $totalAllowance;
         return $this;
     }
 
@@ -33,15 +31,10 @@ class BiMonthlySalary{
 
     public function calculate():self{
         $this->biMonthlySalary = $this->runCalculation((float)$this->user->salary());
-        $this->biMonthlyAllowance = $this->runCalculation($this->totalAllowance);
         return $this;
     }
 
     public function biMonthlySalary():float{
         return $this->biMonthlySalary;
-    }
-
-    public function biMonthlyAllowance():float{
-        return $this->biMonthlyAllowance;
     }
 }

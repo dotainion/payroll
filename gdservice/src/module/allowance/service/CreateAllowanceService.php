@@ -14,14 +14,15 @@ class CreateAllowanceService extends Service{
     }
     
     public function process($name, $type, $rate, $amount, $rateAmount){
-        $collector = (new BuildAllowance())->toFactory([[
+        $allowances = [[
             'hide' => false,
             'name' => $name, 
             'type' => $type, 
             'rate' => $rate, 
             'amount' => $amount, 
             'rateAmount' => $rateAmount
-        ]]);
+        ]];
+        $collector = (new BuildAllowance())->toFactory($allowances);
 
         $this->allowance->create($collector->first());
 

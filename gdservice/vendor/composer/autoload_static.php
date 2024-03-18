@@ -336,6 +336,7 @@ class ComposerStaticInitc02910e64e28811ca35985ce949d1102
         'src\\module\\bank\\logic\\DeleteBankLink' => __DIR__ . '/../..' . '/src/module/bank/logic/DeleteBankLink.php',
         'src\\module\\bank\\logic\\EditBank' => __DIR__ . '/../..' . '/src/module/bank/logic/EditBank.php',
         'src\\module\\bank\\logic\\EditBankLink' => __DIR__ . '/../..' . '/src/module/bank/logic/EditBankLink.php',
+        'src\\module\\bank\\logic\\FetchBank' => __DIR__ . '/../..' . '/src/module/bank/logic/FetchBank.php',
         'src\\module\\bank\\logic\\FetchBankLink' => __DIR__ . '/../..' . '/src/module/bank/logic/FetchBankLink.php',
         'src\\module\\bank\\logic\\ListBankByUser' => __DIR__ . '/../..' . '/src/module/bank/logic/ListBankByUser.php',
         'src\\module\\bank\\logic\\ListBanks' => __DIR__ . '/../..' . '/src/module/bank/logic/ListBanks.php',

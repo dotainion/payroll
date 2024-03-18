@@ -5,7 +5,6 @@ import { createContext } from "react";
 import { api } from "../request/Api";
 import { token } from "../utils/Token";
 import { StartupPage } from "../other/StartupPage";
-import { FaDoorClosed } from "react-icons/fa";
 import { toast } from "../utils/Toast";
 import { NotAuthenticated } from "../other/NotAuthenticated";
 import { ChangeCredential } from '../utils/ChangeCredential';
@@ -20,10 +19,15 @@ export const AuthProvider = ({children}) =>{
     const [business, setBusiness] = useState(true);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const timeoutRef = useRef();
     const authStateChangeRef = useRef([]);
+
+    const clearAuthentication = () =>{
+        setUser(null);
+        setIsAuthenticated(false);
+    }
 
     const signin = useCallback((email, password) =>{
         api.auth.signin(email, password).then((response)=>{
@@ -42,8 +46,7 @@ export const AuthProvider = ({children}) =>{
 
     const signout = useCallback(() =>{
         api.auth.logout().then(()=>{
-            setUser(null);
-            setIsAuthenticated(false);
+            clearAuthentication();
         }).catch((error)=>{
             toast.error('Authentication', error);
         });
@@ -108,7 +111,8 @@ export const AuthProvider = ({children}) =>{
         changePassord,
         updateBusiness,
         onAuthStateChange,
-        errorMessage
+        errorMessage,
+        clearAuthentication
     }
 
     return(

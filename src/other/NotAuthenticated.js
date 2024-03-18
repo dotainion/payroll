@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { routes } from "../router/routes";
 
 export const NotAuthenticated = memo(() =>{
-    const { onAuthStateChange } = useAuth();
+    const { onAuthStateChange, clearAuthentication } = useAuth();
 
     const location = useLocation();
 
@@ -18,12 +18,18 @@ export const NotAuthenticated = memo(() =>{
         $(warningRef.current).hide('fast');
     });
 
+    const onBeforeForgetPasswordNavigate = () =>{
+        $('[data-re-authenticated]').hide('fast');
+        $(loginRef.current).hide();
+        $(warningRef.current).show();
+        clearAuthentication();
+    }
+
     useEffect(()=>{
         const unSubscribe = onAuthStateChange(() =>{
             $('[data-re-authenticated]').hide('fast');
             $(loginRef.current).hide('fast');
             $(warningRef.current).show('fast');
-            if(location.pathname.includes(routes.signin())) return;
             window.location.reload();
         }, (error) =>{
             
@@ -38,7 +44,7 @@ export const NotAuthenticated = memo(() =>{
                 <button onClick={onShowLogin} className="btn btn-sm btn-outline-primary px-3 py-1">Login</button>
             </div>
             <div ref={loginRef} style={{display: 'none'}}>
-                <Signin />
+                <Signin onBeforeForgetPasswordNavigate={onBeforeForgetPasswordNavigate} />
             </div>
         </div>
     )

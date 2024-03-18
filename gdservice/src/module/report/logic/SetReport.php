@@ -87,7 +87,7 @@ class SetReport{
 
         $totalAllowance = $totalAllowance + $reportOVertime->totalOvertime();
 
-        $this->biMonthly->set($user, $periodFrom, $periodTo, $totalAllowance)->calculate();
+        $this->biMonthly->set($user, $periodFrom, $periodTo)->calculate();
 
         $salary = 0;
         if($reportSickLeaves->hasSickLeave()){
@@ -101,7 +101,7 @@ class SetReport{
         }
 
         //add allowance before tax deduction is subtracted if any.
-        $total = $salary + $this->biMonthly->biMonthlyAllowance();
+        $total = $salary + $totalAllowance;
 
         $this->taxReport->initializeTaxDeduction($this->stopExecute(), $user, $reportId, $total, $notified);
         $this->taxReport->assertTaxDeduction();

@@ -131,8 +131,8 @@ export const ViewReports = () =>{
                                 </td>
                                 <td>{new Date(rept?.attributes?.date).toDateString()}</td>
                                 <td>{rept?.attributes?.user?.attributes?.name}</td>
-                                <td><span className="fw-bold">$</span> {rept?.attributes?.totalSalary || 0}</td>
-                                <td><span className="fw-bold">$</span> {rept?.attributes?.netSalary || 0}</td>
+                                <td><span className="fw-bold">$</span> {parseFloat(rept?.attributes?.totalSalary || 0).toFixed(2)}</td>
+                                <td><span className="fw-bold">$</span> {parseFloat(rept?.attributes?.netSalary || 0).toFixed(2)}</td>
                                 <td><ReportExpandableColumn items={rept?.attributes?.allAllowances} value={parseFloat(rept?.attributes?.totalAllowance || 0).toFixed(2)} collapse={collapse} /></td>
                                 <td><ReportExpandableColumn items={rept?.attributes?.allDeductions} value={parseFloat(rept?.attributes?.totalDeduction || 0).toFixed(2)} collapse={collapse} /></td>
                                 <td><TaxWithheld deductions={rept?.attributes?.allDeductions} collapse={collapse} /></td>
@@ -165,6 +165,6 @@ const TaxWithheld = memo(({deductions, collapse}) =>{
         setTaxes(taxDeductions);
     }, []);
     return(
-        <ReportExpandableColumn items={taxes} value={total} collapse={collapse} />
+        <ReportExpandableColumn items={taxes} value={parseFloat(total).toFixed(2)} collapse={collapse} />
     )
 });

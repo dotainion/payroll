@@ -8,9 +8,12 @@ import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
 import { CostTypeAndRateHandler } from "../utils/CostTypeAndRateHandler";
 import { AllowanceDeductionReadOnly } from "../components/AllowanceDeductionReadOnly";
+import { useDocument } from "../contents/DocumentProvider";
 
 const typeHandler = new CostTypeAndRateHandler();
 export const Deductions = () =>{
+    const { costTypes } = useDocument();
+
     const [deductions, setDeductions] = useState([]);
 
     const scrollRef = useRef();
@@ -18,10 +21,20 @@ export const Deductions = () =>{
     const buttonRef = useRef();
     const inputContainerRef = useRef();
 
+    const getTypeFqn = (typeValue) =>{
+        let fqo = null;
+        [...Object.keys(costTypes || {})].find((type)=>{
+            if(costTypes[type].value === typeValue) fqo = costTypes[type];
+        });
+        return fqo?.name || null;
+    }
+
     const onSave = () =>{
         const data = payload.addon.build(inputContainerRef.current)[0];
         api.deduction.create(data).then((response)=>{
-            setDeductions((deduct)=>[response.data.data[0], ...deduct]);
+            let newDeduction = response.data.data[0];
+            newDeduction.attributes.type = getTypeFqn(newDeduction.attributes.type);
+            setDeductions((deduct)=>[...deduct, newDeduction]);
             const addOn = $(inputContainerRef.current).find('[data-addon]');
             addOn.find('input').val('');
             addOn.find('select').each((i, child)=>{
@@ -51,12 +64,14 @@ export const Deductions = () =>{
         const data = payload.addon.build(parent)[0];
         api.allowance.edit(data).then((response)=>{
             onCloseAllEdit();
-            parent.find('[data-read-only]').each((i, child)=>{
-                $(child).find('[data-name]').text(data.name);
-                $(child).find('[data-type]').text(typeHandler.costValueToDisplay(data.type));
-                $(child).find('[data-amount]').text(data.amount);
-                $(child).find('[data-rate]').text(data.rate);
-                $(child).find('[data-rate-amount]').text(data.rateAmount);
+            const newDeduction = response.data.data[0];
+            setDeductions((existingDeductions)=>{
+                let modifyDeductions = [];
+                existingDeductions.forEach((oldDeduction)=>{
+                    if(oldDeduction.id === newDeduction.id) modifyDeductions.push(newDeduction);
+                    else modifyDeductions.push(oldDeduction);
+                });
+                return modifyDeductions;
             });
             toast.success('Deduction', 'Edited');
         }).catch((error)=>{
