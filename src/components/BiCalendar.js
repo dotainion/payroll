@@ -3,7 +3,7 @@ import Litepicker from "litepicker";
 import $ from 'jquery';
 import { DateHelper } from "../utils/DateHelper";
 
-export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff, fireOnLoad}) =>{
+export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff, fireOnLoad, onSetup, nameFrom, nameTo}) =>{
     const containerRef = useRef();
     const triggerRef = useRef();
     const overlayRef = useRef();
@@ -105,6 +105,7 @@ export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff, fireOnLo
             numberOfMonths: 1,
             singleMode: false,
             inlineMode: true,
+            resetButton: false,
             setup: (picker) => {
                 picker.on('selected', (date1, date2) => {
                     const startDate = new DateHelper(date1.dateInstance);
@@ -115,6 +116,8 @@ export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff, fireOnLo
                     $(toRef.current).trigger('change');
                     onSelect?.(date1, date2);
                 });
+                //clearSelection
+                onSetup?.(picker);
             }
         });
 
@@ -167,11 +170,11 @@ export const BiCalendar = ({onSelect, period, inlineMode, biMonthlyOff, fireOnLo
             <div className="d-flex align-items-center pointer" data-report-period="">
                 <div className="input-group w-100 pointer">
                     <span className="input-group-text">From</span>
-                    <input ref={fromRef} className="form-control shadow-none pointer" name="from" type="date" readOnly />
+                    <input ref={fromRef} className="form-control shadow-none pointer" name={nameFrom || 'from'} type="date" readOnly />
                 </div>
                 <div className="input-group w-100 ms-3 pointer">
                     <span className="input-group-text">To</span>
-                    <input ref={toRef} className="form-control shadow-none pointer" name="to" type="date" readOnly />
+                    <input ref={toRef} className="form-control shadow-none pointer" name={nameTo || 'to'} type="date" readOnly />
                 </div>
             </div>
         </div>

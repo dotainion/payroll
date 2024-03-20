@@ -23,6 +23,7 @@ class EditReportService extends Service{
         $noPayLeaveAllowances,
         $noPayLeaveDeductions,
         $period,
+        $prorate,
         $notified,
         $approved = true
     ){
@@ -38,6 +39,7 @@ class EditReportService extends Service{
             $noPayLeaveAllowances,
             $noPayLeaveDeductions,
             $period,
+            $prorate,
             $notified,
             $approved
         );

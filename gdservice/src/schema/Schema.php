@@ -334,6 +334,26 @@ class Schema{
         return $this->sql->execute();
     }
 
+    public function prorateSettings(){
+        $this->sql->create('prorateSettings')
+            ->column('id')->bindary()
+            ->column('biMonthly')->bool()
+            ->column('off')->bool();
+        return $this->sql->execute();
+    }
+
+    public function prorate(){
+        $this->sql->create('prorate')
+            ->column('id')->bindary()
+            ->column('reportId')->bindary()
+            ->column('userId')->bindary()
+            ->column('date')->timestamp()
+            ->column('hide')->bool()
+            ->column('from')->timestamp()
+            ->column('to')->timestamp();
+        return $this->sql->execute();
+    }
+
     public function run(){
         foreach(get_class_methods($this) as $method){
             if($method === '__construct' || $method === 'run') continue;

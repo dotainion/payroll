@@ -26,6 +26,7 @@ class GenerateBulkReportByUserIdsService extends Service{
                 [],
                 [],
                 $period,
+                [],
                 [['notify' => true]],
                 false
             );

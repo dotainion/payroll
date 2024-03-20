@@ -10,4 +10,12 @@ export class Settings{
     async setSickLeaveSettings(data){
         return await this.api.get('/set/sickleave/settings', data);
     }
+
+    async fetchProrateSettings(){
+        return await this.api.get('/fetch/prorate/settings', null);
+    }
+
+    async setProrateSettings(data){
+        return await this.api.get('/set/prorate/settings', data);
+    }
 }

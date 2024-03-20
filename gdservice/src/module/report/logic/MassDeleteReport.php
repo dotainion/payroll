@@ -3,6 +3,9 @@ namespace src\module\report\logic;
 
 use src\infrastructure\Collector;
 use src\infrastructure\Id;
+use src\module\prorate\logic\DeleteProrate;
+use src\module\prorate\logic\ListProrate;
+use src\module\prorate\objects\Prorate;
 
 class MassDeleteReport{
     protected ListReportAllowances $listAllowance;
@@ -14,6 +17,7 @@ class MassDeleteReport{
     protected ListNoPayLeaveDeduction $listNoPayLeaveDeduction;
     protected ListReportOvertime $listOvertime;
     protected FetchTaxDeductionReport $listTaxDedution;
+    protected ListProrate $listProrate;
 
     public function __construct(){
         $this->listAllowance = new ListReportAllowances();
@@ -25,6 +29,7 @@ class MassDeleteReport{
         $this->listNoPayLeaveDeduction = new ListNoPayLeaveDeduction();
         $this->listOvertime = new ListReportOvertime();
         $this->listTaxDedution = new FetchTaxDeductionReport();
+        $this->listProrate = new ListProrate();
     }
 
     public function massDeleteIfNotIncluded(
@@ -37,7 +42,8 @@ class MassDeleteReport{
         Collector $reportNoPayLeaveAllowances,
         Collector $reportNoPayLeaveDeductions,
         Collector $reportOvertime,
-        Collector $taxDeduction
+        Collector $taxDeduction,
+        Collector $prorate
     ):void{
         $allowanceCollector = $this->listAllowance->allowancesByReport($reportId);
         $deductionCollector = $this->listDeduction->deductionsByReport($reportId);
@@ -48,69 +54,67 @@ class MassDeleteReport{
         $noPayLeaveDeductionCollector = $this->listNoPayLeaveDeduction->noPayLeaves($reportId);
         $overtimeCollector = $this->listOvertime->overtimeByReport($reportId);
         $taxDeductionCollector = $this->listTaxDedution->taxDeductionByReportId($reportId);
+        $prorateCollector = $this->listProrate->byProductId($reportId);
 
-        $allowanceArray = $this->toIdArray($rAllowance);
+        $allowanceArray = $rAllowance->toIdArray();
         foreach($allowanceCollector->list() as $item){
             if(!in_array($item->id()->toString(), $allowanceArray)){
                 (new DeleteReportAllowance())->delete($item->id());
             }
         }
-        $deductionArray = $this->toIdArray($rDeduction);
+        $deductionArray = $rDeduction->toIdArray();
         foreach($deductionCollector->list() as $item){
             if(!in_array($item->id()->toString(), $deductionArray)){
                 (new DeleteReportDeduction())->delete($item->id());
             }
         }
-        $loanAllowanceArray = $this->toIdArray($reportLoanAllowance);
+        $loanAllowanceArray = $reportLoanAllowance->toIdArray();
         foreach($loanAllowanceCollector->list() as $item){
             if(!in_array($item->id()->toString(), $loanAllowanceArray)){
                 (new DeleteReportLoanAllowance())->delete($item->id());
             }
         }
-        $loanDllowanceArray = $this->toIdArray($reportLoanDeduction);
+        $loanDllowanceArray = $reportLoanDeduction->toIdArray();
         foreach($loanDeductionCollector->list() as $item){
             if(!in_array($item->id()->toString(), $loanDllowanceArray)){
                 (new DeleteReportLoanDeduction())->delete($item->id());
             }
         }
-        $sickArray = $this->toIdArray($reportSickLeaves);
+        $sickArray = $reportSickLeaves->toIdArray();
         foreach($sickCollector->list() as $item){
             if(!in_array($item->id()->toString(), $sickArray)){
                 (new DeleteSickLeaveReport())->delete($item->id());
             }
         }
-        $noPayLeaveAllowanceArray = $this->toIdArray($reportNoPayLeaveAllowances);
+        $noPayLeaveAllowanceArray = $reportNoPayLeaveAllowances->toIdArray();
         foreach($noPayLeaveAllowanceCollector->list() as $item){
             if(!in_array($item->id()->toString(), $noPayLeaveAllowanceArray)){
                 (new DeleteNoPayLeaveAllowanceReport())->delete($item->id());
             }
         }
-        $noPayLeaveDeductionArray = $this->toIdArray($reportNoPayLeaveDeductions);
+        $noPayLeaveDeductionArray = $reportNoPayLeaveDeductions->toIdArray();
         foreach($noPayLeaveDeductionCollector->list() as $item){
             if(!in_array($item->id()->toString(), $noPayLeaveDeductionArray)){
                 (new DeleteNoPayLeaveDeductionReport())->delete($item->id());
             }
         }
-        $overtimeArray = $this->toIdArray($reportOvertime);
+        $overtimeArray = $reportOvertime->toIdArray();
         foreach($overtimeCollector->list() as $item){
             if(!in_array($item->id()->toString(), $overtimeArray)){
                 (new DeleteReportOvertime())->delete($item->id());
             }
         }
-        $taxDeductionArray = $this->toIdArray($taxDeduction);
+        $taxDeductionArray = $taxDeduction->toIdArray();
         foreach($taxDeductionCollector->list() as $item){
             if(!in_array($item->id()->toString(), $taxDeductionArray)){
                 (new DeleteReportTaxDeduction())->delete($item->id());
             }
         }
-        
-    }
-
-    public function toIdArray(Collector $collector):array{
-        $idArray = [];
-        foreach($collector->list() as $item){
-            $idArray[] = $item->id()->toString();
+        $prorateArray = $prorate->toIdArray();
+        foreach($prorateCollector->list() as $item){
+            if(!in_array($item->id()->toString(), $prorateArray)){
+                (new DeleteProrate())->delete($item->id());
+            }
         }
-        return $idArray;
     }
 }

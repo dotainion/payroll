@@ -23,6 +23,7 @@ class CalculateReportService extends Service{
         $noPayLeaveAllowances,
         $noPayLeaveDeductions,
         $period,
+        $prorate,
         $notified,
         $approved = true
     ){
@@ -41,6 +42,7 @@ class CalculateReportService extends Service{
             $noPayLeaveAllowances,
             $noPayLeaveDeductions,
             $period,
+            $prorate,
             $notified,
             $approved
         );

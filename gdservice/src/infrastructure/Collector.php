@@ -7,18 +7,21 @@ use src\infrastructure\exeptions\NoResultsException;
 class Collector{
     protected $collected = [];
 
-    public function add($item):void{
+    public function add($item):self{
         $this->collected[] = $item;
+        return $this;
     }
 
-    public function prepend($item):void{
+    public function prepend($item):self{
         $this->collected = [$item, ...$this->collected];
+        return $this;
     }
 
-    public function mergeCollection(Collector $collector):void{
+    public function mergeCollection(Collector $collector):self{
         foreach($collector->list() as $item){
             $this->add($item);
         }
+        return $this;
     }
     
     public function list():array{

@@ -75,7 +75,7 @@ export const SickLeaves = () =>{
     }, [days, availableAllowances, availableDeductions]);
 
     useEffect(()=>{
-        $(sickleavePageRef.current).show('slow');
+        $(sickleavePageRef.current).show('fast');
         api.allowance.list().then((response)=>{
             setAllowances(response.data.data);
         }).catch((error)=>{

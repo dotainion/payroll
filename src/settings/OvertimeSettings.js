@@ -181,7 +181,7 @@ export const OvertimeSettings = ({settings}) =>{
     }, [settings]);
 
     useEffect(()=>{
-        $(overtimePageRef.current).show('slow');
+        $(overtimePageRef.current).show('fast');
         $(window).on('click', (e)=>{
             $(targetInputRef.current).blur();
             targetInputRef.current = null;

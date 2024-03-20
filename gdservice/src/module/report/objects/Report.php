@@ -8,6 +8,7 @@ use src\infrastructure\Id;
 use src\infrastructure\IId;
 use src\infrastructure\IObjects;
 use src\infrastructure\NumberHelper;
+use src\module\prorate\objects\Prorate;
 use src\module\user\objects\User;
 
 class Report implements IObjects{
@@ -26,6 +27,7 @@ class Report implements IObjects{
     protected DateHelper $periodFrom;
     protected DateHelper $periodTo;
     protected bool $approved;
+    protected ?Prorate $prorate;
 
     public function __construct(){
         $this->id = new Id();
@@ -99,6 +101,10 @@ class Report implements IObjects{
 
     public function allDeductions():Collector{
         return $this->allDeductions;
+    }
+
+    public function prorate():?Prorate{
+        return $this->prorate;
     }
 
     public function setId(string $id):void{
@@ -175,5 +181,9 @@ class Report implements IObjects{
         
     public function setApproved(bool $approved):void{
         $this->approved = $approved;
+    }
+
+    public function setProrate(Prorate $prorate):void{
+        $this->prorate = $prorate;
     }
 }

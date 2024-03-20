@@ -41,6 +41,7 @@ class Settings{
     tax = () => this._nested + 'tax';
     sickLeave = () => this._nested + 'sickleave';
     overtime = () => this._nested + 'overtime';
+    prorate = () => this._nested + 'prorate';
     emailNotificationSetup = () => this._nested + 'email/notificatin/setup';
     nested = () => {
         this._nested = this.default().replace('*', '');

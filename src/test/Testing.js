@@ -19,6 +19,7 @@ import { PayrollAdjustment } from "../components/PayrollAdjustment";
 import { ViewTaxReports } from "../pages/ViewTaxReports";
 import { ReportApprovalConformation } from "../pages/ReportApprovalConformation";
 import { NotAuthenticated } from "../other/NotAuthenticated";
+import { Checkbox } from "../widgets/Checkbox";
 
 //https://www.npmjs.com/package/react-minimal-pie-chart
 export const Testing = () =>{
@@ -71,7 +72,30 @@ export const Testing = () =>{
 
 
     return (
-        <NotAuthenticated />
+        <div className="page profile">
+            <div>Prorate salary</div>
+            <div className="text-muted my-3">By default base salary will be applied to a payroll report in full</div>
+            <ul className="list-group">
+                <li className="small list-group-item bg-white">
+                    <Checkbox onTitle={'On'} offTitle={'Off'} />
+                    <div className="fw-bold mt-3 py-2 border-top">Split base salary / Bi-Monthly</div>
+                    <div className="text-muted">
+                        <div>Split payroll is the process of paying employees on two intervals, it divides their pay salary between in two.</div>
+                        <div>Eg: Jane base salary is $2000, each payroll run will have a record salary of $1000.</div>
+                        <div>This is recomended for companies that is currently have a monthly payroll system and want to switch to a bi-monthly payroll system and do not want to change employee base salary.</div>
+                    </div>
+                    <div className="bg-light p-2 my-2">
+                        <div>NOTE: This dose not include the fallowing:</div>
+                        <div>&#x2022; Allowances</div>
+                        <div>&#x2022; Deductions</div>
+                        <div>&#x2022; Pay leaves</div>
+                        <div>&#x2022; No pay leaves</div>
+                        <div>&#x2022; Sick leave</div>
+                        <div>&#x2022; Etc</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     )
 
     return(

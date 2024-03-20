@@ -7,8 +7,9 @@ import { SickLeaveGenerator } from "../widgets/SickLeaveGenerator";
 import { BiCalendar } from "./BiCalendar";
 import { TaxDeductionReadOnly } from "../widgets/TaxDeductionReadOnly";
 import { TaxAlertContainer } from "./TaxAlertContainer";
+import { ReportProrate } from "../widgets/ReportProrate";
 
-export const Report = ({period, title, userId, reportId, onUser, propUser, netSalary, existingTaxDeductions, existingAllowances, existingDeductions, sickLeaves, children}) =>{    
+export const Report = ({period, title, userId, reportId, onUser, propUser, netSalary, existingTaxDeductions, existingAllowances, existingDeductions, sickLeaves, existingProrate, children}) =>{    
     const [user, setUser] = useState();
     const [banks, setBanks] = useState([]);
     const [otSettings, setOtSettings] = useState([]);
@@ -88,6 +89,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                         <label>Period <span className="text-danger">*</span></label>
                         <BiCalendar period={period} />
                     </div>
+                    <ReportProrate existingProrate={existingProrate} />
                 </div>
                 <div className="px-3 bg-lightergray py-3">
                     <div className="fw-bold">Allowances</div>

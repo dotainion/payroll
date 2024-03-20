@@ -1,16 +1,16 @@
 <?php
 namespace src\module\report\logic;
 
-use src\database\Repository;
-use src\database\Transaction;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
+use src\infrastructure\Period;
+use src\module\prorate\logic\SetProrate;
+use src\module\prorate\objects\Prorate;
 use src\module\report\factory\ReportFactory;
 use src\module\report\objects\Report;
 use src\module\report\repository\ReportRepository;
 use src\module\settings\logic\FetchSickLeave;
 use src\module\user\objects\User;
-use Throwable;
 
 class SetReport{
     protected bool $stopExecution = false;
@@ -30,6 +30,7 @@ class SetReport{
     protected TaxReportToFactory $taxReport;
     protected SetReportTaxDeduction $setTaxDeduction;
     protected BiMonthlySalary $biMonthly;
+    protected SetProrate $setProrate;
 
     public function __construct(){
         $this->repo = new ReportRepository();
@@ -48,6 +49,7 @@ class SetReport{
         $this->taxReport = new TaxReportToFactory();
         $this->setTaxDeduction = new SetReportTaxDeduction();
         $this->biMonthly = new BiMonthlySalary();
+        $this->setProrate = new SetProrate();
     }
 
     public function stopExecute():bool{
@@ -60,8 +62,7 @@ class SetReport{
 
     public function set(
         User $user, 
-        DateHelper $periodFrom,
-        DateHelper $periodTo,
+        Period $period,
         CalculateReportAllowance $rAllowance, 
         CalculateReportDeduction $rDeduction, 
         CalculateReportLoanAllowance $reportLoanAllowance,
@@ -73,6 +74,7 @@ class SetReport{
         HandleAllowanceDeductionIdLinkToFactory $allowanceOptionLink,
         HandleAllowanceDeductionIdLinkToFactory $deductionOptionLink,
         Id $reportId,
+        ?Prorate $proratePeriod,
         array $notified,
         $approved
     ):Report{
@@ -87,17 +89,17 @@ class SetReport{
 
         $totalAllowance = $totalAllowance + $reportOVertime->totalOvertime();
 
-        $this->biMonthly->set($user, $periodFrom, $periodTo)->calculate();
+        $this->biMonthly->set($user, $proratePeriod)->calculate();
 
         $salary = 0;
         if($reportSickLeaves->hasSickLeave()){
             $salary = $reportSickLeaves->totalSickLeave();
             $settings = $this->settings->settings();
             if($settings->includeSalary()){
-                $salary = $salary + $this->biMonthly->biMonthlySalary();
+                $salary = $salary + $this->biMonthly->net();
             }
         }else{
-            $salary = $this->biMonthly->biMonthlySalary();
+            $salary = $this->biMonthly->net();
         }
 
         //add allowance before tax deduction is subtracted if any.
@@ -122,10 +124,10 @@ class SetReport{
             'date' => (new DateHelper())->new()->toString(),
             'allowance' => $totalAllowance,
             'deduction' => $totalDeduction,
-            'salary' => $this->biMonthly->biMonthlySalary(),
+            'salary' => $this->biMonthly->net(),
             'hide' => $user->hide(),
-            'from' => $periodFrom->toString(),
-            'to' => $periodTo->toString(),
+            'from' => $period->from()->toString(),
+            'to' => $period->to()->toString(),
             'net' => $total,
             'approved' => $approved
         ]);
@@ -153,6 +155,8 @@ class SetReport{
                     $this->setTaxDeduction->edit($this->taxReport->taxDeductions());
                 }
 
+                $this->setProrate->set($this->biMonthly->prorate());
+
                 $this->repo->edit($report);
 
                 $this->massDelete->massDeleteIfNotIncluded(
@@ -165,7 +169,8 @@ class SetReport{
                     $reportNoPayLeaveAllowances->noPayLeaveAllowances(),
                     $reportNoPayLeaveDeductions->noPayLeaveDeductions(),
                     $reportOVertime->reportOvertimes(),
-                    $this->taxReport->taxDeductions()
+                    $this->taxReport->taxDeductions(),
+                    $this->biMonthly->prorateAsCollection()
                 );
             }else{
                 $this->setAllowance->massCreate($rAllowance->reportAllowances());
@@ -188,6 +193,8 @@ class SetReport{
                     $this->setTaxDeduction->create($this->taxReport->taxDeductions());
                 }
 
+                $this->setProrate->set($this->biMonthly->prorate());
+
                 $this->repo->create($report);
             }
         }
@@ -204,7 +211,8 @@ class SetReport{
             $reportNoPayLeaveDeductions,
             $reportSickLeaves,
             $reportOVertime,
-            $this->taxReport
+            $this->taxReport,
+            $this->biMonthly
         );
         
         return $report;
@@ -220,7 +228,8 @@ class SetReport{
         $reportNoPayLeaveDeductions,
         $reportSickLeaves,
         $reportOVertime,
-        $taxReport
+        $taxReport,
+        $prorate
     ):void{
         foreach($rAllowance->reportAllowances()->list() as $allowance){
             $report->setToAllAllowancesCollection($allowance);
@@ -248,6 +257,9 @@ class SetReport{
         }
         foreach($taxReport->taxDeductions()->list() as $tax){
             $report->setToAllDeductionsCollection($tax);
+        }
+        if($prorate->prorateAsCollection()->hasItem()){
+            $report->setProrate($prorate->prorate());
         }
     }
 }

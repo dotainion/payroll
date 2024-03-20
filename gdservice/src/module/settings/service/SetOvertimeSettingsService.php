@@ -6,7 +6,6 @@ use src\infrastructure\Id;
 use src\infrastructure\Service;
 use src\module\settings\factory\OvertimeFactory;
 use src\module\settings\logic\SetOvertime;
-use src\module\settings\objects\Operan;
 
 class SetOvertimeSettingsService extends Service{
     protected OvertimeFactory $factory;

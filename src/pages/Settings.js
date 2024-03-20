@@ -4,6 +4,7 @@ import { TaxSetupContainer } from "../settings/TaxSetupContainer";
 import { routes } from "../router/routes";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { OvertimeContainer } from "../settings/OvertimeContainer";
+import { SalaryProrate } from "../settings/SalaryProrate";
 
 export const Settings = () =>{
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ export const Settings = () =>{
         {title: 'Tax Setting', route: routes.settings().tax()},
         {title: 'Sick Leave', route: routes.settings().sickLeave()},
         {title: 'Overtime', route: routes.settings().overtime()},
+        {title: 'Prorate Salary', route: routes.settings().prorate()},
     ]
 
     return(
@@ -33,6 +35,7 @@ export const Settings = () =>{
                         <Route path={routes.settings().tax()} element={<TaxSetupContainer/>}/>
                         <Route path={routes.settings().sickLeave()} element={<SickLeaves/>}/>
                         <Route path={routes.settings().overtime()} element={<OvertimeContainer/>}/>
+                        <Route path={routes.settings().prorate()} element={<SalaryProrate/>}/>
                         <Route path={'*'} element={<TaxSetupContainer/>}/>
                     </Routes>
                 </div>

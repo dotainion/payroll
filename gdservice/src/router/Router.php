@@ -69,9 +69,11 @@ use src\module\report\action\SearchBulkReportByDateAction;
 use src\module\report\action\SearchReportByDateAndUserIdAction;
 use src\module\settings\action\DeleteOvertimeSettingsAction;
 use src\module\settings\action\FetchOvertimeSettingsAction;
+use src\module\settings\action\FetchProrateSettingsAction;
 use src\module\settings\action\FetchSickLeaveSettingsAction;
 use src\module\settings\action\ListOvertimeSettingsAction;
 use src\module\settings\action\SetOvertimeSettingsAction;
+use src\module\settings\action\SetProrateSettingsAction;
 use src\module\settings\action\SetSickLeaveSettingsAction;
 use src\module\tax\action\DeleteTaxSettingsAction;
 use src\module\tax\action\ListTaxSettingsAction;
@@ -339,6 +341,14 @@ class Router{
 
         $this->request->route('/set/sickleave/settings', function ($req){
             return new SetSickLeaveSettingsAction();
+        });
+
+        $this->request->route('/set/prorate/settings', function ($req){
+            return new SetProrateSettingsAction();
+        });
+
+        $this->request->route('/fetch/prorate/settings', function ($req){
+            return new FetchProrateSettingsAction();
         });
 
         $this->request->route('/list/periods', function ($req){

@@ -66,7 +66,7 @@ export const TaxSetup = ({data}) =>{
 
     useEffect(()=>{
         setRadioName(uuidv4());
-        $(taxPageRef.current).show('slow');
+        $(taxPageRef.current).show('fast');
         if(!data){ 
             idRef.current = uuidv4();
             return;

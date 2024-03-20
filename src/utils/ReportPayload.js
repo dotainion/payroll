@@ -164,10 +164,23 @@ class ReportPayload{
     period(instance){
         let json = {};
         $(instance).find('[data-report-period]').each((i, addon)=>{
-            if(!$(addon).find('[name=from]')[0].valueAsDate) json['from'] = '';
+            if(!$(addon).find('[name=from]').length) return;
+            if(!$(addon).find('[name=from]')[0]?.valueAsDate) json['from'] = '';
             else json['from'] = new DateHelper($(addon).find('[name=from]')[0].valueAsDate).toSqlString();
-            if(!$(addon).find('[name=to]')[0].valueAsDate) json['to'] = '';
+            if(!$(addon).find('[name=to]')[0]?.valueAsDate) json['to'] = '';
             else json['to'] = new DateHelper($(addon).find('[name=to]')[0].valueAsDate).toSqlString();
+        });
+        return json;
+    }
+
+    prorate(instance){
+        let json = {};
+        $(instance).find('[data-report-prorate]').each((i, addon)=>{
+            if(!$(addon).find('[name=prorateFrom]').length) return;
+            if(!$(addon).find('[name=prorateFrom]')[0]?.valueAsDate) json['from'] = '';
+            else json['from'] = new DateHelper($(addon).find('[name=prorateFrom]')[0].valueAsDate).toSqlString();
+            if(!$(addon).find('[name=prorateTo]')[0]?.valueAsDate) json['to'] = '';
+            else json['to'] = new DateHelper($(addon).find('[name=prorateTo]')[0].valueAsDate).toSqlString();
         });
         return json;
     }
@@ -190,6 +203,7 @@ class ReportPayload{
             let data = {};
             data['id'] = $(instance).find('input[name=userId]').val();
             data['period'] = this.period(instance);
+            data['prorate'] = this.prorate(instance);
             data['notified'] = this.notified(instance);
             data['overtime'] = this.overtime(instance);
             data['allowance'] = this.allowances(instance);

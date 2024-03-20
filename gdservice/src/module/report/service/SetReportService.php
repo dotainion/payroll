@@ -4,11 +4,13 @@ namespace src\module\report\service;
 use src\infrastructure\Assert;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
+use src\infrastructure\Period;
 use src\infrastructure\Service;
 use src\module\allowance\factory\AllowanceFactory;
 use src\module\allowance\logic\BuildAllowance;
 use src\module\deduction\factory\DeductionFactory;
 use src\module\deduction\logic\BuildDeduction;
+use src\module\prorate\logic\BuildProrate;
 use src\module\report\logic\CalculateReportAllowance;
 use src\module\report\logic\CalculateReportDeduction;
 use src\module\report\logic\CalculateReportLoanAllowance;
@@ -57,6 +59,7 @@ class SetReportService extends Service{
         array $noPayLeaveAllowances,
         array $noPayLeaveDeductions,
         array $period,
+        array $prorate,
         array $notified,
         bool $approved
     ){
@@ -68,8 +71,7 @@ class SetReportService extends Service{
 
         $periodFrom = new DateHelper();
         $periodTo = new DateHelper();
-        $periodFrom->set($period['from']);
-        $periodTo->set($period['to']);
+        $period = new Period($reportId, $periodFrom->set($period['from']), $periodTo->set($period['to']));
 
         $userCollector = $this->user->user((new Id())->set($id));
         $userCollector->assertHasItem('User not found.');
@@ -102,10 +104,11 @@ class SetReportService extends Service{
         $allowanceOptionLink = (new HandleAllowanceDeductionIdLinkToFactory())->toFactory($allowance);
         $deductionOptionLink = (new HandleAllowanceDeductionIdLinkToFactory())->toFactory($deduction);
 
+        $proratePeriod = (new BuildProrate())->toFactory($prorate, $user->id(), $reportId);
+
         $report = $this->report->set(
             $user, 
-            $periodFrom,
-            $periodTo,
+            $$period,
             $reportAllowance, 
             $reportDeduction, 
             $reportLoanAllowance,
@@ -117,6 +120,7 @@ class SetReportService extends Service{
             $allowanceOptionLink,
             $deductionOptionLink,
             $reportId,
+            $proratePeriod,
             $notified,
             $approved
         );

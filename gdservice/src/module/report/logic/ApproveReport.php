@@ -11,6 +11,9 @@ class ApproveReport{
     }
 
     public function approve(array $reportId):void{
+        if(empty($reportId)){
+            return;
+        }
         $this->repo->approveReport($reportId);
     }
 }

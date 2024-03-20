@@ -692,6 +692,17 @@ input[type=date]::-webkit-calendar-picker-indicator {
   min-height: 200px;
 }
 
+.report-prorate-overlay{
+  width: 400px;
+  display: none;
+  z-index: 99999999999999999999;
+}
+
+.report-prorate-overlay .d-inline-block{
+  border: none !important;
+  box-shadow: none !important;
+}
+
 @media screen and (max-width:1100px){
   .page{
     width: 100%;

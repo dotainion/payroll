@@ -26,6 +26,7 @@ class EditReportAction extends Request implements IAction{
             $this->get('noPayLeaveAllowances'),
             $this->get('noPayLeaveDeductions'),
             $this->get('period'),
+            $this->get('prorate'),
             $this->get('notified')
         );
     }

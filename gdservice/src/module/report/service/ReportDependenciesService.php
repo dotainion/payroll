@@ -2,6 +2,7 @@
 namespace src\module\report\service;
 
 use src\infrastructure\Collector;
+use src\module\prorate\logic\FetchProrate;
 use src\module\report\logic\FetchTaxDeductionReport;
 use src\module\report\logic\ListLoanAllowanceByUserReport;
 use src\module\report\logic\ListLoanDeductionByUserReport;
@@ -26,6 +27,7 @@ class ReportDependenciesService{
     protected FetchTaxDeductionReport $tax;
     protected YTDCalculator $ytd;
     protected FetchUser $user;
+    protected FetchProrate $prorate;
 
     public function __construct(){
         $this->allowance = new ListReportAllowances();
@@ -39,6 +41,7 @@ class ReportDependenciesService{
         $this->tax = new FetchTaxDeductionReport();
         $this->ytd = new YTDCalculator();
         $this->user = new FetchUser();
+        $this->prorate = new FetchProrate();
     }
     
     public function process(Collector $collector){
@@ -80,6 +83,9 @@ class ReportDependenciesService{
             $taxDeductionCollector = $this->tax->taxDeductionByReportId($report->id());
             $this->ytd->calculateTaxDeductionYTD($taxDeductionCollector, $report->userId());
             $report->setToAllDeductionsCollection($taxDeductionCollector);
+
+            $prorateCollector = $this->prorate->byReportId($report->id());
+            $prorateCollector->hasItem() && $report->setProrate($prorateCollector->first());
 
             $user = $this->user->user($report->userId());
             $report->setUser($user->first());
