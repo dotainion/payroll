@@ -1,6 +1,8 @@
 <?php
 namespace src\module\todo\objects;
 
+use InvalidArgumentException;
+use src\infrastructure\Assert;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\infrastructure\IId;
@@ -103,10 +105,16 @@ class Todo implements IObjects{
     }
 
     public function setTitle(string $title):void{
+        if(strlen($title) > 100){
+            throw new InvalidArgumentException('title cannot exceed 100 charactors.');
+        }
         $this->title = $title;
     }
 
     public function setDescription(string $description):void{
+        if(strlen($description) > 255){
+            throw new InvalidArgumentException('title cannot exceed 255 charactors.');
+        }
         $this->description = $description;
     }
 
