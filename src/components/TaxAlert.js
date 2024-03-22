@@ -74,11 +74,6 @@ export const TaxAlert = ({existingTaxDeductions, netSalary, meta}) =>{
         idRef.current.value = meta.id;
     }, [meta]);
 
-    useEffect(()=>{
-        if(!message) return;
-        toast.notify('Tax deduction', message);
-    }, [message]);
-
     return(
         <div data-tax-alert-salery={netSalary} data-tax-alert="">
             <input ref={taxRef} name="notify" hidden/>

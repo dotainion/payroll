@@ -66,10 +66,16 @@ class Todo implements IObjects{
     }
 
     public function isOverdue():bool{
+        if($this->isDone()){
+            return false;
+        }
         return (new DateHelper())->now()->expired($this->due());
     }
 
     public function isUpComming():bool{
+        if($this->isDone()){
+            return false;
+        }
         return !$this->isOverdue();
     }
 

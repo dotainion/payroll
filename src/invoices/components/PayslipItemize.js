@@ -14,7 +14,7 @@ export const PayslipItemize = ({reports}) =>{
         itemize?.list?.forEach((item)=>{
             total = total + parseFloat(item?.attributes?.amount);
         });
-        return total;
+        return total.toFixed(2);
     }
 
     const toTotalYTD = (itemize) =>{
@@ -22,7 +22,7 @@ export const PayslipItemize = ({reports}) =>{
         itemize?.list?.forEach((item)=>{
             total = total + parseFloat(item?.attributes?.ytd);
         });
-        return total;
+        return total.toFixed(2);
     }
 
     useEffect(()=>{
@@ -90,8 +90,8 @@ export const PayslipItemize = ({reports}) =>{
                                     <td>{item?.attributes?.name}</td>
                                     <td>{item?.attributes?.number}</td>
                                     <td>{item?.attributes?.rate}</td>
-                                    <td>{item?.attributes?.net}</td>
-                                    <td>{item?.attributes?.ytd}</td>
+                                    <td>{parseFloat(item?.attributes?.net).toFixed(2)}</td>
+                                    <td>{parseFloat(item?.attributes?.ytd).toFixed(2)}</td>
                                 </tr>
                             ))}
                             <tr className="border-0">

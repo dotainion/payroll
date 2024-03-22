@@ -27,7 +27,7 @@ class Report implements IObjects{
     protected DateHelper $periodFrom;
     protected DateHelper $periodTo;
     protected bool $approved;
-    protected ?Prorate $prorate;
+    protected ?Prorate $prorate = null;
 
     public function __construct(){
         $this->id = new Id();

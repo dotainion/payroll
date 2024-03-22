@@ -108,7 +108,7 @@ class SetReportService extends Service{
 
         $report = $this->report->set(
             $user, 
-            $$period,
+            $period,
             $reportAllowance, 
             $reportDeduction, 
             $reportLoanAllowance,

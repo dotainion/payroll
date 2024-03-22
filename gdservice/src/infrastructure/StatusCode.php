@@ -25,7 +25,7 @@ class StatusCode{
     protected int $INTERNAL_SERVER_ERROR = 500;
     protected int $SERVICE_UNAVAILABLE = 503;
 
-    protected bool $isProduction = true;
+    protected bool $isProduction = false;
 
     public function __construct(){
         session_start(); 

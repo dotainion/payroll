@@ -23,8 +23,8 @@ export class Todo{
         return await this.api.post('/assign/todo/to/user', {id, userId});
     }
 
-    async listByUser(userId){
-        return await this.api.post('/list/todo/by/user', {userId});
+    async listByUser(data){
+        return await this.api.post('/list/todo/by/user', data);
     }
 
     async listOverdueByUser(userId){

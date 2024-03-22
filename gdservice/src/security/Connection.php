@@ -2,6 +2,7 @@
 namespace src\security;
 
 use Exception;
+use src\database\SqlTransaction;
 
 //https://www.tutorialspoint.com/php/php_function_mysqli_begin_transaction.htm
 //https://www.php.net/manual/en/mysqli.begin-transaction.php
@@ -33,16 +34,27 @@ class Connection extends DatabseSecurity{
 
 	public function query($statement):self{
 		$this->statement = $statement;
+		if(SqlTransaction::transactionStarted() && SqlTransaction::isTransactionalQuery($this->statement)){
+			SqlTransaction::appendStatement($this->reference);
+			return $this;
+		}
 		$this->reference = mysqli_query($this->connection(), $this->statement);
 		return $this;
 	}
 
 	public function commit():void{
+		if(SqlTransaction::transactionStarted() && SqlTransaction::isTransactionalQuery($this->statement)){
+			return;
+		}
+		mysqli_stmt_execute($this->connection());
 		mysqli_commit($this->connection());
 		$this->results = mysqli_fetch_all($this->reference, MYSQLI_ASSOC);
 	}
 
 	public function close():void{
+		if(SqlTransaction::transactionStarted() && SqlTransaction::isTransactionalQuery($this->statement)){
+			return;
+		}
 		mysqli_close($this->connection());
 	}
 

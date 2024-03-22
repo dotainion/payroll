@@ -5,7 +5,6 @@ use src\infrastructure\Collector;
 use src\infrastructure\Id;
 use src\module\prorate\logic\DeleteProrate;
 use src\module\prorate\logic\ListProrate;
-use src\module\prorate\objects\Prorate;
 
 class MassDeleteReport{
     protected ListReportAllowances $listAllowance;

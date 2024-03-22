@@ -48,7 +48,7 @@ export const TodoComponent = () =>{
                 }
             </div>
             <div className="text-center pt-2">
-                <button onClick={()=>navigate(routes.workspace().todoList())} className="btn link-primary">View all notification</button>
+                <button onClick={()=>navigate(routes.workspace().nested().todoList())} className="btn link-primary">View all notification</button>
             </div>
         </div>
     )

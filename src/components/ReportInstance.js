@@ -72,7 +72,7 @@ export const ReportInstance = ({title, report,  onUser, children}) =>{
             existingAllowances={existingAllowances} 
             existingDeductions={existingDeductions}
             existingTaxDeductions={taxDeductions}
-            existingProrate={report.attributes.prorate}
+            existingProrate={report?.attributes?.prorate}
         >
             {children}
         </Report>

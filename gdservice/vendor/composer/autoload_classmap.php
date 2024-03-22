@@ -175,6 +175,7 @@ return array(
     'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     'src\\database\\Repository' => $baseDir . '/src/database/Repository.php',
+    'src\\database\\SqlTransaction' => $baseDir . '/src/database/SqlTransaction.php',
     'src\\database\\Table' => $baseDir . '/src/database/Table.php',
     'src\\infrastructure\\Assert' => $baseDir . '/src/infrastructure/Assert.php',
     'src\\infrastructure\\AssertRepository' => $baseDir . '/src/infrastructure/AssertRepository.php',

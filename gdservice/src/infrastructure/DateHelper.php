@@ -91,8 +91,8 @@ class DateHelper
         return $this->date;
     }
 
-    public function difference(DateHelper $startDate, DateHelper $endDate):string{
-        return $endDate->dateTime()->diff($startDate->dateTime())->format("%a");
+    public function difference(DateHelper $startDate, DateHelper $endDate):int{
+        return (int)$endDate->dateTime()->diff($startDate->dateTime())->format("%a");
     }
 
     public function nullable():string{

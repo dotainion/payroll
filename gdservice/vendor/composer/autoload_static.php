@@ -244,6 +244,7 @@ class ComposerStaticInitc02910e64e28811ca35985ce949d1102
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'src\\database\\Repository' => __DIR__ . '/../..' . '/src/database/Repository.php',
+        'src\\database\\SqlTransaction' => __DIR__ . '/../..' . '/src/database/SqlTransaction.php',
         'src\\database\\Table' => __DIR__ . '/../..' . '/src/database/Table.php',
         'src\\infrastructure\\Assert' => __DIR__ . '/../..' . '/src/infrastructure/Assert.php',
         'src\\infrastructure\\AssertRepository' => __DIR__ . '/../..' . '/src/infrastructure/AssertRepository.php',

@@ -14,7 +14,7 @@ class BuildProrate{
     }
 
     public function toFactory(array $prorate, Id $userId, Id $reportId):?Prorate{
-        if(!(new DateHelper())->isValid($prorate['from']) || !(new DateHelper())->isValid($prorate['to'])){
+        if(!(new DateHelper())->isValid($prorate['from']??'') || !(new DateHelper())->isValid($prorate['to']??'')){
             return null;
         }
         return $this->factory->mapResult([

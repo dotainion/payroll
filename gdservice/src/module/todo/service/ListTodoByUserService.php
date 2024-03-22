@@ -17,11 +17,26 @@ class ListTodoByUserService extends Service{
         $this->users = new ListUsers();
     }
     
-    public function process($userId){
+    public function process($userId, $value){
         Assert::validUuid($userId, 'Todo not found.');
 
         $id = new Id();
-        $collector = $this->todos->byUserId($id->set($userId));
+        $id->set($userId);
+
+        if($value === 'completed'){
+            $collector = $this->todos->completed($id);
+        }elseif($value === 'overDue'){
+            $collector = $this->todos->overdueByUserId($id);
+        }elseif($value === 'pending'){
+            $collector = $this->todos->pending($id);
+        }elseif($value === 'assignToMe'){
+            $collector = $this->todos->assignTo($id);
+        }elseif($value === 'createdByMe'){
+            $collector = $this->todos->createdBy($id);
+        }else{
+            $collector = $this->todos->createdBy($id);
+            $collector->mergeCollection($this->todos->assignTo($id));
+        }
 
         $userIdArray = [];
         foreach($collector->list() as $todo){

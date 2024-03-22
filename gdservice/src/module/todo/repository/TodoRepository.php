@@ -92,6 +92,9 @@ class TodoRepository extends Repository{
         if(isset($where['lessThen'])){
             $this->lessThan('due', $where['lessThen']);
         }
+        if(isset($where['moreThen'])){
+            $this->moreThan('due', $where['moreThen']);
+        }
         if(isset($where['assignToId'])){
             $this->where('assignToId', $this->uuid($where['assignToId']));
         }

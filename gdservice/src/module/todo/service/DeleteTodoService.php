@@ -4,7 +4,6 @@ namespace src\module\todo\service;
 use src\infrastructure\Assert;
 use src\infrastructure\Id;
 use src\infrastructure\Service;
-use src\module\todo\logic\CompleteTodo;
 use src\module\todo\logic\DeleteTodo;
 use src\module\user\logic\FetchUser;
 

@@ -15,7 +15,8 @@ class ListTodoByUserAction extends Request implements IAction{
 
     public function execute(){
         return $this->service->process(
-            $this->get('userId')
+            $this->get('userId'),
+            $this->get('value')
         );
     }
 }

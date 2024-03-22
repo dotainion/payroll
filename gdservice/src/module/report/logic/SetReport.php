@@ -1,6 +1,7 @@
 <?php
 namespace src\module\report\logic;
 
+use src\database\SqlTransaction;
 use src\infrastructure\DateHelper;
 use src\infrastructure\Id;
 use src\infrastructure\Period;
@@ -89,7 +90,7 @@ class SetReport{
 
         $totalAllowance = $totalAllowance + $reportOVertime->totalOvertime();
 
-        $this->biMonthly->set($user, $proratePeriod)->calculate();
+        $this->biMonthly->set($user, $period, $proratePeriod)->calculate();
 
         $salary = 0;
         if($reportSickLeaves->hasSickLeave()){
@@ -133,6 +134,8 @@ class SetReport{
         ]);
 
         if(!$this->stopExecute()){
+            SqlTransaction::beginTransaction();
+
             $reportCollector = (new FetchReport())->report($report->id());
             if($reportCollector->hasItem()){
                 $this->setAllowance->massEdit($rAllowance->reportAllowances(), true);
@@ -197,6 +200,8 @@ class SetReport{
 
                 $this->repo->create($report);
             }
+
+            SqlTransaction::commitTransactions();
         }
         
         $report->setUser($user);

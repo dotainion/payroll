@@ -3,6 +3,7 @@ import { BiCalendar } from "../components/BiCalendar";
 import $ from 'jquery';
 import { BsFillCalendar2DateFill } from "react-icons/bs";
 import { RiEdit2Fill } from "react-icons/ri";
+import { IoCalendar } from "react-icons/io5";
 
 export const ReportProrate = ({existingProrate}) =>{
     const [prorate, setProrate] = useState();
@@ -68,7 +69,7 @@ export const ReportProrate = ({existingProrate}) =>{
         <>
             {showExisting ? null :<div className="d-inline-block w-auto">
                 <div className="allowance-row bg-transparent py-3 d-flex align-items-center w-auto">
-                    <button onClick={onShowOverlay} className="btn btn-sm btn-primary px-3">Prorate</button>
+                    <button onClick={onShowOverlay} className="d-flex align-items-center btn btn-sm btn-primary px-3"><IoCalendar className="me-2" /> Prorate</button>
                 </div>
             </div>}
             

@@ -2,6 +2,8 @@
 namespace src\database;
 
 use Exception;
+use InvalidArgumentException;
+use mysqli_sql_exception;
 use src\infrastructure\Id;
 use src\security\Connection;
 
@@ -10,6 +12,7 @@ class Repository{
 	protected string $set;
 	protected array $add;
 	protected string $where;
+	protected string $orderBy;
 	protected string $limit;
 	protected string $alias;
 	protected string $column;
@@ -24,6 +27,7 @@ class Repository{
 		$this->set = '';
 		$this->add = ['key'=>[], 'value'=>[]];
 		$this->where = '';
+		$this->orderBy = '';
 		$this->limit = '';
 		$this->alias = '';
 		$this->column = '';
@@ -52,10 +56,14 @@ class Repository{
 	}
 
 	public function query($statement):void{
-		$this->forceSemicolon($statement);
-		$this->db->query($statement);
-		$this->db->commit();
-		$this->db->close();
+		try {
+			$this->forceSemicolon($statement);
+			$this->db->query($statement);
+			$this->db->commit();
+			$this->db->close();
+		} catch (mysqli_sql_exception $exception) {
+			throw new InvalidArgumentException($exception->getMessage());
+		}
 	}
 
 	public function alias($tableName, ...$columns):self{
@@ -137,7 +145,7 @@ class Repository{
 		if(!$tableName){
 			$tableName = $this->parentTableName;
 		}
-		$this->where .= ' ORDER BY `'.$tableName.'`.`'.$column.'` DESC ';
+		$this->orderBy .= ' ORDER BY `'.$tableName.'`.`'.$column.'` DESC ';
 		return $this;
 	}
 
@@ -145,7 +153,7 @@ class Repository{
 		if(!$tableName){
 			$tableName = $this->parentTableName;
 		}
-		$this->where .= ' ORDER BY `'.$tableName.'`.`'.$column.'` ASC ';
+		$this->orderBy .= ' ORDER BY `'.$tableName.'`.`'.$column.'` ASC ';
 		return $this;
 	}
 
@@ -217,7 +225,7 @@ class Repository{
 		if(!empty($this->alias)){
 			$this->statement = str_replace('*', $this->alias, $this->statement);
 		}
-		$this->statement .= $this->set . $this->where . $this->limit.';';
+		$this->statement .= $this->set . $this->where . $this->orderBy . $this->limit.';';
 		$this->query($this->statement);
 		return $this;
 	}

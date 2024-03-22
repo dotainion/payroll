@@ -22,6 +22,7 @@ class ListOverDueTodoByUserService extends Service{
 
         $id = new Id();
         $collector = $this->todos->overdueByUserId($id->set($userId));
+        $collector->mergeCollection($this->todos->overdueAssignTo($id->set($userId)));
 
         $userIdArray = [];
         foreach($collector->list() as $todo){

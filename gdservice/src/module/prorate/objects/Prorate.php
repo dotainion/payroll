@@ -17,6 +17,11 @@ class Prorate implements IObjects{
 
     public function __construct(){
         $this->id = new Id();
+        $this->userId = new Id();
+        $this->reportId = new Id();
+        $this->date = new DateHelper();
+        $this->from = new DateHelper();
+        $this->to = new DateHelper();
     }
 
     public function id():IId{

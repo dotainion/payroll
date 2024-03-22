@@ -3,12 +3,14 @@ namespace src\module\report\logic;
 
 use src\infrastructure\Collector;
 use src\infrastructure\DateHelper;
+use src\infrastructure\Period;
 use src\module\prorate\objects\Prorate;
 use src\module\settings\logic\FetchProrateSettings;
 use src\module\user\objects\User;
 
 class BiMonthlySalary{
     protected User $user;
+    protected Period $period;
     protected ?Prorate $prorate;
     protected float $net;
     protected FetchProrateSettings $settings;
@@ -17,17 +19,21 @@ class BiMonthlySalary{
         $this->settings = new FetchProrateSettings();
     }
 
-    public function set(User $user, ?Prorate $proratePeriod):self{
+    public function set(User $user, Period $period, ?Prorate $prorate):self{
         $this->user = $user;
-        $this->prorate = $proratePeriod;
+        $this->period = $period;
+        $this->prorate = $prorate;
         return $this;
     }
 
     private function runCalculation(float $net):float{
-        $daysBetween = (int)(new DateHelper())->difference($this->prorate->from(), $this->prorate->to()) + 1;
-        $daysInMonth = $this->prorate->from()->daysInMonth();
-        $percentage = ($net / $daysInMonth);
-        return ($percentage * $daysBetween);
+        $daysBetweenPeriod = (new DateHelper())->difference($this->period->from(), $this->period->to()) + 1;
+        $daysBetweenProrate = (new DateHelper())->difference($this->prorate->from(), $this->prorate->to()) + 1;
+
+        //$daysInMonth = $this->prorate->from()->daysInMonth();
+
+        $percentage = ($net / $daysBetweenPeriod);
+        return ($percentage * $daysBetweenProrate);
     }
 
     public function runProrate():void{
@@ -48,7 +54,7 @@ class BiMonthlySalary{
 
         $prorate = $collector->first();
 
-        if($prorate->off()){
+        if(!$prorate->off()){
             $this->toFullSalary();
         }elseif($prorate->biMonthly()){
             $this->net = (float)$this->user->salary() / 2;
