@@ -106,14 +106,14 @@ class Todo implements IObjects{
 
     public function setTitle(string $title):void{
         if(strlen($title) > 100){
-            throw new InvalidArgumentException('title cannot exceed 100 charactors.');
+            throw new InvalidArgumentException('Title cannot exceed 100 charactors.');
         }
         $this->title = $title;
     }
 
     public function setDescription(string $description):void{
         if(strlen($description) > 255){
-            throw new InvalidArgumentException('title cannot exceed 255 charactors.');
+            throw new InvalidArgumentException('Description cannot exceed 255 charactors.');
         }
         $this->description = $description;
     }
