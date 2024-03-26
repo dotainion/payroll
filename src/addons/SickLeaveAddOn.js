@@ -47,9 +47,10 @@ export const SickLeaveAddOn = ({onSickLeaveAmount, data, user, setting}) =>{
     }, [data]);
 
     useEffect(()=>{
-        const salary = user?.attributes?.salary;
-        const percentage = parseFloat(setting?.attributes?.percentageOfSalary);
+        const salary = user?.attributes?.salary || 0;
+        const percentage = parseFloat(setting?.attributes?.percentageOfSalary || 0);
         const reportSalary = ((parseFloat(salary) / 100) * percentage);
+        if(isNaN(reportSalary)) return;
         amountRef.current.value = reportSalary || 0;
         onSickLeaveAmount?.(reportSalary);
     }, [user, setting]);

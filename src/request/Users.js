@@ -42,4 +42,8 @@ export class Users{
     async removeFromPayroll(id){
         return await this.api.post('/remove/from/user/collection', {id});
     }
+
+    async listUsersWithHasCredential(){
+        return await this.api.post('/list/users/with/has/credential', null);
+    }
 }

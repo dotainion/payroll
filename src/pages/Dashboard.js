@@ -21,37 +21,37 @@ export const Dashboard = () =>{
         
     }, []);
     return(
-        <div className="page bg-lightgray w-100" style={{minWidth: '870px'}}>
+        <div className="page pd-page bg-lightgray w-100" style={{minWidth: '870px'}}>
             <PageNavbar/>
             <div className="container">
                 <div className="d-block d-md-flex w-100 justify-content-center">
                     <UpcomingPayroll/>
                     <div className="bg-white shadow rounded-3 p-3 ms-2 w-100">
-                        <div onClick={()=>navigate(routes.workspace().createEmployee())} className="d-flex align-items-center bg-lightgray pointer p-2 shadow-sm rounded-3">
+                        <div onClick={()=>navigate(routes.workspace().nested().createEmployee())} className="d-flex align-items-center bg-lightgray pointer p-2 shadow-sm rounded-3">
                             <div className="w-100">
-                                <div className="small fw-bold">Create Employees</div>
-                                <div className="small">In publ raphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
+                                <div className="pd-c small fw-bold">Create Employees</div>
+                                <div className="pd-c small">In publ raphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
                             </div>
-                            <div>
+                            <div className="pd-svg">
                                 <RiAddFill className="text-secondary"/>
                             </div>
                         </div>
-                        <div onClick={()=>navigate(routes.workspace().employees())} className="d-flex align-items-center bg-lightgray pointer p-2 mt-3 shadow-sm rounded-3">
+                        <div onClick={()=>navigate(routes.workspace().nested().employees())} className="d-flex align-items-center bg-lightgray pointer p-2 mt-3 shadow-sm rounded-3">
                             <div className="w-100">
-                                <div className="small fw-bold">View Employees</div>
-                                <div className="small">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
+                                <div className="pd-c small fw-bold">View Employees</div>
+                                <div className="pd-c small">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
                             </div>
-                            <div>
+                            <div className="pd-svg">
                                 <MdOutlineFormatListNumbered className="text-secondary"/>
                             </div>
                         </div>
-                        <div className="d-flex align-items-center bg-lightgray pointer p-2 mt-3 shadow-sm rounded-3">
+                        <div onClick={()=>navigate(routes.workspace().nested().listEmployeesSettings())} className="d-flex align-items-center bg-lightgray pointer p-2 mt-3 shadow-sm rounded-3">
                             <div className="w-100">
-                                <div className="small fw-bold">Employee Settings</div>
-                                <div className="small">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
+                                <div className="pd-c small fw-bold">Employee Settings</div>
+                                <div className="pd-c small">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
                             </div>
-                            <div>
-                                <FcSettings/>
+                            <div className="pd-svg">
+                                <FcSettings />
                             </div>
                         </div>
                     </div>
@@ -63,41 +63,41 @@ export const Dashboard = () =>{
                         </div>
                         <div className="h-100 border mx-3"></div>
                         <div className="ms-3 w-100 h-100" style={{minWidth: '200px'}}>
-                            <div className="border-2 border-bottom fw-bold pb-3 mb-3">Services</div>
+                            <div className="pd-c border-2 border-bottom fw-bold pb-3 mb-3">Services</div>
                             <div className="d-flex align-items-center my-3">
-                                <div className="me-2">
+                                <div className="pd-svg me-2">
                                     <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-success"/>
                                 </div>
                                 <div className="small">
-                                    <div className="fw-bold">Payroll</div>
-                                    <div>Generate and print reports</div>
+                                    <div className="pd-c fw-bold">Payroll</div>
+                                    <div className="pd-c">Generate and print reports</div>
                                 </div>
                             </div>
                             <div className="d-flex align-items-center my-3">
-                                <div className="me-2">
+                                <div className="pd-svg me-2">
                                     <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-secondary"/>
                                 </div>
                                 <div className="small">
-                                    <div className="fw-bold">HR</div>
-                                    <div>Handbooks and hiring</div>
+                                    <div className="pd-c fw-bold">HR</div>
+                                    <div className="pd-c">Handbooks and hiring</div>
                                 </div>
                             </div>
                             <div className="d-flex align-items-center my-3">
-                                <div className="me-2">
+                                <div className="pd-svg me-2">
                                     <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-secondary"/>
                                 </div>
                                 <div className="small">
-                                    <div className="fw-bold">Time Tracking</div>
-                                    <div>Track your team's time</div>
+                                    <div className="pd-c fw-bold">Time Tracking</div>
+                                    <div className="pd-c">Track your team's time</div>
                                 </div>
                             </div>
                             <div className="d-flex align-items-center my-3">
-                                <div className="me-2">
+                                <div className="pd-svg me-2">
                                     <IoMdAlert className="text-dark p-2 display-5 rounded-circle bg-secondary"/>
                                 </div>
                                 <div className="small">
-                                    <div className="fw-bold">Schedule</div>
-                                    <div>Manage schedules</div>
+                                    <div className="pd-c fw-bold">Schedule</div>
+                                    <div className="pd-c">Manage schedules</div>
                                 </div>
                             </div>
                         </div>

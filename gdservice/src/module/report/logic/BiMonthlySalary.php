@@ -67,7 +67,11 @@ class BiMonthlySalary{
         return $this;
     }
 
-    public function net():float{
+    public function exemptSalary():void{
+        $this->net = 0;
+    }
+
+    public function total():float{
         return $this->net;
     }
 

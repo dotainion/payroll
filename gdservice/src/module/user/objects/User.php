@@ -33,6 +33,7 @@ class User implements IObjects, IUser{
     protected string $address;
     protected bool $inPayroll;
     protected string $department;
+    protected bool $hasCredential = false;
 
     public function __construct(){
         $this->id = new Id();
@@ -125,6 +126,10 @@ class User implements IObjects, IUser{
     public function department():string{
         return $this->department;
     }
+
+    public function hasCredential():bool{
+        return $this->hasCredential;
+    }
     
     public function setSalary(string $salary):void{
         $this->salary = $salary;
@@ -215,5 +220,9 @@ class User implements IObjects, IUser{
     public function setRegistrationDate(string $registrationDate):void{
         Assert::validDate($registrationDate, 'Invalid registration date.');
         $this->registrationDate->set($registrationDate);
+    }
+
+    public function setHasCredential(bool $hasCredential):void{
+        $this->hasCredential = $hasCredential;
     }
 }

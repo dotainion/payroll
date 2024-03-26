@@ -24,31 +24,31 @@ export const TodoComponent = () =>{
 
     return(
         <div className="bg-white shadow rounded-3 p-3" style={{width: '400px'}}>
-            <div className="border-2 border-bottom fw-bold pb-3 mb-2">Top to-dos</div>
+            <div className="pd-c border-2 border-bottom fw-bold pb-3 mb-2">Top to-dos</div>
             <div className="overflow-auto" style={{height: '350px'}}>
                 {
                     todos.length ?
                     todos.map((todo, key)=>(
                         <div className="d-flex align-items-center border-bottom py-2" key={key}>
-                            <div className="me-2">
+                            <div className="pd-svg me-2">
                                 {todo.attributes.isOverdue ? <IoMdAlert className="text-danger"/> : null}
                                 {todo.attributes.isUpComming ? <FiAlertTriangle className="text-warning"/> : null}
                                 {todo.attributes.isPending ? <MdPending className="text-success"/> : null}
                             </div>
                             <div>
-                                {todo.attributes.isOverdue ? <div className={'small text-danger'}><small>{todo.attributes.title}</small></div> : null}
-                                {todo.attributes.isUpComming ? <div className={'small text-warning'}><small>{todo.attributes.title}</small></div> : null}
-                                {todo.attributes.isPending ? <div className={'small text-success'}><small>{todo.attributes.title}</small></div> : null}
-                                <div className="small">{todo.attributes.description}</div>
-                                <div className="small"><small>{new Date(todo.attributes.due).toDateString()}</small></div>
+                                {todo.attributes.isOverdue ? <div className={'pd-c small text-danger'}><small>{todo.attributes.title}</small></div> : null}
+                                {todo.attributes.isUpComming ? <div className={'pd-c small text-warning'}><small>{todo.attributes.title}</small></div> : null}
+                                {todo.attributes.isPending ? <div className={'pd-c small text-success'}><small>{todo.attributes.title}</small></div> : null}
+                                <div className="pd-c small">{todo.attributes.description}</div>
+                                <div className="pd-c small"><small>{new Date(todo.attributes.due).toDateString()}</small></div>
                             </div>
                         </div>
                     )):
-                    <div className="small">No overdue</div>
+                    <div className="pd-c small">No overdue</div>
                 }
             </div>
             <div className="text-center pt-2">
-                <button onClick={()=>navigate(routes.workspace().nested().todoList())} className="btn link-primary">View all notification</button>
+                <button onClick={()=>navigate(routes.workspace().nested().todoList())} className="pd-c btn link-primary">View all notification</button>
             </div>
         </div>
     )

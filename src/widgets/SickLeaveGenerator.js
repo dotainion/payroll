@@ -11,7 +11,7 @@ import { ExistingSickLeaveAddOn, SickLeaveAddOn } from "../addons/SickLeaveAddOn
 
 export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
     const [setting, setSetting] = useState();
-    const [reduceTo, setReduceTo] = useState();
+    const [reduceTo, setReduceTo] = useState(0);
     const [sickLeaves, setSickLeave] = useState([]);
     const [availableSickLeave, setAvailableSickLeave] = useState([]);
 
@@ -23,6 +23,10 @@ export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setSickLeave((sick)=>[...sick, {component: ExistingSickLeaveAddOn, data: data}]);
+    }
+
+    const addSalary = (cost) =>{
+        setReduceTo((sub)=>cost + sub);
     }
 
     useEffect(()=>{
@@ -71,7 +75,7 @@ export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
                             user={user} 
                             data={card.data} 
                             setting={setting} 
-                            onSickLeaveAmount={console.log} 
+                            onSickLeaveAmount={addSalary} 
                             key={key}
                         />
                     ))}

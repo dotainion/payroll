@@ -13,6 +13,7 @@ import { ErrorResponseHandler } from "../utils/ErrorResponseHandler";
 import { toast } from "../utils/Toast";
 import { EllipsisOption } from "../widgets/EllipsisOption";
 import { BsFilterRight } from "react-icons/bs";
+import { ImFilesEmpty } from "react-icons/im";
 
 export const TodoList = () =>{
     const { user } = useAuth();
@@ -217,9 +218,12 @@ export const TodoList = () =>{
 
     return(
         <div className="container">
-            <div className="h4 mt-3">Todos</div>
+            <div className="d-flex align-items-center h4 mt-3">
+                <FcTodoList className="fs-1 me-3" />
+                <div>Todos</div>
+            </div>
             <div className="d-flex align-items-center mb-3 border-bottom border-secondary pb-3">
-                <button onClick={showTodoCreate} className="btn btn-sm btn-dark me-2">New Todo</button>
+                <button onClick={showTodoCreate} className="btn btn-sm btn-dark me-3">New Todo</button>
                 <div className="btn btn-sm bg-dark d-flex align-items-center p-0">
                     <BsFilterRight className="text-light fs-3 my-0 mx-1" />
                     <span className="text-light me-2">Filter</span>
@@ -237,7 +241,7 @@ export const TodoList = () =>{
                 {
                     todos.length?
                     todos.map((todo, key)=>(
-                        <div className="d-inline-block bg-white shadow-sm rounded-5 py-2 m-2 px-4" style={{width: '400px'}} key={key}>
+                        <div className="d-inline-block bg-white shadow-sm rounded-3 py-2 m-2 px-4" style={{width: '400px'}} key={key}>
                             <div className="w-100">
                                 <div className={`d-flex align-items-center w-100 small ${todo.attributes.isPending || todo.attributes.isDone ? 'text-success' : ''} ${todo.attributes.isUpComming ? 'text-warning' : ''} ${todo.attributes.isOverdue ? 'text-danger' : ''} mb-1`}>
                                     <div className="d-flex me-2">
@@ -273,7 +277,7 @@ export const TodoList = () =>{
                         </div>
                     )):
                     <div className="d-flex align-items-center">
-                        <FcTodoList className="display-5 me-3" />
+                        <ImFilesEmpty className="fs-1 me-3" />
                         <div className="fw-bold">No records</div>
                     </div>
                 }

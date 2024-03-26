@@ -67,7 +67,7 @@ export const ApproveBulkReport = () =>{
             <ReportOptionsHeader />
             <div className="border-top border-bottom border-secondary text-end mb-4 py-3">
                 <div className="small">Total:</div>
-                <div className="fw-bold mb-2">${total}</div>
+                <div className="fw-bold mb-2">${total.toFixed(2)}</div>
                 <button onClick={approveReport} className="btn btn-success rounded-0">Approve report</button>
             </div>
             <table className="p-3 table table-light text-nowrap">

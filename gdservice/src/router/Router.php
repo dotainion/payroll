@@ -37,6 +37,7 @@ use src\module\login\action\AssignCredentialAction;
 use src\module\login\action\FetchHasCredentialAction;
 use src\module\login\action\FetchHasCredentialByTokenAction;
 use src\module\login\action\FetchSessionAction;
+use src\module\login\action\ListUserHasCredentialAction;
 use src\module\login\action\LoginAction;
 use src\module\login\action\LogoutAction;
 use src\module\login\action\SendRecoveryEmailAction;
@@ -145,6 +146,10 @@ class Router{
 
         $this->request->route('/list/users', function ($req){
             return new ListUsersAction();
+        });
+        
+        $this->request->route('/list/users/with/has/credential', function ($req){
+            return new ListUserHasCredentialAction();
         });
 
         $this->request->route('/create/user', function ($req){

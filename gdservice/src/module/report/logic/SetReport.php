@@ -97,10 +97,12 @@ class SetReport{
             $salary = $reportSickLeaves->totalSickLeave();
             $settings = $this->settings->settings();
             if($settings->includeSalary()){
-                $salary = $salary + $this->biMonthly->net();
+                $salary = $salary + $this->biMonthly->total();
+            }else{
+                $this->biMonthly->exemptSalary();
             }
         }else{
-            $salary = $this->biMonthly->net();
+            $salary = $this->biMonthly->total();
         }
 
         //add allowance before tax deduction is subtracted if any.
@@ -125,7 +127,7 @@ class SetReport{
             'date' => (new DateHelper())->new()->toString(),
             'allowance' => $totalAllowance,
             'deduction' => $totalDeduction,
-            'salary' => $this->biMonthly->net(),
+            'salary' => $this->biMonthly->total(),
             'hide' => $user->hide(),
             'from' => $period->from()->toString(),
             'to' => $period->to()->toString(),

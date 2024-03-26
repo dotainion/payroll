@@ -24,6 +24,30 @@ class Request{
         return false;
     }
 
+    public function dirtyTags()
+    {
+      return [
+        '<!--',
+        '-->',
+        '#exec',
+        'echo(',
+        'document.write',
+        'script',
+        'javascript:',
+        'vbscript:',
+        'livescript:',
+        '&{',
+        '@import',
+        'PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K',
+        'base64',
+        '\0075',
+        '\0072',
+        '\0029',
+        '\0074',
+        'AllowScriptAccess',
+      ];
+    }
+
     public function get(string $attr){
         if(!isset($this->request[$attr])){
             return null;
@@ -34,10 +58,15 @@ class Request{
         if(in_array($this->request[$attr], ['true', 'false'])){
             return $this->request[$attr] === 'true';
         }
-        if(is_string($this->request[$attr])){
-            return stripcslashes($this->request[$attr]);
+        if((new Id())->isValid((string)$this->request[$attr])){
+            return $this->request[$attr];
         }
-        return $this->request[$attr];
+        if(is_string($this->request[$attr])){
+            $str = str_replace($this->dirtyTags(), '', $this->request[$attr]);
+            return stripcslashes(strip_tags($str));
+        }
+        $attr = strip_tags(json_encode($this->request[$attr]));
+        return json_decode(stripcslashes($attr), true);
     }
 
     public function request(){

@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@keyframes loading-color {
+  from {
+    color: #e9ecef;
+    background-color: #e9ecef;
+  }
+  to {
+    color: #d9dcdf;
+    background-color: #d9dcdf;
+  }
+}

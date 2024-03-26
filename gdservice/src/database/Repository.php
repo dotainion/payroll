@@ -55,6 +55,13 @@ class Repository{
 		$this->db->connect();
 	}
 
+	public function escapeValue($value){
+		if(is_array($value)){
+			return $value;
+		}
+		return mysqli_real_escape_string($this->db->connection(), $value);
+	}
+
 	public function query($statement):void{
 		try {
 			$this->forceSemicolon($statement);
@@ -112,6 +119,7 @@ class Repository{
 	}
 
 	public function add($column, $value):self{
+		$value = $this->escapeValue($value);
 		if(strpos($this->statement, 'INSERT') === false){
 			throw new Exception('add must only work with insert');
 		}
@@ -121,6 +129,7 @@ class Repository{
 	}
 
 	public function set($column, $value):self{
+		$value = $this->escapeValue($value);
 		if(strpos($this->statement, 'UPDATE') === false){
 			throw new Exception('set must only work with update');
 		}
@@ -158,6 +167,7 @@ class Repository{
 	}
 
 	public function where($column, $value, $tableName = null):self{
+		$value = $this->escapeValue($value);
 		if(! $this->where){
 			$this->where = ' WHERE ';
 		}else{

@@ -104,7 +104,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Sick Leave</div>
                     <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
-                    <SickLeaveGenerator user={propUser || user} data={sickLeaves}/>
+                    <SickLeaveGenerator user={propUser || user} existingSickLeaves={sickLeaves}/>
                 </div>
                 <TaxDeductionReadOnly TaxDeductions={existingTaxDeductions} />
                 <div className="p-3 text-center">

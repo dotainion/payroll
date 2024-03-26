@@ -19,6 +19,15 @@ class FetchHasCredential{
         ]);
     }
 
+    public function fetchByIdArray(array $idArray):Collector{
+        if(empty($idArray)){
+            return new Collector();
+        }
+        return $this->repo->listHasCredential([
+            'id' => $idArray
+        ]);
+    }
+
     public function fetchByToken(Token $refreshToken):Collector{
         return $this->repo->listHasCredential([
             'refreshToken' => $refreshToken->toString()
