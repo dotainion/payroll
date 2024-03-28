@@ -252,6 +252,7 @@ class ComposerStaticInitc02910e64e28811ca35985ce949d1102
         'src\\infrastructure\\Collector' => __DIR__ . '/../..' . '/src/infrastructure/Collector.php',
         'src\\infrastructure\\DateHelper' => __DIR__ . '/../..' . '/src/infrastructure/DateHelper.php',
         'src\\infrastructure\\Email' => __DIR__ . '/../..' . '/src/infrastructure/Email.php',
+        'src\\infrastructure\\Env' => __DIR__ . '/../..' . '/src/infrastructure/Env.php',
         'src\\infrastructure\\ErrorMetaData' => __DIR__ . '/../..' . '/src/infrastructure/ErrorMetaData.php',
         'src\\infrastructure\\Factory' => __DIR__ . '/../..' . '/src/infrastructure/Factory.php',
         'src\\infrastructure\\GlobalData' => __DIR__ . '/../..' . '/src/infrastructure/GlobalData.php',

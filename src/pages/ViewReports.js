@@ -84,7 +84,7 @@ export const ViewReports = () =>{
             <div onChange={searchByUser} className="container mb-3">
                 <div className="allowance-row bg-transparent pt-3 pb-0 text-nowrap me-2 position-relative" style={{width: '150px'}}>
                     <div className="position-absolute end-0 top-50 translate-middle-y">
-                        <Checkbox onChange={(r)=>setCollapse(!r.checked)} onTitle={'Collaps All'} offTitle={'Expand All'} />
+                        <Checkbox onChange={(r)=>setCollapse(r.checked)} onTitle={'Collaps All'} offTitle={'Expand All'} />
                     </div>
                 </div>
                 <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>

@@ -30,7 +30,7 @@ export const Dashboard = () =>{
                         <div onClick={()=>navigate(routes.workspace().nested().createEmployee())} className="d-flex align-items-center bg-lightgray pointer p-2 shadow-sm rounded-3">
                             <div className="w-100">
                                 <div className="pd-c small fw-bold">Create Employees</div>
-                                <div className="pd-c small">In publ raphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
+                                <div className="pd-c small">Create a new user that can be added to the payroll system</div>
                             </div>
                             <div className="pd-svg">
                                 <RiAddFill className="text-secondary"/>
@@ -39,16 +39,16 @@ export const Dashboard = () =>{
                         <div onClick={()=>navigate(routes.workspace().nested().employees())} className="d-flex align-items-center bg-lightgray pointer p-2 mt-3 shadow-sm rounded-3">
                             <div className="w-100">
                                 <div className="pd-c small fw-bold">View Employees</div>
-                                <div className="pd-c small">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
+                                <div className="pd-c small">View a list of available employee added to the payroll system, you can also editing employee, run individual payroll or view of individual reports</div>
                             </div>
                             <div className="pd-svg">
                                 <MdOutlineFormatListNumbered className="text-secondary"/>
                             </div>
                         </div>
-                        <div onClick={()=>navigate(routes.workspace().nested().listEmployeesSettings())} className="d-flex align-items-center bg-lightgray pointer p-2 mt-3 shadow-sm rounded-3">
+                        <div onClick={()=>navigate(routes.settings().nested().listEmployeesSettings())} className="d-flex align-items-center bg-lightgray pointer p-2 mt-3 shadow-sm rounded-3">
                             <div className="w-100">
                                 <div className="pd-c small fw-bold">Employee Settings</div>
-                                <div className="pd-c small">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</div>
+                                <div className="pd-c small">This process allows you to assign or remove access to the payroll application</div>
                             </div>
                             <div className="pd-svg">
                                 <FcSettings />

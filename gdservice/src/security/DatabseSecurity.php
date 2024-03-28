@@ -1,25 +1,35 @@
 <?php
 namespace src\security;
 
-class DatabseSecurity{
-	protected $server = 'localhost';
-	protected $username = 'ccagrena_postal';
-	protected $password = 'CCAGrenada#1568';
-	protected $database = 'ccagrena_grenada_postal_service';
+use src\infrastructure\Env;
 
-	public function username(){
+class DatabseSecurity{
+	protected ?string $server = null;
+	protected ?string $username = null;
+	protected ?string $password = null;
+	protected ?string $database = null;
+
+    public function __construct(){
+		$this->server = Env::server();
+		$this->username = Env::username();
+		$this->password = Env::password();
+		$this->database = Env::database();
+	
+    }
+
+	public function username():string{
 		return $this->username;
 	}
 
-	public function password(){
+	public function password():string{
 		return $this->password;
 	}
 
-	public function server(){
+	public function server():string{
 		return $this->server;
 	}
 
-	public function database(){
+	public function database():string{
 		return $this->database;
 	}
 }

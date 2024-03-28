@@ -1,6 +1,8 @@
 <?php
 namespace src\module\mail\logic;
 
+use src\infrastructure\Env;
+
 class RecoveryTemplate{
     protected $refreshToken;
     protected $domainName;
@@ -10,7 +12,7 @@ class RecoveryTemplate{
     public function __construct(){
         $this->domainName = $_SERVER['SERVER_NAME'];
         $this->route = '/update/credential/by/token/';
-        $this->dir = '/gdbuild';
+        $this->dir = '/'.Env::dir();
     }
 
     private function href():string{

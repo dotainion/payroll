@@ -48,6 +48,17 @@ export const ListEmployeesSettings = () =>{
         });
     }
 
+    const sendUserEmailReset = () =>{
+        const email = selected?.attributes?.email;
+        api.auth.recoverAccount(email).then((response)=>{
+            toast.success('Credentials', `Email sent to ${email} was successful`);
+        }).catch((error)=>{
+            toast.error('Credentials', error);
+        }).finally(()=>{
+            hideOverlay();
+        });
+    }
+
     const showOverlay = (user) =>{
         setSelected(user);
     }
@@ -80,7 +91,7 @@ export const ListEmployeesSettings = () =>{
             ))}
             {selected ? <div onClick={hideOverlay} className="backdrop top-0">
                 <div className="w-100 h-100 d-flex align-items-center justify-content-center">
-                    <div className="bg-white p-4 rounded-3" onClick={e=>e.stopPropagation()}>
+                    <div className="bg-white p-4 rounded-3" onClick={e=>e.stopPropagation()} style={{maxWidth: '700px'}}>
                         <div className="h5 border-bottom mb-3 pb-2">Assign Credential</div>
                         <EmployeeSettingCard 
                             hasCredential={selected.attributes.hasCredential}
@@ -89,7 +100,8 @@ export const ListEmployeesSettings = () =>{
                         {
                             selected.attributes.hasCredential ? 
                             <div className="my-2">
-                                <button onClick={removeUserCredential} className="btn btn-sm btn-outline-primary">Remove user access</button>
+                                <button onClick={removeUserCredential} className="btn btn-sm btn-outline-danger me-2">Remove user access</button>
+                                <button onClick={sendUserEmailReset} className="btn btn-sm btn-outline-primary">Send password reset</button>
                             </div>
                             : null
                         }

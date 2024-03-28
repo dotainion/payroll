@@ -19,7 +19,7 @@ export const SettingsLayout = ({children}) =>{
     return(
         <div>
             <div className="d-flex align-items-center shadow-sm w-100">
-                <button onClick={()=>navigate(routes.workspace().nested().employees())} className="d-flex align-items-center bg-transparent text-nowrap border-0">
+                <button onClick={()=>navigate(routes.workspace().nested().dashboard())} className="d-flex align-items-center bg-transparent text-nowrap border-0">
                     <BsHouseAddFill className="fs-3 text-secondary me-2"/>
                     <span>Go to Workspace</span>
                 </button>

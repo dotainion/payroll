@@ -93,17 +93,17 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                 </div>
                 <div className="px-3 bg-lightergray py-3">
                     <div className="fw-bold">Allowances</div>
-                    <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
+                    <div className="text-muted mb-2">These are perks and privilege added to an employee's salary</div>
                     <AllowanceGenerator loanAllowances={loanAllowances} banks={banks} otSettings={otSettings} existingAllowances={existingAllowances} user={propUser || user} />
                 </div>
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Deductions</div>
-                    <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
+                    <div className="text-muted mb-2">These are loans and accounts to which an employee's salary is divided including taxes and internal loans</div>
                     <DeductionGenerator loanDeductions={loanDeductions} banks={banks} otSettings={otSettings} existingDeductions={existingDeductions} />
                 </div>
                 <div className="px-3 mt-2 bg-lightergray py-3">
                     <div className="fw-bold">Sick Leave</div>
-                    <div className="text-muted mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate</div>
+                    <div className="text-muted mb-2">Leave of absence granted because of illness. This is calculated based on country's laws.</div>
                     <SickLeaveGenerator user={propUser || user} existingSickLeaves={sickLeaves}/>
                 </div>
                 <TaxDeductionReadOnly TaxDeductions={existingTaxDeductions} />

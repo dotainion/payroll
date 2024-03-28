@@ -183,6 +183,7 @@ return array(
     'src\\infrastructure\\Collector' => $baseDir . '/src/infrastructure/Collector.php',
     'src\\infrastructure\\DateHelper' => $baseDir . '/src/infrastructure/DateHelper.php',
     'src\\infrastructure\\Email' => $baseDir . '/src/infrastructure/Email.php',
+    'src\\infrastructure\\Env' => $baseDir . '/src/infrastructure/Env.php',
     'src\\infrastructure\\ErrorMetaData' => $baseDir . '/src/infrastructure/ErrorMetaData.php',
     'src\\infrastructure\\Factory' => $baseDir . '/src/infrastructure/Factory.php',
     'src\\infrastructure\\GlobalData' => $baseDir . '/src/infrastructure/GlobalData.php',

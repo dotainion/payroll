@@ -3,6 +3,7 @@ namespace src\router;
 
 use src\database\Repository;
 use src\database\Table;
+use src\infrastructure\Env;
 use src\infrastructure\Https;
 use src\module\allowance\action\CreateAllowanceAction;
 use src\module\allowance\action\DeleteAllowanceAction;
@@ -118,11 +119,7 @@ class Router{
         });*/
 
         $this->request->route('/test', function ($req){
-            $repo = new Repository();
-            $repo->connect();
-            $repo->update('report');
-            $repo->set('approved', '1');
-            $repo->execute();
+            var_dump(Env::dir());
         });
 
         $this->request->route('/signin', function ($req){

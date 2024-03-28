@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { SickLeaves } from "../settings/SickLeaves";
 import { TaxSetupContainer } from "../settings/TaxSetupContainer";
 import { routes } from "../router/routes";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { OvertimeContainer } from "../settings/OvertimeContainer";
 import { SalaryProrate } from "../settings/SalaryProrate";
 
@@ -36,7 +36,7 @@ export const Settings = () =>{
                         <Route path={routes.settings().sickLeave()} element={<SickLeaves/>}/>
                         <Route path={routes.settings().overtime()} element={<OvertimeContainer/>}/>
                         <Route path={routes.settings().prorate()} element={<SalaryProrate/>}/>
-                        <Route path={'*'} element={<TaxSetupContainer/>}/>
+                        <Route path={'*'} element={<Navigate to={routes.settings().tax()}/>}/>
                     </Routes>
                 </div>
             </div>
