@@ -17,10 +17,10 @@ class TaxFactory extends Collector{
         $tax->setUserId($this->uuid($record['userId']));
         $tax->setReportId($this->uuid($record['taxDReportId'] ?? $record['reportId']));
         $tax->setName($record['taxDName'] ?? $record['name']);
-        $tax->setAmount($record['taxDAmount'] ?? $record['amount']);
+        $tax->setAmount((float)($record['taxDAmount'] ?? $record['amount']));
         $tax->setNumber($record['taxId'] ?? null);
         $tax->setDate($record['taxDDate'] ?? $record['date']);
-        $tax->setHide($record['taxDHide'] ?? $record['hide']);
+        $tax->setHide((bool)($record['taxDHide'] ?? $record['hide']));
         return $tax;
     }
 }

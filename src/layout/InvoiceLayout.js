@@ -35,7 +35,12 @@ export const InvoiceLayout = ({users, children, onUserFilter, onPeriodSelect, hi
     const menus = [
         {
             title: 'List Last Payslips generated',
-            onClick: ()=>navigate(routes.workspace().nested().bulkPayslip())
+            onClick: ()=>{
+                if(location.pathname.includes(routes.workspace().nested().bulkPayslip())){
+                    return window.location.reload();
+                }
+                navigate(routes.workspace().nested().bulkPayslip());
+            }
         },
     ];
 
@@ -91,6 +96,7 @@ export const InvoiceLayout = ({users, children, onUserFilter, onPeriodSelect, hi
             $(pagePrintRef.current).css({marginLeft: '0'});
             $(userSelectRef.current).hide();
         }
+        onUserSelected();
     }, [users]);
 
     useEffect(()=>{

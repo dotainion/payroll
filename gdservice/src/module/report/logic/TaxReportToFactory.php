@@ -19,44 +19,46 @@ class TaxReportToFactory{
     protected array $notified;
     protected User $user;
     protected Collector $matchingSetting;
+    protected Collector $settingsAppliedToTaxDeduction;
     protected bool $stopExecution;
     protected float $net;
+    protected float $netAfterTax;
 
     public function __construct(){
         $this->factory = new TaxFactory();
         $this->settings = new ListTaxSettings();
         $this->taxDeductions = new Collector();
         $this->matchingSetting = new Collector();
+        $this->settingsAppliedToTaxDeduction = new Collector();
     }
 
-    public function _initializeValidSetting_(Collector $collector):void{
-        $limitNumber = [];
-        foreach($collector->list() as $setting){
-            $limitNumber[] = (float)$setting->limitAmount();
-        }
-        sort($limitNumber);
-        $reversed = array_reverse($limitNumber);
-        foreach($reversed as $limit){
-            foreach($collector->list() as $setting){
-                if((float)$setting->limitAmount() !== $limit){
-                    continue;
-                }
-                if(!$setting->active() || !$setting->limitAmount() || !$setting->percentage()){
-                    continue;
-                }
-                $this->matchingSetting->add($setting);
+    public function parseActiveTaxSettings(Collector $collector):void{
+        $settingsList = $collector->list();
+        usort($settingsList, fn($a, $b)=>strcmp($a->limitAmount(), $b->limitAmount()));
+        $settingsList = array_reverse($settingsList);
+
+        //settings starts from highest to lowest
+        foreach($settingsList as $setting){
+            if(!$setting->active() || !$setting->limitAmount() || !$setting->percentage()){
+                continue;
             }
+            $this->matchingSetting->add($setting);
         }
     }
     
-    public function toFactory():void{
-        
+    public function nextHighestTaxSettings(int $currentTaxSettingsIndex):?TaxSettings{
+        return $this->matchingSetting->list()[$currentTaxSettingsIndex -1] ?? null;
     }
     
-    public function toValueAmount(float $net, TaxSettings $setting):float{
+    public function toValueAmount(TaxSettings $setting, ?TaxSettings $nextTax):float{
         //get difference from net agains limit about and take out the percentage from the diffrence.
-        $difference = $net - (float)$setting->limitAmount();
-        return ($difference / 100) * ((float)$setting->percentage());
+        if($nextTax === null || $nextTax->limitAmount() > $this->netAfterTax){
+            $limitAmountToReach = $this->netAfterTax;
+        }else{
+            $limitAmountToReach = $nextTax->limitAmount();
+        }
+        $difference = $limitAmountToReach - $setting->limitAmount();
+        return ($difference / 100) * $setting->percentage();
     }
 
     public function initializeTaxDeduction(bool $stopExecution, User $user, Id $reportId, float $net, array $notified):void{
@@ -65,33 +67,36 @@ class TaxReportToFactory{
         $this->notified = $notified;
         $this->stopExecution = $stopExecution;
 
-        $this->_initializeValidSetting_($this->settings->list());
+        $this->parseActiveTaxSettings($this->settings->listActive());
 
-        $tempNet = $this->net;
+        $this->netAfterTax = $this->net;
 
-        foreach($this->matchingSetting->list() as $setting){
-            if($tempNet < (float)$setting->limitAmount()){
+        //settings starts from highest to lowest
+        foreach($this->matchingSetting->list() as $index => $setting){
+            if($this->netAfterTax < $setting->limitAmount()){
                 continue;
             }
 
+            $nextTax = $this->nextHighestTaxSettings($index);
             $tax = $this->factory->mapResult([
                 'id' => (new Id())->new()->toString(),
                 'userId' => $user->id()->toString(),
                 'reportId' => $reportId->toString(),
                 'name' => 'Tax deduction',
-                'amount' => $this->toValueAmount($tempNet, $setting),
+                'amount' => $this->toValueAmount($setting, $nextTax),
                 'date' => (new DateHelper())->new()->toString(),
                 'hide' => false,
             ]);
             $this->taxDeductions->add($tax);
-            $tempNet = $tempNet - (float)$tax->amount();
+            $this->settingsAppliedToTaxDeduction->add($setting);
+            $this->netAfterTax = $this->netAfterTax - (float)$tax->amount();
         }
     }
 
     public function assertTaxDeduction():bool{
         $errors = [];
         if($this->hasTaxDeduction()){
-            foreach($this->matchingSetting->list() as $setting){
+            foreach($this->settingsAppliedToTaxDeduction->list() as $setting){
                 $errors[] = [
                     'id' => $setting->id()->toString(),
                     'active' => $setting->active(),

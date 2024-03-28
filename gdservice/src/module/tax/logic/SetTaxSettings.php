@@ -15,8 +15,10 @@ class SetTaxSettings{
         $collector = $this->repo->listTaxSettings([
             'id' => $taxSettings->id()
         ]);
-        $collector->hasItem() 
-            ? $this->repo->edit($taxSettings) 
-            : $this->repo->create($taxSettings);
+        if($collector->hasItem()){
+            $this->repo->edit($taxSettings);
+        }else{
+            $this->repo->create($taxSettings);
+        }
     }
 }

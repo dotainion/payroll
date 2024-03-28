@@ -33,7 +33,7 @@ export const EmployeeReports = () =>{
             console.log(error);
         });
         api.report.listByUser(params?.userId).then((response)=>{
-            setReporst(response.data.data);
+            setReporst(response.data.data.reverse());
         }).catch((error)=>{
             console.log(error);
         }).finally(()=>{

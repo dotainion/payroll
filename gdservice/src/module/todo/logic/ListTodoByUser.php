@@ -31,7 +31,7 @@ class ListTodoByUser{
         return $this->repo->listTodo([
             'userId' => $userId,
             'hide' => false,
-            'done' => false
+            'done' => true
         ]);
     }
     

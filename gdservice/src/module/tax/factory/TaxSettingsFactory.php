@@ -15,8 +15,8 @@ class TaxSettingsFactory extends Collector{
         $tax = new TaxSettings();
         $tax->setId($this->uuid($record['id']));
         $tax->setActive((bool)$record['active']);
-        $tax->setPercentage($record['percentage']);
-        $tax->setLimitAmount($record['limitAmount']);
+        $tax->setPercentage((float)$record['percentage']);
+        $tax->setLimitAmount((float)$record['limitAmount']);
         $tax->setAlert($record['alert']);
         return $tax;
     }

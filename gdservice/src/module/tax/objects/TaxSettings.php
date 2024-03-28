@@ -9,12 +9,13 @@ use src\infrastructure\TaxHelper;
 class TaxSettings implements IObjects{
     protected Id $id;
     protected ?bool $active = null;
-    protected ?string $percentage = null;
-    protected ?string $limitAmount = null;
+    protected ?float $percentage = null;
+    protected ?float $limitAmount = null;
     protected ?bool $auto = null;
     protected ?bool $notify = null;
     protected ?bool $notifyAndAuto = null;
     protected ?string $alert = null;
+    protected ?float $limitAmountToReach = null;
 
     public function __construct(){
         $this->id = new Id();
@@ -24,7 +25,7 @@ class TaxSettings implements IObjects{
         return $this->id;
     }
         
-    public function percentage():?string{
+    public function percentage():?float{
         return $this->percentage;
     }
         
@@ -32,8 +33,12 @@ class TaxSettings implements IObjects{
         return $this->active;
     }
         
-    public function limitAmount():?string{
+    public function limitAmount():?float{
         return $this->limitAmount;
+    }
+        
+    public function limitAmountToReach():?float{
+        return $this->limitAmountToReach;
     }
 
     public function alert():?string{
@@ -60,7 +65,7 @@ class TaxSettings implements IObjects{
         $this->active = $active;
     }
 
-    public function setPercentage(?string $percentage):void{
+    public function setPercentage(?float $percentage):void{
         $this->percentage = $percentage;
     }
     
@@ -71,7 +76,11 @@ class TaxSettings implements IObjects{
         $this->notifyAndAuto = $alert === TaxHelper::NOTIFY_AND_AUTO;
     }
     
-    public function setLimitAmount(?string $limitAmount):void{
+    public function setLimitAmount(?float $limitAmount):void{
         $this->limitAmount = $limitAmount;
+    }
+        
+    public function setLimitAmountToReach(float $limitAmountToReach):void{
+        $this->limitAmountToReach = $limitAmountToReach;
     }
 }
