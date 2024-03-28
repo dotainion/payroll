@@ -11,6 +11,7 @@ import { Banks } from "../pages/Banks";
 import { Settings } from "../pages/Settings";
 import { Departments } from "../pages/Departments";
 import { EmailSetup } from "../pages/EmailSetup";
+import { ListEmployeesSettings } from "../pages/ListEmployeesSettings";
 
 export const SettingsRouter = () =>{
     return(
@@ -25,6 +26,7 @@ export const SettingsRouter = () =>{
                 <Route path={routes.settings().banks()} element={<Banks/>}/>
                 <Route path={routes.settings().settings()} element={<Settings/>}/>
                 <Route path={routes.settings().emailNotificationSetup()} element={<EmailSetup/>}/>
+                <Route path={routes.settings().listEmployeesSettings()} element={<ListEmployeesSettings/>}/>
                 <Route path={'*'} element={<Navigate to={routes.settings().security()}/>}/>
             </Routes>
         </SettingsLayout>

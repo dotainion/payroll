@@ -41,6 +41,12 @@ class CredentialRepository extends Repository{
         $this->execute();
     }
     
+    public function removeHasCreds(Id $id):void{
+        $this->delete('credential')        
+            ->where('id', $this->uuid($id));
+        $this->execute();
+    }
+    
     public function editPassword(Id $id, Password $password, Password $newPassword):void{
         $this->update('credential')        
             ->set('password', $newPassword->toHash())

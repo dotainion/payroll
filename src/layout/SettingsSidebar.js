@@ -5,7 +5,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { BiSolidBank } from 'react-icons/bi';
 import { MdOutlineSecurity, MdNotifications, MdMoneyOff, MdOutlineAttachMoney } from 'react-icons/md';
 import { IoIosSettings } from "react-icons/io";
-import { HiBuildingOffice2 } from 'react-icons/hi2'
+import { HiBuildingOffice2 } from 'react-icons/hi2';
 
 export const SettingsSidebar = () =>{
     const navigate = useNavigate();

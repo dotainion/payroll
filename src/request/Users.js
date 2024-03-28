@@ -23,6 +23,10 @@ export class Users{
         return await this.api.post('/assing/user/credential', {id});
     }
 
+    async unAssignCredential(id){
+        return await this.api.post('/remove/user/credential', {id});
+    }
+
     async updateCredentialByRefreshToken(data){
         return await this.api.post('/update/credential/with/refersh/token', data);
     }

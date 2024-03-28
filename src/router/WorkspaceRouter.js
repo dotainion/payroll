@@ -22,7 +22,6 @@ import { ApproveBulkReport } from "../pages/ApproveBulkReport";
 import { EditEmployeePendingReport } from "../pages/EditEmployeePendingReport";
 import { ReportApprovalConformation } from "../pages/ReportApprovalConformation";
 import { ViewTaxReports } from "../pages/ViewTaxReports";
-import { ListEmployeesSettings } from "../pages/ListEmployeesSettings";
 
 export const WorkspaceRouter = () =>{
     return(
@@ -34,7 +33,6 @@ export const WorkspaceRouter = () =>{
                 <Route path={routes.workspace().createEmployee()} element={<CreateEmployee/>}/>
                 <Route path={routes.workspace().editEmployee()} element={<EditEmployee/>}/>
                 <Route path={routes.workspace().employees()} element={<Employees/>}/>
-                <Route path={routes.workspace().listEmployeesSettings()} element={<ListEmployeesSettings/>}/>
                 <Route path={routes.workspace().employeeReport()} element={<EmployeeReports/>}/>
                 <Route path={routes.workspace().bulkReportOptions()} element={<BulkReportOptions/>}/>
                 <Route path={routes.workspace().bulkReport()} element={<CreateBulkReportFromLastReports/>}/>

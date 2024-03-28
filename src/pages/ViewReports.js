@@ -16,6 +16,7 @@ import { useDocument } from "../contents/DocumentProvider";
 import { BsArrowsExpand } from "react-icons/bs";
 import { BsArrowsCollapse } from "react-icons/bs";
 import { DateHelper } from "../utils/DateHelper";
+import { Checkbox } from "../widgets/Checkbox";
 
 
 const prev = new Date();
@@ -38,7 +39,7 @@ export const ViewReports = () =>{
     const endRef = useRef();
     const userRef = useRef();
 
-    const searchByUser = useCallback(() =>{
+    const searchByUser = () =>{
         const userId = userRef.current.value;
         const from = startRef.current;
         const to = endRef.current;
@@ -62,7 +63,7 @@ export const ViewReports = () =>{
         }).finally(()=>{
             setLoading(false);
         });
-    });
+    };
 
     const onDateSelect = useCallback((start, end) =>{
         startRef.current = new DateHelper(start.dateInstance).toSqlString();
@@ -81,6 +82,11 @@ export const ViewReports = () =>{
         <div className="page bg-lightgray w-100">
             <PageNavbar/>
             <div onChange={searchByUser} className="container mb-3">
+                <div className="allowance-row bg-transparent pt-3 pb-0 text-nowrap me-2 position-relative" style={{width: '150px'}}>
+                    <div className="position-absolute end-0 top-50 translate-middle-y">
+                        <Checkbox onChange={(r)=>setCollapse(!r.checked)} onTitle={'Collaps All'} offTitle={'Expand All'} />
+                    </div>
+                </div>
                 <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>
                     <label>Period <span className="text-danger">*</span></label>
                     <BiCalendar period={period} onSelect={onDateSelect} biMonthlyOff fireOnLoad />
@@ -93,12 +99,6 @@ export const ViewReports = () =>{
                             <option value={user.id} key={key}>{user.attributes.name}</option>
                         ))}
                     </select>
-                </div>
-                <div className="allowance-row bg-transparent py-3 text-nowrap" style={{width: '120px'}}>
-                    <label onClick={()=>setCollapse(!collapse)}>
-                        {collapse ? <button className="btn btn-sm btn-outline-dark"><BsArrowsCollapse /> Collaps All</button>
-                        : <button className="btn btn-sm btn-outline-dark"><BsArrowsExpand /> Expand All</button>}
-                    </label>
                 </div>
             </div>
             <div className="">

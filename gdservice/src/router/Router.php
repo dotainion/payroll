@@ -40,6 +40,7 @@ use src\module\login\action\FetchSessionAction;
 use src\module\login\action\ListUserHasCredentialAction;
 use src\module\login\action\LoginAction;
 use src\module\login\action\LogoutAction;
+use src\module\login\action\RemoveCredentialAction;
 use src\module\login\action\SendRecoveryEmailAction;
 use src\module\login\action\UpdateCredentialAction;
 use src\module\login\action\UpdateCredentialByTokenAction;
@@ -326,6 +327,10 @@ class Router{
 
         $this->request->route('/assing/user/credential', function ($req){
             return new AssignCredentialAction();
+        });
+
+        $this->request->route('/remove/user/credential', function ($req){
+            return new RemoveCredentialAction();
         });
 
         $this->request->route('/update/credential/with/refersh/token', function ($req){

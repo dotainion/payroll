@@ -14,6 +14,7 @@ import { FiEdit } from 'react-icons/fi';
 import { EllipsisOption } from "../widgets/EllipsisOption";
 import { BiSolidReport } from "react-icons/bi";
 import { useDocument } from "../contents/DocumentProvider";
+import { Checkbox } from "../widgets/Checkbox";
 
 export const EmployeeReports = () =>{
     const { setLoading } = useDocument();
@@ -43,7 +44,7 @@ export const EmployeeReports = () =>{
 
     return(
         <div>
-            <Pagination beginChildren={<CollapseButton user={user} onClick={()=>setCollapse(!collapse)} isActive={collapse}/>} title={'Reports: ' + user?.attributes?.name}>
+            <Pagination beginChildren={<CollapseButton user={user} onClick={()=>setCollapse(!collapse)} />} title={'Reports: ' + user?.attributes?.name}>
                 <div>
                     <table className="p-3 table table-white table-striped table-bordered text-nowrap">
                         <thead>
@@ -87,11 +88,11 @@ export const EmployeeReports = () =>{
     )
 }
 
-export const CollapseButton = ({isActive, user, onClick}) =>{
+export const CollapseButton = ({user, onClick}) =>{
     return(
         <div className="d-flex align-items-center mt-2">
             <Tooltip title={'Collapse details'}>
-                <button onClick={onClick} className=" btn btn-sm btn-outline-primary py-1 px-2">{isActive? 'Collaps': 'Expand'}</button>
+                <Checkbox onChange={onClick} onTitle={'Collaps'} offTitle={'Expand'} />
             </Tooltip>
             <div className="ms-5">ID: <span className="fw-bold">{user?.attributes?.userId}</span></div>
         </div>

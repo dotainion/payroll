@@ -3,7 +3,6 @@ class Workspace{
     default = () => '/workspace/*';
     dashboard = () => this._nested + 'dashboard';
     employees = () => this._nested + 'employees';
-    listEmployeesSettings = () => this._nested + 'employees/settings/list';
     createReport = (userId=':userId') => this._nested + 'create/employee/report/' + userId;
     editReport = (reportId=':reportId') => this._nested + 'edit/employee/report/' + reportId;
     editPendingReport = (reportId=':reportId') => this._nested + 'edit/employee/pre/report/' + reportId;
@@ -44,6 +43,7 @@ class Settings{
     overtime = () => this._nested + 'overtime';
     prorate = () => this._nested + 'prorate';
     emailNotificationSetup = () => this._nested + 'email/notificatin/setup';
+    listEmployeesSettings = () => this._nested + 'employees/settings/list';
     nested = () => {
         this._nested = this.default().replace('*', '');
         return this;

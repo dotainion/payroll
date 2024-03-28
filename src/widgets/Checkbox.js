@@ -17,7 +17,7 @@ export const Checkbox = ({title, onTitle, offTitle, onChange, inputRef, defaultC
     }, []);
 
     return(
-        <label className={`d-flex align-items-center w-100 mt-1 ${disabled ? '' : 'btn btn-light pointer'}`}>
+        <label className={`d-flex align-items-center w-100 mt-1 mb-0 ${disabled ? '' : 'btn btn-light pointer'}`}>
             <input 
                 onChange={onTriggerChange}
                 defaultChecked={defaultChecked}

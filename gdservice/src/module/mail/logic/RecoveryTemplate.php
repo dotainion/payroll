@@ -34,5 +34,13 @@ class RecoveryTemplate{
             <a href="'.$this->href().'">Click here to accept access to this platform and create a password.</a>
         ';
     }
+
+    public function removeCredential():string{
+        return '
+            <h2><b>Pay Roll Application</b></h2>
+            <p>Your access to the payrol application was removed.</p>
+            <p>If you think this is an error please visit your administrator for assistance.</p>
+        ';
+    }
 }
 

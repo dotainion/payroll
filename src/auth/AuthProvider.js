@@ -29,7 +29,7 @@ export const AuthProvider = ({children}) =>{
         setIsAuthenticated(false);
     }
 
-    const signin = useCallback((email, password) =>{
+    const signin = (email, password) =>{
         api.auth.signin(email, password).then((response)=>{
             setUser(response.data.data[0]);
             setErrorMessage(null);
@@ -42,34 +42,34 @@ export const AuthProvider = ({children}) =>{
             console.log('Unable to sign in at this time.');
             toast.error('Sign In', err);
         });
-    });
+    };
 
-    const signout = useCallback(() =>{
+    const signout = () =>{
         api.auth.logout().then(()=>{
             clearAuthentication();
         }).catch((error)=>{
             toast.error('Authentication', error);
         });
-    });
+    };
 
-    const changePassord = useCallback((currentPass, newPass) =>{
+    const changePassord = (currentPass, newPass) =>{
         api.auth.changePassword(user?.id, currentPass, newPass).then(()=>{
             creds.close();
             toast.success('Authentication', 'Passwrod change.');
         }).catch((error)=>{
             toast.error('Authentication', error);
         });
-    });
+    };
 
-    const updateBusiness = useCallback((data) =>{
+    const updateBusiness = (data) =>{
         api.admin.editBusiness(data).then((response)=>{
             setBusiness(response.data.data[0]);
         }).catch((error)=>{
             toast.error('Business', error);
         });
-    });
+    };
 
-    const onAuthStateChange = useCallback((success, error) =>{
+    const onAuthStateChange = (success, error) =>{
         const id = new Date().getTime();
         authStateChangeRef.current.push({
             success: success, 
@@ -79,7 +79,7 @@ export const AuthProvider = ({children}) =>{
         return () => {
             authStateChangeRef.current = authStateChangeRef.current.filter((o)=>o.id !== id);
         };
-    });
+    };
 
     useEffect(()=>{
         clearTimeout(timeoutRef.current);
