@@ -9,14 +9,19 @@ import { HiMiniBuildingOffice2 } from 'react-icons/hi2';
 import { payload } from "../utils/AddonsPayload";
 import { DateHelper } from "../utils/DateHelper";
 import { api } from "../request/Api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "../utils/Toast";
+import { routes } from "../router/routes";
+import { useDocument } from "../contents/DocumentProvider";
 
 export const Employee = ({onSubmit, title}) =>{
+    const { addPreviousHistory } = useDocument();
+
     const [genderIcon, setGenderIcon] = useState();
     const [departments, setDepartments] = useState([]);
 
     const params = useParams();
+    const navigate = useNavigate();
 
     const idRef = useRef();
     const userIdRef = useRef();
@@ -102,6 +107,12 @@ export const Employee = ({onSubmit, title}) =>{
             departmentRef.current.value = user.attributes.department;
             emergencyNumberRef.current.value = user.attributes.emergencyNumber;
             registrationDateRef.current.value = date.sqlStringToInput(user.attributes.registrationDate);
+
+            addPreviousHistory({
+                title: `Edit ${user.attributes.name}`, 
+                id: user.id,
+                action: ()=>navigate(routes.workspace().nested().editEmployee(user.id))
+            });
         }).catch((error)=>{
             console.log(error);
         });

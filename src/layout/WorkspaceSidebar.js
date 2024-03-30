@@ -29,12 +29,12 @@ export const WorkspaceSidebar = () =>{
                     onClick: ()=>navigate(routes.workspace().createEmployee())
                 },{
                     icon: FaPeopleGroup,
-                    title: 'Employees List',
+                    title: 'Employees',
                     active: location.pathname.includes(routes.workspace().employees()),
                     onClick: ()=>navigate(routes.workspace().employees())
                 },{
                     icon: FaClone,
-                    title: 'Generate Bulk Report',
+                    title: 'Bulk Report',
                     active: location.pathname.includes(routes.workspace().bulkReportOptions()),
                     onClick: ()=>navigate(routes.workspace().bulkReportOptions())
                 },{
@@ -85,9 +85,9 @@ export const WorkspaceSidebar = () =>{
                 <div className="text-secondary p-3">
                     <div className="fw-bold">History</div>
                     {previousHistory.map((histy, key)=>(
-                        <div onClick={()=>histy?.action?.()} className="d-flex align-items-center px-3 my-2 w-100 pointer link-secondary" key={key}>
-                            <div className="w-100 text-truncate">{histy?.title}</div>
-                            <div className="small text-nowrap"><small><small>{histy?.time}</small></small></div>
+                        <div onClick={()=>histy?.action?.()} className="px-3 my-2 w-100 pointer link-secondary" style={{maxWidth: '200px'}} key={key}>
+                            <div className="text-wrap small lh-1">{histy?.title}</div>
+                            <div className="small text-nowrap lh-1 mt-1" style={{fontSize: '10px'}}>{histy?.time}</div>
                         </div>
                     ))}
                 </div>

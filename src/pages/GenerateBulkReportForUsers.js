@@ -11,8 +11,11 @@ import { DateHelper } from "../utils/DateHelper";
 import { BiSolidReport } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
+import { useDocument } from "../contents/DocumentProvider";
 
 export const GenerateBulkReportForUsers = () =>{
+    const { addPreviousHistory } = useDocument();
+
     const [loading, setLoading] = useState(false);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
@@ -85,6 +88,11 @@ export const GenerateBulkReportForUsers = () =>{
             setCollection(collec);
         }).catch((error)=>{
 
+        });
+        addPreviousHistory({
+            title: 'Bulk Report', 
+            id: 'generage-bulk-report-for-users',
+            action: ()=>navigate(routes.workspace().nested().generateBulkReportForUsers())
         });
     }, []);
 

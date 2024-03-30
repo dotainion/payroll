@@ -16,7 +16,7 @@ export const BulkReportOptions = () =>{
                 <div>It is a single user application that allows you to created unlimited employee records. Employees can be paid monthly or bi-monthly.</div>
             </div>
             <div className="bulk-report-option my-4">
-                <button onClick={()=>navigate(routes.workspace().nested().bulkReport())} className=" shadow btn btn-light border border-dark py-4 me-2">
+                <button onClick={()=>navigate(routes.workspace().nested().bulkReport())} className="shadow btn btn-light border border-dark py-4 me-2">
                     <div className="h-100">
                         <div className="mb-3">
                             <MdLibraryBooks className="display-3" />
@@ -24,7 +24,7 @@ export const BulkReportOptions = () =>{
                         <span>Generate bulk report from the last payroll report generated</span>
                     </div>
                 </button>
-                <button onClick={()=>navigate(routes.workspace().nested().generateBulkReportForUsers())} className=" shadow btn btn-light border border-dark py-4 ms-2">
+                <button onClick={()=>navigate(routes.workspace().nested().generateBulkReportForUsers())} className="shadow btn btn-light border border-dark py-4 ms-2">
                     <div className="h-100">
                         <div className="mb-3">
                             <BiSolidReport className="display-3" />

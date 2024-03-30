@@ -14,9 +14,13 @@ import { toast } from "../utils/Toast";
 import { EllipsisOption } from "../widgets/EllipsisOption";
 import { BsFilterRight } from "react-icons/bs";
 import { ImFilesEmpty } from "react-icons/im";
+import { routes } from "../router/routes";
+import { useDocument } from "../contents/DocumentProvider";
+import { useNavigate } from "react-router-dom";
 
 export const TodoList = () =>{
     const { user } = useAuth();
+    const { addPreviousHistory } = useDocument();
 
     const [openTodoCreate, setOpenTodoCreate] = useState(false);
     const [openAssignTo, setOpenAssignTo] = useState(false);
@@ -25,6 +29,8 @@ export const TodoList = () =>{
     const [members, setMembers] = useState([]);
     const [assignTodoData, setAssignTotoData] = useState();
     const [todos, setTodos] = useState([]);
+
+    const navigate = useNavigate();
     
     const idRef = useRef();
     const assignToIdRef = useRef(null);
@@ -214,6 +220,11 @@ export const TodoList = () =>{
 
         });
         apiFetchTodo('all');
+        addPreviousHistory({
+            title: 'Todos', 
+            id: 'todo-list',
+            action: ()=>navigate(routes.workspace().nested().todoList())
+        });
     }, []);
 
     return(

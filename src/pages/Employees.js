@@ -97,7 +97,7 @@ export const Employees = () =>{
                 onSeeReport={()=>navigate(routes.workspace().nested().employeeReport(selectedRef.current?.id))}
                 onBulkReport={()=>console.log('bulk reporting...')}
             />
-            <Pagination onScroll={()=>setOptionPosition()} title="Salaries List">
+            <Pagination onScroll={()=>setOptionPosition()} title="Employee List">
                 <div onClick={(e)=>e.stopPropagation()}>
                     <table className="p-3 table table-white table-striped table-bordered table-hover text-nowrap">
                         <thead className="">

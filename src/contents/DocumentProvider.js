@@ -21,10 +21,13 @@ export const DocumentProvider = ({children}) =>{
     const timeoutRef = useRef();
 
     const addPreviousHistory = (data) =>{
-        if(!previousHistory.find((h)=>h?.id === data?.id)){
-            data.time = new Date().toLocaleTimeString();
-            setPreviousHistory((hist)=>[data, ...hist]);
-        }
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            if(!previousHistory.find((h)=>h?.id === data?.id)){
+                data.time = new Date().toLocaleTimeString();
+                setPreviousHistory((hist)=>[data, ...hist]);
+            }
+        }, 100);
         return data?.action;
     }
 

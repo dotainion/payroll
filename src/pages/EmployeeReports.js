@@ -17,7 +17,7 @@ import { useDocument } from "../contents/DocumentProvider";
 import { Checkbox } from "../widgets/Checkbox";
 
 export const EmployeeReports = () =>{
-    const { setLoading } = useDocument();
+    const { setLoading, addPreviousHistory } = useDocument();
 
     const [user, setUser] = useState();
     const [reports, setReporst] = useState([]);
@@ -41,6 +41,15 @@ export const EmployeeReports = () =>{
             setLoading(false);
         });
     }, []);
+
+    useEffect(()=>{
+        if(!user) return;
+        addPreviousHistory({
+            title: `${user.attributes.name} Reports`, 
+            id: `${params?.userId}-employee-report`,
+            action: ()=>navigate(routes.workspace().nested().employeeReport(params?.userId))
+        });
+    }, [user]);
 
     return(
         <div>
@@ -68,7 +77,7 @@ export const EmployeeReports = () =>{
                                                 className="d-flex align-items-center"><FiEdit className="me-2"/>Edit</Dropdown.Item>
                                             <Dropdown.Item
                                                 onClick={()=>navigate(routes.workspace().nested().employeePayslip(rept?.id))}
-                                                className="d-flex align-items-center"><BiSolidReport className="me-2"/>Invoice</Dropdown.Item>
+                                                className="d-flex align-items-center"><BiSolidReport className="me-2"/>Payslip</Dropdown.Item>
                                         </EllipsisOption>
                                     </td>
                                     <td>{new Date(rept?.attributes?.date).toDateString()}</td>

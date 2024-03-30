@@ -14,7 +14,6 @@ import { IoMdAlert } from "react-icons/io";
 import { PageNavbar } from "../components/PageNavbar";
 
 export const Dashboard = () =>{
-
     const navigate = useNavigate();
 
     useEffect(()=>{
