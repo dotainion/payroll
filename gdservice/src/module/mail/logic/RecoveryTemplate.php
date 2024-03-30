@@ -12,7 +12,7 @@ class RecoveryTemplate{
     public function __construct(){
         $this->domainName = $_SERVER['SERVER_NAME'];
         $this->route = '/update/credential/by/token/';
-        $this->dir = '/'.Env::dir();
+        $this->dir = '/'.Env::uiDir();
     }
 
     private function href():string{
@@ -27,6 +27,7 @@ class RecoveryTemplate{
         return '
             <h2><b>Pay Roll Application</b></h2>
             <a href="'.$this->href().'">Click here to recover your account.</a>
+            <p>If you did not attempt to recover your account, you can safely ignore this email.</p>
         ';
     }
 

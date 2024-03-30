@@ -136,7 +136,7 @@ export const GenerateBulkReportForUsers = () =>{
                                     {employees.map((employee, key)=>(
                                         <tr onClick={(e)=>onSelect(e, employee?.id)} className="pointer" key={key}>
                                             <td className="border-0">
-                                                <input type="checkbox" style={{width: '20px', height: '20px'}} />
+                                                <input type="checkbox" defaultChecked={employee?.attributes?.inPayroll} style={{width: '20px', height: '20px'}} />
                                             </td>
                                             <td className="border-0">{employee?.attributes?.name}</td>
                                             <td className="border-0">{employee?.attributes?.userId}</td>

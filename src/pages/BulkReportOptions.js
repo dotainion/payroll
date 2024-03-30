@@ -11,7 +11,10 @@ export const BulkReportOptions = () =>{
         <div className="container">
             <div className="h3 fw-bold mt-3">Bulk Report</div>
             <ReportOptionsHeader />
-            <div className="mt-2 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
+            <div className="mt-2 mb-4 bg-white p-3 small">
+                <div>This payroll system is the ideal payroll solution for any businesses. It has been designed to ensure that complicated payroll procedures are simplified and performed by a click of a button.</div>
+                <div>It is a single user application that allows you to created unlimited employee records. Employees can be paid monthly or bi-monthly.</div>
+            </div>
             <div className="bulk-report-option my-4">
                 <button onClick={()=>navigate(routes.workspace().nested().bulkReport())} className=" shadow btn btn-light border border-dark py-4 me-2">
                     <div className="h-100">

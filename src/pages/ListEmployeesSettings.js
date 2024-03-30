@@ -4,19 +4,16 @@ import { toast } from "../utils/Toast";
 import { EmployeeSettingCard } from "../components/EmployeeSettingCard";
 import { FaUserCog } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
+import { useDocument } from "../contents/DocumentProvider";
 
 export const ListEmployeesSettings = () =>{
-    const [users, setUsers] = useState([
-        {
-            attributes: {
-                name: 'Fishing In The Box',
-                hasCredential: true
-            }
-        }
-    ]);
+    const { setLoading } = useDocument();
+
+    const [users, setUsers] = useState([]);
     const [selected, setSelected] = useState();
 
     const assignUserCredential = () =>{
+        setLoading(true);
         api.user.assignCredential(selected?.id).then((response)=>{
             setUsers((urs)=>{
                 return urs.map((ur)=>{
@@ -29,10 +26,12 @@ export const ListEmployeesSettings = () =>{
             toast.error('Credentials', error);
         }).finally(()=>{
             hideOverlay();
+            setLoading(false);
         });
     }
 
     const removeUserCredential = () =>{
+        setLoading(true);
         api.user.unAssignCredential(selected?.id).then((response)=>{
             setUsers((urs)=>{
                 return urs.map((ur)=>{
@@ -45,10 +44,12 @@ export const ListEmployeesSettings = () =>{
             toast.error('Credentials', error);
         }).finally(()=>{
             hideOverlay();
+            setLoading(false);
         });
     }
 
     const sendUserEmailReset = () =>{
+        setLoading(true);
         const email = selected?.attributes?.email;
         api.auth.recoverAccount(email).then((response)=>{
             toast.success('Credentials', `Email sent to ${email} was successful`);
@@ -56,6 +57,7 @@ export const ListEmployeesSettings = () =>{
             toast.error('Credentials', error);
         }).finally(()=>{
             hideOverlay();
+            setLoading(false);
         });
     }
 
@@ -71,8 +73,6 @@ export const ListEmployeesSettings = () =>{
         api.user.listUsersWithHasCredential().then((response)=>{
             setUsers(response.data.data);
         }).catch((error)=>{
-            
-        }).finally(()=>{
             
         });
     }, []);

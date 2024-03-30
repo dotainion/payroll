@@ -15,6 +15,10 @@ class Env{
         return $trimed[0] ?? null;
     }
 
+    public static function uiDir():string{
+        return 'gdbuild';
+    }
+
     public static function rootDir():string{
         return $_SERVER['DOCUMENT_ROOT'];
     }

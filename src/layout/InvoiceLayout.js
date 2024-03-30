@@ -49,7 +49,7 @@ export const InvoiceLayout = ({users, children, onUserFilter, onPeriodSelect, hi
         $(userSelectRef.current).find('input[type=checkbox]').each((i, checkbox)=>{
             if($(checkbox).is(':checked')) ids.push($(checkbox).val());
         });
-        onUserFilter(ids);
+        onUserFilter?.(ids);
     }
 
     const toCamelUpper = (value) =>{
