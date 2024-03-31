@@ -219,12 +219,16 @@ export const TodoList = () =>{
         }).catch((error)=>{
 
         });
+        
         apiFetchTodo('all');
-        addPreviousHistory({
-            title: 'Todos', 
-            id: 'todo-list',
-            action: ()=>navigate(routes.workspace().nested().todoList())
-        });
+
+        return ()=>{
+            addPreviousHistory({
+                title: 'Todos', 
+                id: 'todo-list',
+                action: ()=>navigate(routes.workspace().nested().todoList())
+            });
+        }
     }, []);
 
     return(

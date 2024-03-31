@@ -17,6 +17,7 @@ import { useDocument } from "../contents/DocumentProvider";
 export const Employee = ({onSubmit, title}) =>{
     const { addPreviousHistory } = useDocument();
 
+    const [currentUser, setCurrentUser] = useState();
     const [genderIcon, setGenderIcon] = useState();
     const [departments, setDepartments] = useState([]);
 
@@ -87,6 +88,7 @@ export const Employee = ({onSubmit, title}) =>{
         if(!params?.userId) return;
 
         api.user.fetchUser(params.userId).then((response)=>{
+            setCurrentUser(response.data.data[0]);
             const user = response.data.data[0];
             const date = new DateHelper();
             idRef.current = user.id;
@@ -107,15 +109,17 @@ export const Employee = ({onSubmit, title}) =>{
             departmentRef.current.value = user.attributes.department;
             emergencyNumberRef.current.value = user.attributes.emergencyNumber;
             registrationDateRef.current.value = date.sqlStringToInput(user.attributes.registrationDate);
-
-            addPreviousHistory({
-                title: `Edit ${user.attributes.name}`, 
-                id: user.id,
-                action: ()=>navigate(routes.workspace().nested().editEmployee(user.id))
-            });
         }).catch((error)=>{
             console.log(error);
         });
+
+        return ()=>{
+            addPreviousHistory({
+                title: `Edit ${currentUser?.attributes?.name} profile`, 
+                id: currentUser?.id,
+                action: ()=>navigate(routes.workspace().nested().editEmployee(currentUser?.id))
+            });
+        }
     }, []);
 
     return(

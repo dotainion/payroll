@@ -93,11 +93,14 @@ export const CreateBulkReportFromLastReports = () =>{
         }).finally(()=>{
             setLoading(false);
         });
-        addPreviousHistory({
-            title: 'Previous Bulk Report generated', 
-            id: 'bulk-report-last-generated',
-            action: ()=>navigate(routes.workspace().nested().bulkReport())
-        });
+
+        return ()=>{
+            addPreviousHistory({
+                title: 'Previous Bulk Report generated', 
+                id: 'bulk-report-last-generated',
+                action: ()=>navigate(routes.workspace().nested().bulkReport())
+            });
+        }
     }, []);
 
     return(

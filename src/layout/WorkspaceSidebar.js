@@ -85,7 +85,7 @@ export const WorkspaceSidebar = () =>{
                 <div className="text-secondary p-3">
                     <div className="fw-bold">History</div>
                     {previousHistory.map((histy, key)=>(
-                        <div onClick={()=>histy?.action?.()} className="px-3 my-2 w-100 pointer link-secondary" style={{maxWidth: '200px'}} key={key}>
+                        <div onClick={()=>histy?.action?.()} className="px-3 my-3 w-100 pointer link-secondary" style={{maxWidth: '200px'}} key={key}>
                             <div className="text-wrap small lh-1">{histy?.title}</div>
                             <div className="small text-nowrap lh-1 mt-1" style={{fontSize: '10px'}}>{histy?.time}</div>
                         </div>

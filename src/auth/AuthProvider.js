@@ -16,10 +16,10 @@ export const useAuth = () => useContext(Context);
 const creds = new ChangeCredential();
 export const AuthProvider = ({children}) =>{
     const [user, setUser] = useState();
-    const [business, setBusiness] = useState(true);
+    const [business, setBusiness] = useState();
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState();
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState();
 
     const timeoutRef = useRef();
     const authStateChangeRef = useRef([]);

@@ -44,11 +44,14 @@ export const EmployeeReports = () =>{
 
     useEffect(()=>{
         if(!user) return;
-        addPreviousHistory({
-            title: `${user.attributes.name} Reports`, 
-            id: `${params?.userId}-employee-report`,
-            action: ()=>navigate(routes.workspace().nested().employeeReport(params?.userId))
-        });
+
+        return ()=>{
+            addPreviousHistory({
+                title: `${user.attributes.name} Reports`, 
+                id: `${params?.userId}-employee-report`,
+                action: ()=>navigate(routes.workspace().nested().employeeReport(params?.userId))
+            });
+        }
     }, [user]);
 
     return(

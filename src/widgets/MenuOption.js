@@ -6,7 +6,7 @@ import $ from 'jquery';
 import { useEffect } from "react";
 import { useState } from "react";
 
-export const MenuOption = ({menu}) =>{
+export const MenuOption = ({menu, hr}) =>{
     const [isUp, setIsUp] = useState(true);
 
     const buttonRef = useRef();
@@ -23,6 +23,7 @@ export const MenuOption = ({menu}) =>{
             $(overlayRef.current).hide('fast');
         }).attr('listener-set', 'active');
     }, []);
+    
     return(
         <div className="text-nowrap border-bottom border-secondary pb-3">
             <button ref={buttonRef} className={`btn btn-dark text-start me-2 rounded-0 d-flex align-items-center w-100`}>

@@ -89,11 +89,14 @@ export const GenerateBulkReportForUsers = () =>{
         }).catch((error)=>{
 
         });
-        addPreviousHistory({
-            title: 'Bulk Report', 
-            id: 'generage-bulk-report-for-users',
-            action: ()=>navigate(routes.workspace().nested().generateBulkReportForUsers())
-        });
+
+        return ()=>{
+            addPreviousHistory({
+                title: 'Bulk Report', 
+                id: 'generage-bulk-report-for-users',
+                action: ()=>navigate(routes.workspace().nested().generateBulkReportForUsers())
+            });
+        }
     }, []);
 
     return(
