@@ -12,7 +12,7 @@ use src\module\tax\logic\ListTaxSettings;
 use src\module\tax\objects\TaxSettings;
 use src\module\user\objects\User;
 
-class TaxReportToFactory{
+class CalculateTaxReportToFactory{
     protected TaxFactory $factory;
     protected ListTaxSettings $settings;
     protected Collector $taxDeductions;
@@ -51,14 +51,14 @@ class TaxReportToFactory{
     }
     
     public function toValueAmount(TaxSettings $setting, ?TaxSettings $nextTax):float{
-        //get difference from net agains limit about and take out the percentage from the diffrence.
+        //get difference from net againts limit amount and divide the difference by 100 then multiply by percentage amount.
         if($nextTax === null || $nextTax->limitAmount() > $this->netAfterTax){
             $limitAmountToReach = $this->netAfterTax;
         }else{
             $limitAmountToReach = $nextTax->limitAmount();
         }
         $difference = $limitAmountToReach - $setting->limitAmount();
-        return ($difference / 100) * $setting->percentage();
+        return  ($difference / 100) * $setting->percentage();
     }
 
     public function initializeTaxDeduction(bool $stopExecution, User $user, Id $reportId, float $net, array $notified):void{

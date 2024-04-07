@@ -28,7 +28,7 @@ class SetReport{
     protected SetReportAllowanceDeductionIdLink $setOptionLink;
     protected FetchSickLeave $settings;
     protected MassDeleteReport $massDelete;
-    protected TaxReportToFactory $taxReport;
+    protected CalculateTaxReportToFactory $taxReport;
     protected SetReportTaxDeduction $setTaxDeduction;
     protected BiMonthlySalary $biMonthly;
     protected SetProrate $setProrate;
@@ -47,7 +47,7 @@ class SetReport{
         $this->setOptionLink = new SetReportAllowanceDeductionIdLink();
         $this->settings = new FetchSickLeave();
         $this->massDelete = new MassDeleteReport();
-        $this->taxReport = new TaxReportToFactory();
+        $this->taxReport = new CalculateTaxReportToFactory();
         $this->setTaxDeduction = new SetReportTaxDeduction();
         $this->biMonthly = new BiMonthlySalary();
         $this->setProrate = new SetProrate();
