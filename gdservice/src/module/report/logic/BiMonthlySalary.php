@@ -26,7 +26,7 @@ class BiMonthlySalary{
         return $this;
     }
 
-    private function runCalculation(float $net):float{
+    private function calculateProrate(float $net):float{
         $daysBetweenPeriod = (new DateHelper())->difference($this->period->from(), $this->period->to()) + 1;
         $daysBetweenProrate = (new DateHelper())->difference($this->prorate->from(), $this->prorate->to()) + 1;
 
@@ -37,7 +37,7 @@ class BiMonthlySalary{
     }
 
     public function runProrate():void{
-        $this->net = $this->runCalculation($this->net);
+        $this->net = $this->calculateProrate($this->net);
     }
 
     public function toFullSalary():self{
@@ -52,11 +52,11 @@ class BiMonthlySalary{
             return $this->toFullSalary();
         }
 
-        $prorate = $collector->first();
+        $prorateSetting = $collector->first();
 
-        if(!$prorate->off()){
+        if($prorateSetting->off()){
             $this->toFullSalary();
-        }elseif($prorate->biMonthly()){
+        }elseif($prorateSetting->biMonthly()){
             $this->net = (float)$this->user->salary() / 2;
         }
 

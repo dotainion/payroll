@@ -5,6 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "../utils/Toast";
 import { EmployeeSettingCard } from "../components/EmployeeSettingCard";
 import { routes } from "../router/routes";
+import { BsPersonFillAdd } from "react-icons/bs";
+import { BiSolidReport } from "react-icons/bi";
 
 export const EmployeeSettings = () =>{
     const [loading, setLoading] = useState(true);
