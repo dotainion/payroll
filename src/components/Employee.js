@@ -79,6 +79,18 @@ export const Employee = ({onSubmit, title}) =>{
     }
 
     useEffect(()=>{
+        if(!currentUser) return;
+
+        return ()=>{
+            addPreviousHistory({
+                title: `Edit ${currentUser?.attributes?.name} profile`, 
+                id: currentUser?.id,
+                action: ()=>navigate(routes.workspace().nested().editEmployee(currentUser?.id))
+            });
+        }
+    }, [currentUser]);
+
+    useEffect(()=>{
         api.department.list().then((response)=>{
             setDepartments(response.data.data);
         }).catch((error)=>{
@@ -112,14 +124,6 @@ export const Employee = ({onSubmit, title}) =>{
         }).catch((error)=>{
             console.log(error);
         });
-
-        return ()=>{
-            addPreviousHistory({
-                title: `Edit ${currentUser?.attributes?.name} profile`, 
-                id: currentUser?.id,
-                action: ()=>navigate(routes.workspace().nested().editEmployee(currentUser?.id))
-            });
-        }
     }, []);
 
     return(

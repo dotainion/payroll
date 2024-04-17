@@ -6,51 +6,60 @@ import { AddOn, ExistingAddOn } from "../addons/Addons";
 import { NoPayLeaveAddOn, NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAddOn";
 import { api } from "../request/Api";
 import { MdAdd } from 'react-icons/md';
-import { toast } from "../utils/Toast";
 import { ExistingOvertimeAddOn, OvertimeAddOn } from "../addons/OvertimeAddOn";
 
 export const AllowanceGenerator = ({user, loanAllowances, banks, otSettings, existingAllowances}) =>{
     const [allowance, setAllowance] = useState([]);
     const [avilableAllowance, setAvailableAllowance] = useState([]);
 
+    const allowanceRef = useRef();
+
     const onCreate = () =>{
         setAllowance((allows)=>[...allows, {component: AddOn}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     const onSelect = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: ExistingAddOn, data: data}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     const onCreateLoan = () =>{
         setAllowance((allows)=>[...allows, {component: LoanAddOn}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     const onSelectLoan = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: LoanAddOnExisting, data: data}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     const onCreateNoPayLeave = () =>{
         setAllowance((allows)=>[...allows, {component: NoPayLeaveAddOn}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     const onSelectNoPayLeave = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: NoPayLeaveAddOnExisting, data: data}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     const onCreateOvertime = () =>{
         setAllowance((allows)=>[...allows, {component: OvertimeAddOn}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     const onSelectOvertime = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setAllowance((allows)=>[...allows, {component: ExistingOvertimeAddOn, data: data}]);
+        $(allowanceRef.current).trigger('change');
     }
 
     useEffect(()=>{
@@ -67,7 +76,7 @@ export const AllowanceGenerator = ({user, loanAllowances, banks, otSettings, exi
     }, []);
 
     return(
-        <div className="d-block bg-white">
+        <div ref={allowanceRef} className="d-block bg-white">
             <div className="d-inline-block">
                 <div data-report-allowances="">
                     {allowance.map((card, key)=>(

@@ -732,6 +732,13 @@ input[type=date]::-webkit-calendar-picker-indicator {
   overflow: hidden;
 }
 
+.help-generating-report img{
+  min-width: 600px;
+  max-width: 600px;
+  min-height: 400px;
+  max-height: 400px;
+}
+
 @media screen and (max-width:1100px){
   .page{
     width: 100%;

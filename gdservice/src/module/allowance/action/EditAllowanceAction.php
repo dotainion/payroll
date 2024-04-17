@@ -20,7 +20,8 @@ class EditAllowanceAction extends Request implements IAction{
             $this->get('type'),
             $this->get('rate'),
             $this->get('amount'),
-            $this->get('rateAmount')
+            $this->get('rateAmount'),
+            $this->get('taxExemption')
         );
     }
 }

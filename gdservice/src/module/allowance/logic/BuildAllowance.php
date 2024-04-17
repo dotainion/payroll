@@ -25,7 +25,8 @@ class BuildAllowance{
                 'rate' => $handler->rate(),
                 'hide' => false,
                 'amount' => $handler->amount(),
-                'rateAmount' => $handler->rateAmount()
+                'rateAmount' => $handler->rateAmount(),
+                'taxExemption' => (bool)($a['taxExemption']??false)
             ]);
             $allowances[$index]['id'] = $handler->id()->toString();
             $index ++;

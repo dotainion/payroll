@@ -1,45 +1,52 @@
 import React, { useEffect, useRef, useState } from "react";
 import $ from 'jquery';
-import { Button, ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { LoanAddOn, LoanAddOnExisting } from "../addons/LoanAddOn";
 import { AddOn, ExistingAddOn } from "../addons/Addons";
 import { api } from "../request/Api";
 import { MdAdd } from 'react-icons/md';
 import { NoPayLeaveAddOn, NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAddOn";
-import { toast } from "../utils/Toast";
 
 export const DeductionGenerator = ({loanDeductions, loans, banks, otSettings, existingDeductions}) =>{
     const [deduction, setDeduction] = useState([]);
     const [availableDeduction, setAvailableDeduction] = useState([]);
 
+    const deductionRef = useRef();
+
     const onCreate = () =>{
         setDeduction((allows)=>[...allows, {component: AddOn}]);
+        $(deductionRef.current).trigger('change');
     }
 
     const onSelect = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setDeduction((allows)=>[...allows, {component: ExistingAddOn, data: data}]);
+        $(deductionRef.current).trigger('change');
     }
 
     const onCreateLoan = () =>{
         setDeduction((allows)=>[...allows, {component: LoanAddOn}]);
+        $(deductionRef.current).trigger('change');
     }
 
     const onSelectLoan = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setDeduction((allows)=>[...allows, {component: LoanAddOnExisting, data: data}]);
+        $(deductionRef.current).trigger('change');
     }
 
     const onCreateNoPayLeave = () =>{
         setDeduction((allows)=>[...allows, {component: NoPayLeaveAddOn}]);
+        $(deductionRef.current).trigger('change');
     }
 
     const onSelectNoPayLeave = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setDeduction((allows)=>[...allows, {component: NoPayLeaveAddOnExisting, data: data}]);
+        $(deductionRef.current).trigger('change');
     }
 
     useEffect(()=>{
@@ -56,7 +63,7 @@ export const DeductionGenerator = ({loanDeductions, loans, banks, otSettings, ex
     }, []);
 
     return(
-        <div className="d-block bg-white">
+        <div ref={deductionRef} className="d-block bg-white">
             <div className="d-inline-block">
                 <div data-report-deductions="">
                     {deduction.map((card, key)=>(

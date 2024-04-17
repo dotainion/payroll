@@ -1,3 +1,13 @@
+class Help{
+    _nested = '';
+    default = () => '/help/*';
+    generatingReport = () => this._nested + 'generating/report';
+    nested = () => {
+        this._nested = this.default().replace('*', '');
+        return this;
+    }
+}
+
 class Workspace{
     _nested = '';
     default = () => '/workspace/*';
@@ -79,6 +89,11 @@ class Routes {
     }
     business(){
         const route = new Business();
+        route._nested = '';
+        return route;
+    }
+    help(){
+        const route = new Help();
         route._nested = '';
         return route;
     }

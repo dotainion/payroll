@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import $ from 'jquery';
-import { Button, ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
-import { LoanAddOn, LoanAddOnExisting } from "../addons/LoanAddOn";
-import { AddOn, ExistingAddOn } from "../addons/Addons";
+import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { api } from "../request/Api";
 import { MdAdd } from 'react-icons/md';
-import { NoPayLeaveAddOn, NoPayLeaveAddOnExisting } from "../addons/NoPayLeaveAddOn";
-import { toast } from "../utils/Toast";
 import { ExistingSickLeaveAddOn, SickLeaveAddOn } from "../addons/SickLeaveAddOn";
 
 export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
@@ -15,18 +11,23 @@ export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
     const [sickLeaves, setSickLeave] = useState([]);
     const [availableSickLeave, setAvailableSickLeave] = useState([]);
 
+    const leaveRef = useRef();
+
     const onCreate = () =>{
         setSickLeave((sick)=>[...sick, {component: SickLeaveAddOn}]);
+        $(leaveRef.current).trigger('change');
     }
 
     const onSelect = (data) =>{
         data.linkId = data.linkId || data.id;
         data.id = null;
         setSickLeave((sick)=>[...sick, {component: ExistingSickLeaveAddOn, data: data}]);
+        $(leaveRef.current).trigger('change');
     }
 
     const addSalary = (cost) =>{
         setReduceTo((sub)=>cost + sub);
+        $(leaveRef.current).trigger('change');
     }
 
     useEffect(()=>{
@@ -43,7 +44,7 @@ export const SickLeaveGenerator = ({user, existingSickLeaves}) =>{
     }, []);
 
     return(
-        <div className="d-block bg-white">
+        <div ref={leaveRef} className="d-block bg-white">
             <div className="d-inline-block">
                 {
                     sickLeaves?.length ? 

@@ -119,7 +119,9 @@ class Router{
         });*/
 
         $this->request->route('/test', function ($req){
-            var_dump(Env::dir());
+            $repo = new Repository();
+            $repo->connect();
+            $repo->query("ALTER TABLE `reportAllowance` ADD COLUMN `rATaxExemption` tinyint(1) NOT NULL  DEFAULT '0';");
         });
 
         $this->request->route('/signin', function ($req){

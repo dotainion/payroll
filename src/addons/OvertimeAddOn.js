@@ -16,7 +16,9 @@ export const OvertimeAddOn = ({user, data, otSettings}) =>{
     const formularRef = useRef();
 
     const remove = (e) =>{
+        const parent = $(addOnRef.current).parent();
         $(e.currentTarget).parent().parent().remove();
+        $(parent).trigger('change');
     }
     
     const onCalculate = () =>{

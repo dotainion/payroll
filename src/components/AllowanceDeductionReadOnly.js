@@ -6,7 +6,7 @@ import { toast } from "../utils/Toast";
 import { useDocument } from "../contents/DocumentProvider";
 import { v4 as uuidv4 } from 'uuid';
 
-export const AllowanceDeductionReadOnly = ({data, availableData, onOpen, onDelete}) =>{
+export const AllowanceDeductionReadOnly = ({data, availableData, onOpen, onDelete, onTaxExemption}) =>{
     const { allowanceDeductionIdLinks } = useDocument();
 
     const [options, setOptions] = useState([]);
@@ -64,6 +64,8 @@ export const AllowanceDeductionReadOnly = ({data, availableData, onOpen, onDelet
                     if(select.length) select[0].checked = true;
                 }
             });
+            const checkbox = $(overlayRef.current).find('input[type=checkbox]');
+            if(checkbox.length) checkbox[0].checked = !!data?.attributes?.taxExemption;
         }, 500);
     }, [data, availableData, options]);
 
@@ -73,7 +75,7 @@ export const AllowanceDeductionReadOnly = ({data, availableData, onOpen, onDelet
     }, []);
 
     return(
-        <div data-read-only="">
+        <div className="user-select-none" data-read-only="">
             <div onClick={onCloseOverlayAll} className="d-flex align-items-center position-relative border w-100 bg-light">
                 <div className='d-flex align-items-center w-100 px-2 py-1'>
                     <div className='w-50'>
@@ -95,7 +97,15 @@ export const AllowanceDeductionReadOnly = ({data, availableData, onOpen, onDelet
                     <button onClick={onOpenOverlay} className="d-flex align-items-center ms-2 p-0 border-0 pointer"><TbSettingsUp/></button>
                 </div>
                 <div ref={overlayRef} onClick={(e)=>e.stopPropagation()} className="position-absolute end-0 top-100 me-1 p-2 bg-white border border-top-0" style={{display: 'none', zIndex: '999999'}} data-allowance-setting-overlay="">
-                    <div className="small">Link requirements.</div>
+                    {onTaxExemption ? <div className="small">Set tax exemption</div>: null}
+                    {onTaxExemption ? <div className="my-2 list-item">
+                        <label className="d-flex align-items-center pointer w-100 rounded-1 px-2 pt-0">
+                            <input onChange={onTaxExemption} className="form-check-input bg-info bg-lightgray me-2 mt-0" type="checkbox" defaultChecked={true} />
+                            <div className="w-100 text-start mt-0">Tax exemption</div>
+                        </label>
+                    </div>: null}
+                    {onTaxExemption ? <hr></hr>: null}
+                    <div className="small">Link requirements</div>
                     <div className="my-2 list-item">
                         <label className="d-flex align-items-center pointer w-100 rounded-1 px-2 pt-0">
                             <input onChange={()=>onDeleteLink()} className="form-check-input bg-info bg-lightgray me-2 mt-0" type="radio" name={radioName} defaultChecked={true} />

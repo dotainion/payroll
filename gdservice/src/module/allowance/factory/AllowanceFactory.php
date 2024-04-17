@@ -20,6 +20,7 @@ class AllowanceFactory extends Collector{
         $allowance->setHide($record['aHide'] ?? $record['hide']);
         $allowance->setAmount($record['aAmount'] ?? $record['amount']);
         $allowance->setRateAmount($record['aRateAmount'] ?? $record['rateAmount']);
+        $allowance->setTaxExemption($record['aTaxExemption'] ?? $record['taxExemption']);
         return $allowance;
     }
 }

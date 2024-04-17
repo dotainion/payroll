@@ -46,6 +46,7 @@ class ReportPayload{
             json['amount'] = $(addon).find('[name=amount]').val();
             json['linkId'] = $(addon).find('[name=linkId]').val();
             json['rateAmount'] = $(addon).find('[name=rateAmount]').val();
+            json['taxExemption'] = $(addon).find('[name=taxExemption]').val() === 'true';
             data.push(json);
         });
         return data;

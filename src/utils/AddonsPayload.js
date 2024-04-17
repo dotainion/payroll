@@ -35,6 +35,7 @@ class AddOn{
             json['rate'] = $(addon).find('[name=rate]').val();
             json['amount'] = $(addon).find('[name=amount]').val();
             json['rateAmount'] = $(addon).find('[name=rateAmount]').val();
+            json['taxExemption'] = $(addon).find('[name=taxExemption]').val() === 'true';
             this.payload.push(json);
         });
         return this.payload;

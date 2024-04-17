@@ -7,6 +7,8 @@ import { FaDollarSign } from "react-icons/fa";
 import { DateHelper } from "../utils/DateHelper";
 
 export const NoPayLeaveAddOn = ({data}) =>{
+    const addOnRef = useRef();
+
     const fileRef = useRef();
     const dropRef = useRef();
     
@@ -15,7 +17,9 @@ export const NoPayLeaveAddOn = ({data}) =>{
     const toRef = useRef();
 
     const remove = (e) =>{
+        const parent = $(addOnRef.current).parent();
         $(e.currentTarget).parent().parent().remove();
+        $(parent).trigger('change');
     }
 
     useEffect(()=>{
@@ -39,7 +43,7 @@ export const NoPayLeaveAddOn = ({data}) =>{
     }, [data]);
 
     return(
-        <div className="d-flex align-items-center w-100" data-no-pay-leave="">
+        <div ref={addOnRef} className="d-flex align-items-center w-100" data-no-pay-leave="">
             <div className="allowance-row border m-3">
                 <input className="form-control shadow-none" name="name" placeholder="No pay leave" defaultValue={data?.attributes?.name} />
                 <div className="d-flex align-items-center">

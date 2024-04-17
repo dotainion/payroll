@@ -24,6 +24,7 @@ class AllowanceFactory extends Collector{
         $allowance->setAmount($record['rAAmount'] ?? $record['amount']);
         $allowance->setRateAmount($record['rARateAmount'] ?? $record['rateAmount']);
         $allowance->setTotalAmount($record['rATotalAmount'] ?? $record['totalAmount']);
+        $allowance->setTaxExemption($record['rATaxExemption'] ?? $record['taxExemption']);
         if(isset($record['cmd']) && isset($record['linkId'])){
             $attribute = $this->getAllowDeducAttribute($record['cmd']);
             $attribute && $allowance->setNumber($record[$attribute]);

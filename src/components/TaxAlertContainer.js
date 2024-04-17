@@ -5,7 +5,7 @@ import { reportPayload } from '../utils/ReportPayload';
 import { ErrorResponseHandler } from '../utils/ErrorResponseHandler';
 import { TaxAlert } from './TaxAlert';
 
-export const TaxAlertContainer = ({onSalaryChange, existingTaxDeductions}) =>{
+export const TaxAlertContainer = ({onSalaryChange, existingTaxDeductions, loading}) =>{
     const [taxDeductions, setTaxDedutions] = useState([]);
     const [netSalary, setNetSalary] = useState();
 
@@ -13,15 +13,22 @@ export const TaxAlertContainer = ({onSalaryChange, existingTaxDeductions}) =>{
     const taxContainerRef = useRef();
 
     const apiTrigger = () =>{
-        const data = reportPayload.payload().first();
-        api.report.calculateReport(data).then((response)=>{
-            setNetSalary(response.data.data[0].attributes.netSalary);
-            const taxDeduction = response.data.data[0].attributes.allDeductions.find((d)=>d.type === 'tax');
-            if(!taxDeduction) setTaxDedutions([]);
-        }).catch((error)=>{
-            const metaData = new ErrorResponseHandler().meta(error);
-            setTaxDedutions(metaData?.data || []);
-        });
+        loading?.(true);
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(()=>{
+            const data = reportPayload.payload().first();
+            api.report.calculateReport(data).then((response)=>{
+                setNetSalary(response.data.data[0].attributes.netSalary);
+                const taxDeduction = response.data.data[0].attributes.allDeductions.find((d)=>d.type === 'tax');
+                if(!taxDeduction) setTaxDedutions([]);
+            }).catch((error)=>{
+                const metaData = new ErrorResponseHandler().meta(error);
+                setTaxDedutions(metaData?.data || []);
+                setNetSalary(metaData?.salary);
+            }).finally(()=>{
+                loading?.(false);
+            });
+        }, 500);
     };
 
     useEffect(()=>{
@@ -35,8 +42,7 @@ export const TaxAlertContainer = ({onSalaryChange, existingTaxDeductions}) =>{
 
     useEffect(()=>{
         if(!existingTaxDeductions?.length) return;
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(()=>apiTrigger(), 500);
+        apiTrigger();
     }, [existingTaxDeductions]);
 
     return(

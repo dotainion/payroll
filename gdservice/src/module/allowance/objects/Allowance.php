@@ -14,6 +14,7 @@ class Allowance implements IObjects{
     protected string $amount;
     protected string $rateAmount;
     protected bool $hide;
+    protected bool $taxExemption;
 
     public function __construct(){
         $this->id = new Id();
@@ -47,6 +48,10 @@ class Allowance implements IObjects{
         return $this->amount;
     }
 
+    public function taxExemption():bool{
+        return $this->taxExemption;
+    }
+
     public function setId(string $id):void{
         $this->id->set($id);
     }
@@ -75,6 +80,10 @@ class Allowance implements IObjects{
 
     public function setHide(bool $hide):void{
         $this->hide = $hide;
+    }
+
+    public function setTaxExemption(bool $taxExemption):void{
+        $this->taxExemption = $taxExemption;
     }
 }
 

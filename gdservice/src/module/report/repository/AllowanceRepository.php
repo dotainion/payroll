@@ -26,7 +26,8 @@ class AllowanceRepository extends Repository{
             ->add('rAReportId', $this->uuid($allowance->reportId()))
             ->add('rAAmount', $allowance->amount())
             ->add('rARateAmount', $allowance->rateAmount())
-            ->add('rATotalAmount', $allowance->totalAmount());
+            ->add('rATotalAmount', $allowance->totalAmount())
+            ->add('rATaxExemption', $allowance->taxExemption());
         $this->execute();
     }
     
@@ -41,6 +42,7 @@ class AllowanceRepository extends Repository{
             ->set('rAAmount', $allowance->amount())
             ->set('rARateAmount', $allowance->rateAmount())
             ->set('rATotalAmount', $allowance->totalAmount())
+            ->set('rATaxExemption', $allowance->taxExemption())
             ->where('rAId', $this->uuid($allowance->id()));
         $this->execute();
     }

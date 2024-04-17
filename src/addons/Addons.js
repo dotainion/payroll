@@ -17,7 +17,9 @@ export const AddOn = ({data}) =>{
     const amountRef = useRef();
 
     const remove = (e) =>{
+        const parent = $(addOnRef.current).parent();
         $(e.currentTarget).parent().parent().remove();
+        $(parent).trigger('change');
     }
     
     const onRateChange = (e) =>{
@@ -90,6 +92,7 @@ export const AddOn = ({data}) =>{
             </div>
             <input ref={idRef} hidden value={data?.id} name="id" onChange={()=>{}} />
             <input hidden value={data?.linkId || data?.attributes?.linkId} name="linkId" onChange={()=>{}} />
+            <input ref={idRef} hidden value={data?.attributes?.taxExemption} name="taxExemption" onChange={()=>{}} />
         </div>
     )
 }

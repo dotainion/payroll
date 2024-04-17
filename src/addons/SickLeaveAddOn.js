@@ -9,6 +9,8 @@ import { FaDollarSign } from "react-icons/fa";
 import { BiSolidFilePdf } from "react-icons/bi";
 
 export const SickLeaveAddOn = ({onSickLeaveAmount, data, user, setting}) =>{
+    const addOnRef = useRef();
+
     const idRef = useRef();
     const fileRef = useRef();
     const dropRef = useRef();
@@ -33,7 +35,9 @@ export const SickLeaveAddOn = ({onSickLeaveAmount, data, user, setting}) =>{
     }
 
     const remove = (e) =>{
-        $(e.currentTarget).parent().remove()
+        const parent = $(addOnRef.current).parent();
+        $(e.currentTarget).parent().remove();
+        $(parent).trigger('change');
     }
 
     useEffect(()=>{
@@ -63,7 +67,7 @@ export const SickLeaveAddOn = ({onSickLeaveAmount, data, user, setting}) =>{
     }, []);
 
     return(
-        <div className="allowance-row border m-3" data-sick-leave-addon="">
+        <div ref={addOnRef} className="allowance-row border m-3" data-sick-leave-addon="">
             <input ref={nameRef} className="form-control shadow-none" name="name" placeholder="Sick leave" defaultValue={'Sick Leave'} />
             <div className="d-flex align-items-center">
                 <div className="me-2 w-100">

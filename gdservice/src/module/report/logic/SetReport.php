@@ -82,6 +82,8 @@ class SetReport{
         $totalAllowance = $rAllowance->totalAllowance();
         $totalDeduction = $rDeduction->totalDeduction();
 
+        $totalExcludedFromTax = $rAllowance->totalExcludedFromTax();
+
         $totalAllowance = $totalAllowance + $reportLoanAllowance->totalLoanAllowance();
         $totalDeduction = $totalDeduction + $reportLoanDeduction->totalLoanDeduction();
 
@@ -117,6 +119,9 @@ class SetReport{
                 ///$total = $total - $taxDeductionTotal;
             }
         }
+
+        //add total allowance that was excluted from tax deduction
+        $total = $total + $totalExcludedFromTax;
 
         //add deduction after tax deduction was subtracted if any.
         $total = $total - $totalDeduction;

@@ -84,7 +84,11 @@ export const ListEmployeesSettings = () =>{
                 <div>Assigning Credentials</div>
             </div>
             {users.map((user, key)=>(
-                <button onClick={()=>showOverlay(user)} className="d-flex align-items-center btn btn-light text-start w-100 px-3 py-2 my-1" key={key}>
+                <button 
+                    onClick={()=>showOverlay(user)} 
+                    className={`d-flex align-items-center btn text-start w-100 px-3 py-2 my-1 ${selected?.id ? 'btn-secondary' : 'btn-light'}`} 
+                    key={key}
+                >
                     <FaUserCog className="text-primary me-2" />
                     <div className="border-start border-2 ps-2">{user.attributes.name}</div>
                 </button>
@@ -93,6 +97,7 @@ export const ListEmployeesSettings = () =>{
                 <div className="w-100 h-100 d-flex align-items-center justify-content-center">
                     <div className="bg-white p-4 rounded-3" onClick={e=>e.stopPropagation()} style={{maxWidth: '700px'}}>
                         <div className="h5 border-bottom mb-3 pb-2">Assign Credential</div>
+                        <div className="text-muted h4">{selected.attributes.name}</div>
                         <EmployeeSettingCard 
                             hasCredential={selected.attributes.hasCredential}
                             onAssignClick={assignUserCredential}

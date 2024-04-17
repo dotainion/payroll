@@ -23,7 +23,8 @@ class AllowanceRepository extends Repository{
             ->add('aType', $allowance->type())
             ->add('aHide', (int)$allowance->hide())
             ->add('aAmount', $allowance->amount())
-            ->add('aRateAmount', $allowance->rateAmount());
+            ->add('aRateAmount', $allowance->rateAmount())
+            ->add('aTaxExemption', $allowance->taxExemption());
         $this->execute();
     }
     
@@ -35,6 +36,7 @@ class AllowanceRepository extends Repository{
             ->set('aHide', (int)$allowance->hide())
             ->set('aAmount', $allowance->amount())
             ->set('aRateAmount', $allowance->rateAmount())
+            ->set('aTaxExemption', $allowance->taxExemption())
             ->where('aId', $this->uuid($allowance->id()));
         $this->execute();
     }

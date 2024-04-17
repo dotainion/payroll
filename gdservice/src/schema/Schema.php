@@ -118,7 +118,8 @@ class Schema{
             ->column('aType')->string()
             ->column('aAmount')->string()
             ->column('aHide')->bool()
-            ->column('aRateAmount')->string();
+            ->column('aRateAmount')->string()
+            ->column('aTaxExemption')->bool();
         return $this->sql->execute();
     }
 
@@ -145,7 +146,8 @@ class Schema{
             ->column('rAReportId')->bindary()
             ->column('rAAmount')->string()
             ->column('rARateAmount')->string()
-            ->column('rATotalAmount')->string();
+            ->column('rATotalAmount')->string()
+            ->column('rATaxExemption')->bool();
         return $this->sql->execute();
     }
 

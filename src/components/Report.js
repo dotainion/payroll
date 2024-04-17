@@ -15,7 +15,8 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
     const [otSettings, setOtSettings] = useState([]);
     const [loanAllowances, setLoanAllowances] = useState([]);
     const [loanDeductions, setLoanDeductions] = useState([]);
-    const [biMonthlySalary, setBiMonthlySalary] = useState();
+    const [loadingTotal, setLoadingTotal] = useState(true);
+    const [total, setTotal] = useState();
 
     useEffect(()=>{
         if(!user) return;
@@ -69,7 +70,7 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                 {title && <div className="d-flex align-items-center p-2 border-bottom">
                     <div className="fw-bold fs-5 my-3 w-100">{title}</div>
                 </div>}
-                <TaxAlertContainer onSalaryChange={setBiMonthlySalary} existingTaxDeductions={existingTaxDeductions} />
+                <TaxAlertContainer onSalaryChange={setTotal} existingTaxDeductions={existingTaxDeductions} loading={setLoadingTotal} />
                 <div className="p-3">
                     <div className="bg-light p-2">
                         <div className="fw-bold">{user?.attributes?.name}</div>
@@ -80,9 +81,14 @@ export const Report = ({period, title, userId, reportId, onUser, propUser, netSa
                         <div className="input-group">
                             <span className="input-group-text"><FaDollarSign/></span>
                             <div className="form-control shadow-none small">{user?.attributes?.salary}</div>
-                            <div className="form-control shadow-none small bi-month">Bi Monthly</div>
+                            <div className="form-control shadow-none small bi-month">Bal</div>
                             <div className="form-control shadow-none small border-start-0 px-0 bi-divider user-select-none">|</div>
-                            <div className="form-control shadow-none small border-start-0 text-truncate">{biMonthlySalary || netSalary}</div>
+                            <div className="form-control shadow-none small border-start-0 text-truncate position-relative">
+                                <span>{total || netSalary}</span>
+                                {loadingTotal ? <div className="position-absolute top-50 start-50 translate-middle">
+                                    <div className="spinner-grow spinner-grow-sm text-primary"></div>
+                                </div> : null}
+                            </div>
                         </div>
                     </div>
                     <div className="allowance-row bg-transparent py-3" style={{width: '400px'}}>

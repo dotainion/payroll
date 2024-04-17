@@ -10,6 +10,7 @@ use src\module\report\factory\AllowanceFactory;
 class CalculateReportAllowance{
     protected float $totalAllowance = 0;
     protected AllowanceFactory $factory;
+    protected float $totalExcludedFromTax = 0;
 
     public function __construct(){
         $this->factory = new AllowanceFactory();
@@ -39,9 +40,14 @@ class CalculateReportAllowance{
                 'reportId' => $reportId->toString(),
                 'amount' => $allowance->amount(),
                 'rateAmount' => $allowance->rateAmount(),
-                'totalAmount' => $totalAllowance
+                'totalAmount' => $totalAllowance,
+                'taxExemption' => $allowance->taxExemption()
             ]);
-            $this->totalAllowance = $this->totalAllowance + $totalAllowance;
+            if($allowance->taxExemption()){
+                $this->totalExcludedFromTax = $this->totalExcludedFromTax + $totalAllowance;
+            }else{
+                $this->totalAllowance = $this->totalAllowance + $totalAllowance;
+            }
             $this->factory->add($reportAllowance);
         }
         return $this;
@@ -49,6 +55,10 @@ class CalculateReportAllowance{
 
     public function totalAllowance():float{
         return $this->totalAllowance;
+    }
+
+    public function totalExcludedFromTax():float{
+        return $this->totalExcludedFromTax;
     }
 
     public function reportAllowances():Collector{

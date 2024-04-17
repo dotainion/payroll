@@ -6,11 +6,9 @@ import { AddOn } from "../addons/Addons";
 import { payload } from "../utils/AddonsPayload";
 import { api } from "../request/Api";
 import { toast } from "../utils/Toast";
-import { CostTypeAndRateHandler } from "../utils/CostTypeAndRateHandler";
 import { AllowanceDeductionReadOnly } from "../components/AllowanceDeductionReadOnly";
 import { useDocument } from "../contents/DocumentProvider";
 
-const typeHandler = new CostTypeAndRateHandler();
 export const Allowances = () =>{
     const { costTypes } = useDocument();
 
@@ -83,9 +81,21 @@ export const Allowances = () =>{
         });
     }
 
+    const onTaxExemption = (e) =>{
+        const parent = $(e.currentTarget).parent().parent().parent().parent().parent().parent();
+        let data = payload.addon.build(parent)[0];
+        data['taxExemption'] = e.currentTarget.checked;
+        api.allowance.edit(data).then((response)=>{            
+            toast.success('Allowance', 'Tax exemption saved');
+        }).catch((error)=>{
+            console.log(error);
+            toast.error('Allowance', error);
+        });
+    }
+
     const onOpenEdit = (e) =>{
         onCloseAllEdit();
-        const parent = $(e.currentTarget).parent().parent().parent().parent();
+        const parent = $(e.currentTarget).parent().parent().parent().parent()
         parent.find('[data-editable]').show('fast');
         parent.find('[data-read-only]').hide('fast');
     }
@@ -143,7 +153,7 @@ export const Allowances = () =>{
             <div ref={scrollRef} className="overflow-auto">
                 {allowances.map((allow, key)=>(
                     <div onClick={(e)=>e.stopPropagation()} className="my-2" key={key}>
-                        <AllowanceDeductionReadOnly data={allow} availableData={availableData} onOpen={onOpenEdit} onDelete={onDelete} />
+                        <AllowanceDeductionReadOnly data={allow} availableData={availableData} onOpen={onOpenEdit} onDelete={onDelete} onTaxExemption={onTaxExemption} />
                         <div className="border border-info p-1 mb-3" data-editable="" style={{display: 'none'}}>
                             <AddOn data={allow}/>
                             <div className="d-flex align-items-center justify-content-end my-2">

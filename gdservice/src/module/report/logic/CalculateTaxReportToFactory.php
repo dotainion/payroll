@@ -112,6 +112,7 @@ class CalculateTaxReportToFactory{
                     return true;
                 }
                 ErrorMetaData::set('data', $errors);
+                ErrorMetaData::set('salary', $this->netAfterTax);
                 throw new InvalidRequirementException('Tax deduction is required for ('.$this->user->name().').');
             }
         }
