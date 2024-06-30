@@ -72,5 +72,6 @@ class SecurityManager{
     public function logout(){
         $this->logout->logout($this->user()->id());
         unset($_SESSION[$this->SESSION_KEY]);
+        session_destroy();
     }
 }
